@@ -1,0 +1,38 @@
+
+/* Containers */
+
+#footer{
+    background-color: #0000004b;
+    display: flex;
+    height: 250px;
+}
+
+#footer-logo-container{
+
+    justify-content: center;
+    align-items: center;
+    
+    display: flex;
+    width: 40%;
+}
+
+#footer div ul li.verticle-footer-row-heading{
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: large;
+}
+
+#footer div ul li a{
+    color: rgb(197, 197, 197);
+}
+
+/* Rows */
+
+#footer-logo-container a img{
+    width: 90%;
+    padding: 0 5%;
+}
+
+.verticle-footer-row ul li{
+    margin: 27px 50px;
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #title-container {
+            background-image: url(/assets/Images/backgrounds/mountain_lake.png);
+            background-position: top;
+            background-size: cover;
+            height: 40vh;
+            justify-content: center;
+            align-items: center;
+            display: grid;
+        }
+
+        main>div>div {
+            padding: 3vh;
+        }
+
+        pre {
+            margin: 3vh 0;
+            color: white;
+            font-size: large;
+            border-color: white;
+            border-width: 3px;
+            border-radius: 10px;
+            border-style: double;
+        }
+
+        pre>div:first-child {
+            padding: 1% 2%;
+        }
+
+        pre>div:last-child {
+            padding: 3vh 3vh;
+            background-color: rgba(0, 0, 0, 0.507);
+            min-height: 40px;
+            overflow-x: scroll;
+        }
+        p{
+            padding: 2vh 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="title-container">
+            <h1>JavaScript Tutorial</h1>
+        </div>
+    </header>
+    <main class="all-alignments-container">
+        <div class="align-left"></div>
+        <div class="align-center">
+            <div>
+                <h2>Introduction</h2>
+                <p>
+                    JavaScript is a popular programming language used in web development. It adds interactivity and
+                    dynamic content to websites. As a beginner, learning JavaScript can empower you to create
+                    interactive buttons, forms, and animations. It's essential to grasp fundamental concepts like
+                    variables, functions, and conditions to start building exciting web projects.
+                    <br><br>
+                    <b>Click The Expand Buttons right Before the Title of the section</b>
+                </p>
+            </div>
+            <div>
+                <details>
+                    <summary>
+                        <h2>Declaring Variables</h2>
+                    </summary>
+
+                    In JavaScript, variables are like containers that hold data. They allow us to store and manipulate
+                    information, such as numbers, text, or objects. To create a variable, we use the 'let' or 'const'
+                    keyword, followed by a name. We can change the value of a variable anytime, making it flexible for
+                    coding tasks. For example:
+                    <pre><div>JavaScript</div><div></div></pre>
+                    <p>
+                        Here's some keywords to declare a variable
+                        <br><br>
+                        <b>var</b> :"If you using this keyword to declare a variable then the variable can easily be
+                        reclared and change it's data" (note: this keyword to declare a variable is used in very old
+                        code
+                        and nowadays no-one really uses it try using other keywords to declare a variable)
+                        <br><br>
+                        <b>let</b> :"Using this keyword the variables can't be re-declared but something can be added
+                        after
+                        words using this code:-`variable = value` " (recommended)
+                        <br><br>
+                        <b>const</b> :"If you declare a variable using this keyword then there's no way possible way to
+                        change it's data once declared, and yes you can transfer it's data to a variable which can maybe
+                        re-declared but the the variable declared using this keyword will not effected at all"
+                        <br><br>
+                        (note: You can't use any numbers at beginning of the name the variable without a string and you
+                        also
+                        can't even use any preserved keywords of JavaScript)
+                    </p>
+                </details>
+            </div>
+            <div>
+                <details>
+                    <summary>
+                        <h2>Bracket</h2>
+                    </summary>
+
+                    <p>If some code is inside a bracket then it won't affect anything outside of it. it works like a
+                        different function by itself and this applies to every type of brackets means you can declare
+                        unre-declareable variables inside a bracket except variables which is declared using 'var'
+                        keyword
+                        cause if it's declared inside a bracket and it'll also work outside the bracket</p>
+
+                    <pre><div>JavaScript</div><div></div></pre>
+                </details>
+            </div>
+            <div>
+                <!-- <details> -->
+                    <summary>
+                        <h2>Data Types</h2>
+                    </summary>
+                    <p>
+                        Primitive Data Types: There are Total 7 Primitive Data Types
+                        <br><br>
+                        Here's List of Primitive Data Types
+                    </p>
+                    <br><br>
+                    <p>
+                        <b>`Null`</b>: It's used to say that something has no value
+                        <br><br>
+                        <b>`Number`</b>: A Number
+                        <br><br>
+                        <b>`BigInt`</b>:
+                        <br><br>
+                        <b>`Booleon`</b>: Byte info either `true` or `false`
+                        <br><br>
+                    <!-- <details> -->
+                        <summary><b>`String`</b>: Contains Text of Your Choice</summary>
+                            <p>String is used to store chunks of text <br>
+                                String can be used by Sets of:- </p>
+                            <p>
+                                <b>I.</b> Double Quotes: <b>"text"</b> <br>
+				                <b>II.</b> Single Quotes: <b>'text'</b> <br>
+				                <b>III.</b> Template literal: <b>`text`</b> <br>
+                            </p>
+                    <!-- </details> -->
+                    </p>
+                <!-- </details> -->
+            </div>
+        </div>
+        <div class="align-right"></div>
+    </main>
+    <footer></footer>
+    <script src="/assets/templates/script/setup.js"></script>
+    <script src="/scripts/javascript-tutorial.js"></script>
+</body>
+
+</html>

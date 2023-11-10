@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Storage</title>
+
+    <!-- StyleSheets -->
+    <style>
+        main {
+            background-image: url("/assets/Images/backgrounds/Dynamic\ banner\ 2.png");
+            background-attachment: fixed;
+            background-size: cover;
+            justify-content: center;
+            align-items: center;
+            display: grid;
+        }
+
+        #container {
+            padding: 3vw 3vw;
+            background-color: #2b2b2b;
+            min-width: 20vw;
+            border: #868686 .2vw solid;
+            border-radius: 3vw;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-style: solid;
+            border-width: .2vw;
+            width: 100%;
+        }
+
+        td,
+        th {
+            width: max-content;
+            padding: 1vh 1vh;
+            text-align: center;
+            border-color: white;
+            border-style: solid;
+            border-width: .2vw;
+            margin: 2vw 2vw;
+            background-color: #2b2b2b;
+            font-size: 1.5vw;
+            max-width: 50vw;
+            overflow-wrap: break-word;
+        }
+
+        td:hover,
+        th:hover {
+            background-color: #1f1f1f;
+            transition: 0.3s;
+        }
+
+        #inputKey,
+        #inputValue {
+            height: 1.7vw;
+            background-color: transparent;
+            border: #868686 .2vw solid;
+            font-size: 1.5vw;
+            padding: 0.5vw 0.5vw;
+            margin: 0 .5vw;
+            border-radius: 1vw;
+            color: wheat;
+        }
+
+        #inputKey:focus,
+        #inputValue:focus {
+            outline: none;
+        }
+
+        #addButton {
+            height: 3vw;
+            border: transparent .2vw solid;
+            border-radius: 1vw;
+            padding: 0.5vw 0.5vw;
+            background-color: lime;
+            text-align: center;
+            width: 4vw;
+            color: white;
+            font-family: sans-serif;
+            font-size: 1.5vw;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        #addButton:hover {
+            background-color: green;
+            transition: .3s;
+        }
+
+        td[data-deleteid] {
+            cursor: pointer;
+        }
+
+        td[data-deleteid]:hover {
+            cursor: pointer;
+            background-color: red;
+            transition: 0.3s;
+        }
+
+        img[src="/assets/Images/icons/check.png"] {
+            width: 3vw;
+            height: 3vw;
+            transition: .5s;
+        }
+
+        #lowerSection{
+            margin-top: 2vw;
+            display: flex;
+        }
+        .visibility{
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <div id="container">
+            <h2>Data Storage</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div id="lowerSection">
+                <input type="text" placeholder="Key" id="inputKey">
+                <input type="text" placeholder="Value" id="inputValue">
+                <button onclick="addItem()" id="addButton">Add</button>
+                <img src="/assets/Images/icons/check.png" class="visibility" alt="">
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <!-- Scripts -->
+    <script>
+        const deleteItem = (num) => {
+            let element = document.querySelector(`td[data-deleteid="${num}"]`);
+            let elementContainer = element.closest("tr");
+            let successGIF = document.querySelector(`img[src="/assets/Images/icons/check.png"]`)
+            localStorage.removeItem(elementContainer.firstElementChild.textContent)
+            loadList()
+
+            successGIF.classList.toggle("visibility");
+            setTimeout(() => {
+                successGIF.classList.toggle("visibility");
+            }, 4000);
+        };
+        const addItem = () => {
+            let KeyInput = document.getElementById("inputKey");
+            let ValueInput = document.getElementById("inputValue");
+            let successGIF = document.querySelector(`img[src="/assets/Images/icons/check.png"]`)
+
+            if (KeyInput.value != "" && ValueInput.value != "") {
+                localStorage.setItem(KeyInput.value, ValueInput.value)
+                successGIF.classList.toggle("visibility");
+                setTimeout(() => {
+                    successGIF.classList.toggle("visibility");
+                }, 4000);
+            }
+            loadList()
+            
+            KeyInput.value = "";
+            ValueInput.value = "";
+        }
+
+        const loadList = () => {
+            let tableBody = document.querySelector("tbody");
+            tableBody.innerHTML = "";
+            for (let i = 0; i < localStorage.length; i++) {
+                tableBody.innerHTML += `<tr>
+                        <td>${localStorage.key(i)}</td>
+                        <td>${localStorage.getItem(localStorage.key(i))}</td>
+                        <td data-deleteid="${i}" onclick="deleteItem(${i})"><img src="/assets/Images/icons/delete_button.png"></img></td>
+                    </tr>`
+            }
+        }
+        loadList()
+
+    </script>
+    <script src="/assets/templates/script/setup.js"></script>
+</body>
+
+</html>

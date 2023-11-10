@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Clock</title>
+
+    <style>
+        main {
+            align-items: center;
+            justify-content: center;
+            display: grid;
+        }
+
+        #container {
+            background: #3d3d3d;
+            width: 50vw;
+            min-height: 30vw;
+            padding: 2vw 2vw;
+        }
+
+        #container>*,
+        #container>*>* {
+            margin: 0.5vw;
+        }
+
+        #time-container {
+            font-size: 2vw;
+            font-style: bold;
+        }
+
+        input[type="datetime-local"] {
+            background-color: #3d3d3d;
+            color: white;
+            height: 2vw;
+            font-size: 1.5vw;
+        }
+
+        input[type="datetime-local"]:focus {
+            outline: none;
+        }
+
+        label {
+            cursor: pointer;
+        }
+
+        select,
+        option {
+            padding: 0.2vw;
+            background-color: #4b4b4b;
+            color: white;
+            border: rgb(255, 255, 255) 0.2vw solid;
+            border-radius: 0.5vw;
+            font-size: 1.3vw;
+        }
+
+        select:focus,
+        option:focus {
+            outline: none;
+            background-color: #2b2b2b;
+        }
+
+        .visibility {
+            display: none;
+        }
+
+        /* Buttons */
+        button.t-1 {
+            padding: 0.2vw;
+            background-color: lime;
+            color: white;
+            border: transparent solid;
+            border-radius: 0.5vw;
+            font-size: 1.3vw;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button.t-1:hover {
+            background-color: green;
+            transition: 0.2s;
+        }
+
+        button.t-2 {
+            padding: 0.2vw;
+            background-color: #0000003a;
+            color: white;
+            border: transparent solid;
+            border-radius: 0.5vw;
+            font-size: 1.3vw;
+            cursor: pointer;
+            transition: 0.2s;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        button.t-2:hover {
+            background-color: #0000001e;
+            transition: 0.2s;
+        }
+
+        button.t-2 img {
+            height: 2vw;
+            width: 2vw;
+        }
+
+        #l-no1 {
+            display: flex;
+        }
+
+        #l-no2 {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <div id="container">
+            <p id="time-container"></p>
+            <h3>Set Alarm</h3>
+            <div id="l-no1">
+                <input type="datetime-local" name="inputAlarm" id="inputAlarm">
+
+            </div> <br>
+            <div id="l-no2">
+                <select name="soundslist" id="soundslist">
+                    <option value="0">Beep 1</option>
+                    <option value="1">Beep 2</option>
+                    <option value="2">Beep 3</option>
+                    <option value="3">Beep 4</option>
+                    <option value="4">Beep 5</option>
+                    <option value="5">Beep 6</option>
+                    <option value="6">Beep 7</option>
+                    <option value="7">Beep 8</option>
+                    <option value="8">Beep 9</option>
+                    <option value="9">Beep 10</option>
+                </select>
+                <button class="t-2" onclick="playsound(soundsArray[document.querySelector('#soundslist').value])">
+                    <img src="https://www.freeiconspng.com/uploads/video-play-icon-26.gif"/>
+                    <span>test Sound</span>
+                </button>
+            </div>
+            <button type="button" class="t-1" id="setAlarmButton">Set Alarm</button>
+            <p>Note: Refreshing or Reopening the tab will discard the alarm and reset it  !</p>
+        </div>
+    </main>
+    <footer></footer>
+    <script>
+        const timeContainer = document.querySelector("#time-container");
+        const setAlarmButton = document.querySelector("#setAlarmButton");
+        const soundsArray = [
+            "https://www.soundjay.com/buttons/beep-01a.mp3",
+            "https://www.soundjay.com/buttons/beep-02.mp3",
+            "https://www.soundjay.com/buttons/beep-03.mp3",
+            "https://www.soundjay.com/buttons/beep-04.mp3",
+            "https://www.soundjay.com/buttons/beep-05.mp3",
+            "https://www.soundjay.com/buttons/beep-06.mp3",
+            "https://www.soundjay.com/buttons/beep-07a.mp3",
+            "https://www.soundjay.com/buttons/beep-08b.mp3",
+            "https://www.soundjay.com/buttons/beep-09.mp3",
+            "https://www.soundjay.com/buttons/beep-10.mp3"
+        ]
+        const playsound = (src) => {
+            let beepSound = new Audio(src)
+            beepSound.play();
+        }
+        setInterval(() => {
+            let time = new Date();
+            timeContainer.textContent = `${time.toLocaleTimeString()}`
+        }, 100)
+
+        setAlarmButton.addEventListener("click", () => {
+            setAlarmButton.classList.toggle("visibility")
+
+
+            let inputTime = document.querySelector("#inputAlarm").value;
+            const put0 = (e) => {
+                if (e < 10) {
+                    return `0${e}`
+                } else {
+                    return e
+                }
+            }
+            let Alarmawait = setInterval(() => {
+
+                let time = new Date();
+
+                let currentYear = time.getFullYear();
+                let currentMonth = put0(time.getMonth() + 1);
+                let currentDay = put0(time.getDate())
+                let currentHour = put0(time.getHours());
+                let currentMinute = put0(time.getMinutes());
+                let currentTime = `${currentYear}-${currentMonth}-${currentDay}T${currentHour}:${currentMinute}`
+
+                if (currentTime == inputTime) {
+                    playsound(soundsArray[document.querySelector("#soundslist").value]);
+                    setAlarmButton.classList.toggle("visibility")
+                    clearInterval(Alarmawait);
+                }
+            }, 100);
+        })
+    </script>
+    <script src="/assets/templates/script/setup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+.all-alignments-container{
+    justify-content: space-between;
+    display: flex;
+}
+
+.align-left{
+    width: 15%;
+    text-align: left;
+}
+.align-center{
+    width: 70%;
+    text-align: left;
+}
+.align-right{
+    width: 15%;
+    text-align: left;
+}

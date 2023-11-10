@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- STYLES -->
+    <style>
+        #Box{
+            margin: 20vh 20vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+    <script>
+        
+        const backgroundChange = () => {
+            let from = document.getElementById("from").value;
+            let background = document.getElementById("color").value;
+            let background2 = document.getElementById("color2").value;
+    
+            if (from.includes("deg")) {
+                document.body.style.backgroundImage = `linear-gradient(${from}, ${background2}, ${background})`;
+            } else {
+                document.body.style.backgroundImage = `linear-gradient(to ${from}, ${background2}, ${background})`;
+            }
+        }
+    </script>    
+</head>
+<body>
+    <header >
+
+    </header>
+    <main>
+        <div id="Box">
+            <form action="">
+                <input type="text" placeholder="from" name="from" id="from">
+                <input type="color" name="color" id="color">
+                <input type="color" name="color2" id="color2">
+            </form>
+            <button onclick="backgroundChange()"> Change</button>
+        </div>
+        <div></div>
+    </main>
+    <footer></footer>
+    <!-- SCRIPTS -->
+    <script src="/assets/templates/script/setup.js"></script>
+</body>
+</html>

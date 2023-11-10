@@ -1,0 +1,36 @@
+/* Page Heading */
+#header-title-container{
+
+    background-image: url(/assets/Images/backgrounds/mountain_lake.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: grid;
+    
+    align-items: center;
+    justify-content: center;
+    
+    height: 300px;
+}
+
+pre{
+    color: white;
+    font-size: large;
+    border-color: white;
+    border-width: 3px;
+    border-radius: 10px;
+    border-style: double;
+}
+pre >div:first-child{
+    padding: 1% 2%;
+}
+
+pre >div:last-child{
+    background-color: rgba(0, 0, 0, 0.507);
+    width: 100%;
+    min-height: 40px;
+    overflow-x: scroll;
+}
+
+div.align-center > div{
+    padding: 3vh;
+}

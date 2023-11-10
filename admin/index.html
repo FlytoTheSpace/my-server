@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" id="webpage">
+<head id="head">
+    <!-- Security -->
+    <script src="/node_modules/crypto-js/crypto-js.js"></script>
+    <script src="/admin/access.js"></script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="https://www.google.com/Images/branding/googleg/1x/googleg_standard_color_128dp.png"> <!-- Icon before title -->
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="/css/controlpanel.css"> <!-- PPC  (Personal Page CSS) -->
+</head>
+<body>
+    <header ></header>
+    <main>
+        <div id="command-container">
+            <h1>Control panel</h1>
+            <input type="text" id="commandInput" placeholder="Enter a command">
+            <button onclick="executeCommand()">Run</button>
+            <p id="output"></p>
+            <button onclick="clearoutput()">Clear</button>
+        </div>
+    </main>
+    <footer></footer>
+    <!-- Scripts -->
+    <script src="/scripts/controlpanel.js"></script> <!-- PPS Personal (Personal Page Script)-->
+    <script src="/assets/templates/script/setup.js"></script>
+</body>
+</html>
