@@ -456,6 +456,7 @@ Section: Node.js
 			}
 			
 	(v) Do While Loops
+
 		(a) Do While Loops is a Variant of While loop but it runs the code first and then checks the condition and even if the condition is false it will atleast run once and if the condition is true then it will run again and check
 		(b) here's the code ot use it:-
 			
@@ -1629,7 +1630,7 @@ Section: Browser Environment JavaScript
 
 			(I) `addEventListener(event, callback)`: attaches to HTML elements to listen for specific events (such as user interactions or changes in the page) and respond to them when they occur
 
-				Structure:-
+				Syntax:-
 
 					element.addEventListener(eventType, callbackFunction);
 
@@ -2084,27 +2085,19 @@ Section: Browser Environment JavaScript
 
 		(Note: The variable which is running The Timeout Function contains The ID of The Timeout)
 
-	(vii) `cookie`(s) and `localStorage`:
-
-		(a) Cookies are Neither completely part of DOM or BOM it's somewhere in the middle so It's Explaination is in `DOM` Section 
-
-		(b) `localStorage`:
-
-			Still Need to be explained
-
-	(viii) `screen` Object
+	(vii) `screen` Object
 
 		// Get screen width and height
 		const screenWidth = window.screen.width;
 		const screenHeight = window.screen.height;
 
-	(ix) `navigator` Object
+	(viii) `navigator` Object
 
 		// Get browser name and version
 		const browserName = navigator.appName;
 		const browserVersion = navigator.appVersion;
 
-	(x) Popup Windows:
+	(ix) Popup Windows:
 
 		// Open a new popup window
 		const newWindow = window.open("https://www.example.com", "Popup", "width=400,height=300");
@@ -2875,7 +2868,7 @@ Section: Professional Methods
 			        // Perform additional operations if necessary
 			    });
 
-			(I) In this example, the delay function returns a promise that resolves after a specified duration. By using `.then()` after each promise, you can create a chain of asynchronous operations. Each `.then()` block will wait for the previous promise to be fulfilled before executing the next one. This pattern allows you to manage asynchronous tasks in a synchronous manner, making the code easier to read and maintain.
+			(I) In this example, the delay function returns a promise that resolves after a specified duration. By using `.then()` after each promise, you can create a chain of asynchronous operations. Each `.then(II)` block will wait for the previous promise to be fulfilled before executing the next one. This pattern allows you to manage asynchronous tasks in a synchronous manner, making the code easier to read and maintain.
 
 	(ix) Promise API
 
@@ -3756,7 +3749,7 @@ Section: Object Oriented Programming
 
 			(Note: It'll return true even if the class is Inherited)
 	
-Section: High-End/Advance JavaScript (Final Section)
+Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
 
 27. IIFE
 
@@ -4020,3 +4013,229 @@ Section: High-End/Advance JavaScript (Final Section)
 			console.log(x); // ReferenceError: x is not defined
 
 			In essence, blocks are finally treated as scopes in ES6, but only if you declare variables with let or const. In addition, ES6 introduced modules, which introduced another kind of scope. Closures are able to capture variables in all these scopes, which we will introduce later.
+
+32. Terminal Commands for JS
+
+	(i) `node {directory}` runs code for a specific directory in Node.js Environment 
+
+Section: 3rd Party JavaScript
+
+32. Package Manager
+
+	(i) NPM
+	Official Source: "https://www.npmjs.com"
+
+		(a) npm stands for `Node Package Manager`. It is the default package manager for JavaScript runtime environment Node.js. npm is used for managing and sharing JavaScript libraries and tools, making it easier for developers to work on projects, share code, and manage project dependencies.
+
+			Here are some key aspects of npm:
+
+			(I) Package Management: npm allows developers to install, share, and manage dependencies (libraries and tools) in their Node.js projects. Packages are typically distributed as modules, and npm simplifies the process of finding, installing, and updating these modules.4
+
+			(II) Command-Line Interface: npm is primarily used through the command line. Developers can use various commands like `npm install`, `npm init`, `npm publish`, etc., to perform tasks such as installing dependencies, initializing a new project, and publishing packages.
+
+			(III) Package.json: Each Node.js project that uses `npm` has a `package.json` file. This file contains metadata about the project, such as its name, version, description, and most importantly, the list of dependencies required for the project to run. Developers can use the `npm init` command to create a `package.json` file.
+
+			(IV) Scripts: The scripts section in the package.json file allows developers to define custom scripts that can be executed using `npm run`. This is commonly used for automation tasks and running custom commands related to the project.
+
+				Here are some commonly used npm commands:
+
+				(A) `npm install`: Installs dependencies listed in the package.json file.
+				(B) `npm install <package-name>`: Installs a specific package and adds it to the package.json file.
+				(C) `npm init`: Creates a package.json file interactively.
+				(D) `npm publish`: Publishes a package to the npm registry.
+				(E) `npm run <script-name>`: Executes a script defined in the scripts section of package.json.
+				(F) `npm outdated`: Checks for outdated dependencies.
+				(G) `npm update`: Updates packages to their latest versions based on the version constraints specified in package.json.
+
+				Overall, npm is a crucial tool in the JavaScript and Node.js ecosystem, providing a standardized way for developers to manage project dependencies and streamline the development process.
+
+		(b) list of all the NPM Commands
+
+			(I) `npm`: JavaScript package manager
+			(II) `npm access`: Set access level on published packages
+			(III) `npm adduser`: Add a registry user account
+			(IV) `npm audit`: Run a security audit
+			(V) `npm bugs`: Bugs for a package in a web browser maybe
+			(VI) `npm cache`: Manipulates packages cache
+			(VII) `npm ci`: Install a project with a clean slate
+			(VIII) `npm completion`: Tab completion for npm
+			(IX) `npm config`: Manage the npm configuration files
+			(X) `npm dedupe`: Reduce duplication
+			(XI) `npm deprecate`: Deprecate a version of a package
+			(XII) `npm diff`: The registry diff command
+			(XIII) `npm dist-tag`: Modify package distribution tags
+			(XIV) `npm docs`: Docs for a package in a web browser maybe
+			(XV) `npm doctor`: Check your environments
+			(XVI) `npm edit`: Edit an installed package
+			(XVII) `npm exec`: Run a command from an npm package
+			(XVIII) `npm explain`: Explain installed packages
+			(XIX) `npm explore`: Browse an installed package
+			(XX) `npm find-dupes`: Find duplication in the package tree
+			(XXI) `npm fund`: Retrieve funding information
+			(XXI) `npm help`: Search npm help documentation
+			(XXII) `npm help-search`: Get help on npm
+			(XXIII) `npm hook`: Manage registry hooks
+			(XXIV) `npm init`: Create a package.json file
+			(XXV) `npm install`: Install a package
+			(XXVI) `npm install-ci-test`: Install a project with a clean slate and run tests
+			(XXVII) `npm install-test`: Install package(s) and run tests
+			(XXVIII) `npm link`: Symlink a package folder
+			(XXIX) `npm login`: Login to a registry user account
+			(XXX) `npm logout`: Log out of the registry
+			(XXXI) `npm ls`: List installed packages
+			(XXXII) `npm org`: Manage orgs
+			(XXXIII) `npm outdated`: Check for outdated packages
+			(XXXIV) `npm owner`: Manage package owners
+			(XXXV) `npm pack`: Create a tarball from a package
+			(XXXVI) `npm ping`: Ping npm registry
+			(XXXVII) `npm pkg`: Manages your package.json
+			(XXXVIII) `npm prefix`: Display prefix
+			(XXXIX) `npm profile`: Change settings on your registry profile
+			(XL) `npm prune`: Remove extraneous packages
+			(XLI) `npm publish`: Publish a package
+			(XLII) `npm query`: Retrieve a filtered list of packages
+			(XLIII) `npm rebuild`: Rebuild a package
+			(XLIV) `npm repo`: Open package repository page in the browser
+			(XLV) `npm restart`: Restart a package
+			(XLVI) `npm root`: Display npm root
+			(XLVII) `npm run-script`: Run arbitrary package scripts
+			(XLVIII) `npm sbom`: Generate a Software Bill of Materials (SBOM)
+			(XLIX) `npm search`: Search for packages
+			(L) `npm shrinkwrap`: Lock down dependency versions for publication
+			(LI) `npm star`: Mark your favorite packages
+			(LII) `npm stars`: View packages marked as favorites
+			(LIII) `npm start`: Start a package
+			(LIV) `npm stop`: Stop a package
+			(LV) `npm team`: Manage organization teams and team memberships
+			(LVI) `npm test`: Test a package
+			(LVII) `npm token`: Manage your authentication tokens
+			(LVIII) `npm uninstall`: Remove a package
+			(LIX) `npm unpublish`: Remove a package from the registry
+			(L) `npm unstar`: Remove an item from your favorite packages
+			(LI) `npm update`: Update a package
+			(LII) `npm version`: Bump a package version
+			(LIII) `npm view`: View registry info
+			(LIV) `npm whoami`: Display npm username
+			(LV) `npx`: Run a command from an npm package
+
+33. Modules
+
+	(i) there are a number of JavaScript libraries and frameworks that enable module usage (for example, other `CommonJS` and AMD-based module systems like `RequireJS`, and more recently Webpack and Babel).
+
+	(ii) Basic example structure
+		
+		(a) In the following example (see basic-modules) we have a file structure as follows:
+
+			index.html
+			main.js
+			modules/
+			    canvas.js
+			    square.js
+
+		(b) The modules directory's two modules are described below:
+
+			(I) canvas.js — contains functions related to setting up the canvas:
+
+				(a) `create()`: creates a canvas with a specified width and height inside a wrapper <div> with a specified ID, which is itself appended inside a specified parent element. Returns an object containing the canvas's 2D context and the wrapper's ID.
+				(b) `createReportList()`: creates an unordered list appended inside a specified wrapper element, which can be used to output report data into. Returns the list's ID.
+
+			(I) square.js — contains:
+
+				(a) `name`: a constant containing the string 'square'.
+				(b) `draw()`: draws a square on a specified canvas, with a specified size, position, and color. Returns an object containing the square's size, position, and color.
+				(c) `reportArea()`: writes a square's area to a specific report list, given its length.
+				(d) `reportPerimeter()`: writes a square's perimeter to a specific report list, given its length.
+
+	(iii) Aside — `.mjs` versus `.js` we've used `.js` extensions for our module files, but in other resources you may see the .mjs extension used instead. V8's documentation recommends this, for example. The reasons given are:
+
+		(a) It is good for clarity, i.e. it makes it clear which files are modules, and which are regular JavaScript.
+		(b) It ensures that your module files are parsed as a module by runtimes such as Node.js, and build tools such as Babel.
+
+		(c) However, we decided to keep using `.js`, at least for the moment. To get modules to work correctly in a browser, you need to make sure that your server is serving them with a Content-Type header that contains a JavaScript MIME type such as `text/javascript`. If you don't, you'll get a strict MIME type checking error along the lines of "The server responded with a non-JavaScript MIME type" and the browser won't run your JavaScript. Most servers already set the correct type for `.js` files, but not yet for `.mjs` files. Servers that already serve `.mjs` files correctly include GitHub Pages and http-server for Node.js.
+
+		(d) If you really value the clarity of using `.mjs` for modules versus using `.js` for "normal" JavaScript files, but don't want to run into the problem described above, you could always use `.mjs` during development and convert them to .js during your build step.
+
+	(iv) Exporting module features
+
+		(a) ES6 Method is the easiest way to use it, using `export` & `default` keyword:
+
+			export const name = "square";
+
+			export function draw(ctx, length, x, y, color) {
+			  	ctx.fillStyle = color;
+				ctx.fillRect(x, y, length, length);
+
+				return { length, x, y, color };
+			}
+
+			(I) You can export `functions`, `var`, `let`, `const`, and `classes`. They need to be top-level items; you can't use export inside a function, for example.
+			(II) A more convenient way of exporting all the items you want to export is to use a single export statement at the end of your module file, followed by a comma-separated list of the features you want to export wrapped in curly braces. For example:
+
+				export { name, draw, reportArea, reportPerimeter };
+
+			(III) `default` keyword let's you export `functions`, `var`, `let`, `const`, and `classes` retrieve it without destructuring
+
+				export default name;
+
+		(b) Common.JS Module export when uses: `WebAssembly.Module.exports()`: which returns an array containing descriptions of all the declared exports. or you can assign it a value and it'll export them!.
+			
+			for example:-
+
+				const sayHello = (name)=>{
+					console.log(`hello ${name}!`)
+				}
+				const sayGoodMorning = (name)=>{
+					console.log(`good morning ${name}!`)
+				}
+				WebAssembly.Module.exports = {sayHello, sayGoodMorning};
+
+			This above code is same as:
+
+				export const sayHello = (name)=>{
+					console.log(`hello ${name}!`)
+				}
+				export const sayGoodMorning = (name)=>{
+					console.log(`good morning ${name}!`)
+				}
+		
+	(v) Importing module features into your script
+		
+		(a) ES6 Method is (Again) the easiest way to use it, using `import` and `from` keyword:
+
+			import { name, draw, reportArea, reportPerimeter } from "./modules/square.js";
+
+			// If you've used `default` keyword
+
+			import name {draw, reportArea, reportPerimeter } from "./modules/square.js";
+			
+			(I) use the `import` statement, followed by a comma-separated list of the features you want to import wrapped in curly braces, followed by the keyword `from`, followed by the module specifier.
+
+			(II) The module specifier provides a string that the JavaScript environment can resolve to a path to the module file. In a browser, this could be a path relative to the site root, which for our basic-modules example would be `/js-examples/module-examples/basic-modules`. However, here we are instead using the dot (`.`) syntax to mean "the current location", followed by the relative path to the file we are trying to find. This is much better than writing out the entire absolute path each time, as relative paths are shorter and make the URL portable — the example will still work if you move it to a different location in the site hierarchy.  for example:
+
+				`C:/Users/Admin/Documents/project/examples/modules/square.js` becomes `./modules/square.js`
+
+		(b) Common.JS Module import uses `require()`function, which allows you to load and used external modules (pieces of code) in a Node.js application
+
+			(I) Loading Modules: When you use `require()`, you provide the path to the module you want to load. This can be a relative path to a local file or the name of a module installed via npm.
+
+				(A) Example for loading a local file:
+
+					const myModule = require('./myModule');
+
+				(B) Example for loading an npm module:
+
+					const express = require('express');
+			
+			(II) Path Resolution:
+
+				(A) If the path provided to `require()` is a local file, Node.js resolves the path based on the current file's location. Relative paths (`./`, `../`) are resolved relative to the current file.
+				(B) If the path is a module name (like 'express'), Node.js looks for the module in the `node_modules` folder in the current directory and its parent directories.
+
+	(vi) Once you've imported the features into your script, you can use them just like they were defined inside the same file. The following is found in main.js, below the import lines:
+
+		const myCanvas = create("myCanvas", document.body, 480, 320);
+		const reportList = createReportList(myCanvas.id);
+
+		const square1 = draw(myCanvas.ctx, 50, 50, 100, "blue");
+		reportArea(square1.length, reportList);
+		reportPerimeter(square1.length, reportList);

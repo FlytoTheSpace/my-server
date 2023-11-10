@@ -1,47 +1,16 @@
 const prompt = require('prompt-sync')();
+const { evaluate } = require('mathjs');
 
-function calculate(input) {
-    if (input.includes("+")) {
-        input = input.split("+");
-        operand1 = Number.parseInt(input[0]);
-        operand2 = Number.parseInt(input[1]);
-        let ans = operand1 + operand2;
-        return console.log(ans)
+const calculate = ()=>{
+    let input = prompt("Calculate:");
+    let ans = evaluate(input);
+    console.log(ans);
 
-    } else if (input.includes("-")) {
-        input = input.split("-");
-        operand1 = Number.parseInt(input[0]);
-        operand2 = Number.parseInt(input[1]);
-        let ans = operand1 - operand2;
-        return console.log(ans)
-
-    } else if (input.includes("*")) {
-        input = input.split("*");
-        operand1 = Number.parseInt(input[0]);
-        operand2 = Number.parseInt(input[1]);
-        let ans = operand1 * operand2;
-        return console.log(ans)
-
-    } else if (input.includes("/")) {
-
-        input = input.split("/");
-        operand1 = Number.parseInt(input[0]);
-        operand2 = Number.parseInt(input[1]);
-        let ans = operand1 / operand2;
-        return console.log(ans)
-
-    } else if (input.includes("**")) {
-
-        input = input.split("**");
-        operand1 = Number.parseInt(input[0]);
-        operand2 = Number.parseInt(input[1]);
-        let ans = operand1**operand2;
-        return console.log(ans)
-
-    } else {
-        return "Something went wrong";
-    }
-}
-
-let input = prompt("Calculate:");
-console.log(calculate(input));
+    let choice = prompt("would you like to continue? y/n:");
+    if(choice == "y"){
+        calculate()
+    } else if(choice != "y" && choice != "n") {
+        throw new Error("invalid value");
+    };
+};
+calculate();
