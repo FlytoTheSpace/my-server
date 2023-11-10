@@ -1,0 +1,480 @@
+==========================================================================================================
+											CSS (Cascading Style Sheets)
+==========================================================================================================
+
+1.How to use CSS
+
+    (i) To add CSS inside the HTML File type "<style></style>" and then Your CSS content ()
+
+    (ii) To Link a CSS file to the html file type this "<link rel="stylesheet" href="example.css">" in the head element in html 
+
+    (iii) (Not Recommended) You can add A "style" attribute in the element and customize it! (warning: It's a Nightmare to Manage the website)
+
+2. Basic Steps to Use CSS
+
+    (step: 1) To use css on a specific type of elements such as "<h1>" then just type the name of it like this:-"h1", or if you want to use style Elements with a class then just put a dot at the very beginning of the line and then the name of the class, or if you want to use an ID then just replace the dot"." with a HashTag"#"     
+    (step: 2) add a set of curly brackets"{}" and then you can style your website, This will look something like this:-
+		
+        h1{
+            color: blue; /*Declaration ---> "property":"value" */
+            background: dark_grey
+        }
+        /* This will change the color of the text to blue and make the background dark gray */
+		
+5. Selectors (Both for Beginners and some Advance stuff)
+
+    (i) Introduction:
+        
+        CSS selectors are an essential part of CSS (Cascading Style Sheets) that allow you to target and apply styles to specific HTML elements on your web page. They work by selecting elements based on various criteria, such as element names, classes, ID's, attributes, and more. Let's explain
+
+    (ii) Element Selector: The simplest CSS selector is the element selector. It targets all instances of a particular HTML element. For example:
+
+        p {
+            color: blue;
+        }
+
+        This CSS rule targets all <p> elements and changes their text color to blue.
+
+    (iii) Class Selector: The class selector selects elements based on their class attribute. It is denoted by a dot "." followed by the class name. For example:-
+
+        HTML:
+        
+        <p class="important">This paragraph will be bold</p>
+
+        CSS:
+
+        .important {
+            font-weight: bold;
+        }
+        
+        (a) This CSS rule targets all elements with the class "important" and makes their text bold.
+
+    (vi) ID Selector: The ID selector selects an element based on its unique ID attribute. It is denoted by a hash (#) followed by the ID name. For example:-
+
+        HTML:
+
+        <div id="header">This is the header.</div>
+
+        CSS:
+
+        #header {
+            background-color: gray;
+        }
+
+        (a) This CSS rule targets the element with the ID "header" and gives it a gray background.
+
+    (v) Descendant Selector: The descendant selector targets an element that is a descendant of another element. It uses a space to separate the ancestor and descendant. For example:-
+
+        HTML:
+        
+        <div>
+            <p>This is a paragraph inside a div.</p>
+        </div>
+
+        CSS:
+        
+        div p {
+            color: green;
+        }
+
+        (a) This CSS rule targets all <p> elements inside a <div> and changes their text color to green.
+
+    
+    (vi) Child Selector: The child selector targets an element that is a direct child of another element. It uses the greater than symbol (>) to separate the parent and child. For example:
+
+        HTML:
+
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+
+        CSS:
+        
+        ul > li {
+            list-style: square;
+        }
+
+        (a) This CSS rule targets all <li> elements that are direct children of a <ul> and changes their list style to square bullets.
+
+    (vii) Attribute Selector: The attribute selector targets elements based on their attributes. It is denoted with square brackets and can have various modifiers. For example:
+
+        HTML:
+
+        <input type="text" />
+
+        CSS:
+
+        input[type="text"] {
+            border: 1px solid black;
+        }
+
+        (a) This CSS rule targets all <input> elements with a type attribute set to "text" and adds a black border to them.
+
+    (viii) Pseudo-classes and Pseudo-elements: Pseudo-classes and pseudo-elements allow you to style elements based on their state or position. Pseudo-classes start with a colon (:), while pseudo-elements use double colons (::). Here are a few examples:-
+
+        /* Styling will be applied the link element when is hovered */
+
+        a:hover {
+          text-decoration: underline;
+        }
+
+        /*Styling will be applied to the first line of the paragraph*/
+        
+        p::first-line {
+          font-weight: bold;
+        }
+
+        (a) These CSS rules style links when hovered and apply bold font-weight to the first line of a paragraph.
+
+    Here's Some Advance Concepts
+    
+    (ix) Combining Selectors: You can combine multiple selectors together to target specific elements more precisely. For example:-
+
+        /* Targets all h1 and h2 elements inside a div with class "container" */
+
+        div.container h1, div.container h2 {
+          color: red;
+        }
+
+    (x) Universal Selector: The universal selector (*) targets all elements on the page. Use it with caution, as it can significantly impact performance. for example:-
+
+        /* Applies a border to all elements */
+        * {
+          border: 1px solid black;
+        }
+
+    (xi) Multiple Classes and Attribute Selectors: You can target elements with multiple classes or specific attribute values. for example:-
+
+        /* Targets elements with both "important" and "highlight" classes */
+        .important.highlight {
+          background-color: yellow;
+        }
+
+        /* Targets elements with a class that starts with "btn-" */
+        [class^="btn-"] {
+          background-color: blue;
+        }
+
+    Here's Some Even Advance CSS Selectors
+
+    (xii) Sibling Combinator (+): The sibling combinator selects an element that is the next sibling of another element. It targets an element immediately following the specified element. For example:
+
+        HTML:
+        
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+        
+        CSS:
+
+        /* Targets the second <p> element (Paragraph 2) */
+        p + p {
+          color: blue;
+        }
+
+        (a) This CSS rule targets the second <p> element (Paragraph 2) and changes its text color to blue.
+
+    (xiii) General Sibling Combinator (~): The general sibling combinator is similar to the sibling combinator but selects all sibling elements that come after the specified element, not just the immediate next sibling. For example:-
+
+        HTML:
+
+        <p>Paragraph 1</p>
+        <span>Span 1</span>
+        <p>Paragraph 2</p>
+
+        CSS:
+
+        /* Targets both <p> elements (Paragraph 1 and Paragraph 2) */
+        p ~ p {
+            font-style: italic;
+        }
+
+        (a) This CSS rule targets both <p> elements (Paragraph 1 and Paragraph 2) and applies italic font style to them.
+
+    (xiv) :not() Pseudo-class: The :not() pseudo-class allows you to exclude elements from a selection. It is particularly useful when you want to apply styles to all elements of a certain type except for a specific one. For example:
+
+        HTML:
+        
+        <ul>
+            <li>Item 1</li>
+            <li class="special">Special Item</li>
+            <li>Item 2</li>
+        </ul>
+
+        CSS:
+
+        /* Targets all <li> elements except the one with class "special" */
+        li:not(.special) {
+          color: green;
+        }
+
+        (a) This CSS rule targets all <li> elements inside the <ul> except for the one with the class "special" and changes their text color to green.
+
+    (xv) :empty Pseudo-class: The :empty pseudo-class targets elements that have no content (including spaces, line breaks, etc.). For example:
+
+        HTML:
+
+        <p></p>
+        <span>Hello</span>
+        <div></div>
+
+        CSS:
+        
+        /* Targets empty <p> and <div> elements */
+        :empty {
+          display: none;
+        }
+
+        (a) This CSS rule targets empty <p> and <div> elements and hides them by setting their display property to none.
+
+    (xi) :first-child, :last-child, :only-child Pseudo-classes: These pseudo-classes target elements based on their position as a child within their parent. For example:
+
+        HTML:
+
+        <ul>
+          <li>First Item</li>
+          <li>Second Item</li>
+          <li>Third Item</li>
+        </ul>
+
+        CSS:
+
+        /* Targets the first and last <li> elements */
+        li:first-child, li:last-child {
+          font-weight: bold;
+        }
+
+        /* Targets the only <li> element */
+        li:only-child {
+          background-color: yellow;
+        }
+
+        These CSS rules target the first and last <li> elements and make their text bold. The third rule targets the only <li> element and gives it a yellow background.
+
+5. Color Tag (Detailed)
+
+    (i) Color Names: CSS provides a set of predefined color names that you can use. For example, you can set the color of an element to red by using the color name "red" as follows:
+
+        selector {
+            color: red;
+        }
+
+        (a) You can find a list of predefined color names in CSS, such as "red", "blue", "green", and many more.
+    
+    (ii) Hexadecimal Values: Hexadecimal color values are represented by a combination of six characters, consisting of numbers 0-9 and letters A-F. Each pair of characters represents the intensity of red, green, and blue (RGB) respectively. For example, to set the color to a light shade of blue, you can use the hexadecimal value "#87CEFA" as follows:
+
+        selector {
+            color: #87CEFA;
+        }
+
+        (a) The leading "#" indicates that it is a hexadecimal value.
+
+    (iii) RGB Values: RGB values allow you to specify the intensity of red, green, and blue individually, using values from 0 to 255. To set the color to a specific RGB value, you can use the rgb() function. For example, to set the color to a dark shade of green, you can use the RGB value "rgb(0, 100, 0)" as follows:
+
+        selector {
+            color: rgb(0, 100, 0);
+        }
+
+        (a) The values within the parentheses represent the intensity of red, green, and blue, respectively.
+
+    (iv) HSL Values: HSL (Hue, Saturation, Lightness) is another color format in CSS. It allows you to specify the hue, saturation, and lightness of a color. Hue represents the color itself, saturation determines the intensity or purity of the color, and lightness controls the brightness or darkness of the color. To set the color using HSL values, you can use the hsl() function. For example, to set the color to a vibrant yellow, you can use the HSL value "hsl(60, 100%, 50%)" as follows:
+
+        selector {
+            color: hsl(60, 100%, 50%);
+        }
+
+        (a) The first value within the parentheses represents the hue in degrees (0 to 360), the second value represents saturation as a percentage, and the third value represents lightness as a percentage.
+
+6. background Tag
+
+    (i) The syntax for the background property is as follows:
+
+        selector {
+            background: [background-color] [background-image] [background-repeat] [background-position] [background-size] [background-attachment] [background-origin] [background-clip];
+        }
+
+    Here's the Breakdown of each of These values as a property
+
+    (ii) background-color: To set a background color for an element, you can use the background-color property. For example, to set the background color of a <div> element to light blue, you can use the following CSS:
+
+        selector {
+            background-color: lightblue;
+        }
+
+        (a) You can use color names, hexadecimal values, RGB values, or HSL values to specify the background color.
+
+    (iii) background-image: You can set an image as the background of an element using the background-image property. For example, to set a background image for a <div> element, you can use the following CSS:
+        
+        selector {
+            background-image: url("image.jpg");
+        }
+
+        (a) Replace "image.jpg" with the URL or relative path of the image you want to use. You can also use the linear-gradient() or radial-gradient() functions to create gradient backgrounds.
+
+    (iv) background-repeat: By default, background images repeat both horizontally and vertically. You can control the repetition behavior using the background-repeat property. For example, to prevent the background image from repeating, you can use the value no-repeat as follows:
+
+        selector {
+            background-repeat: no-repeat;
+        }
+
+        (a) Other values include repeat (repeat both horizontally and vertically), repeat-x (repeat only horizontally), and repeat-y (repeat only vertically).
+        
+    (v) background-position: You can control the position of the background image using the background-position property. It allows you to specify the horizontal and vertical position of the image. For example, to position the background image at the top right corner, you can use the following CSS:
+
+        selector {
+            background-position: top right;
+        }
+
+        (a) You can use keywords like top, bottom, left, and right, or you can use specific length values or percentages to define the position.
+
+    (vi) background-size: The background-size property allows you to control the size of the background image. You can set it to a specific length value, a percentage, or use keywords like cover or contain. For example, to make the background image cover the entire element, you can use the value cover as follows:
+
+        selector {
+            background-size: cover;
+        }
+        
+        (a) This will resize the background image proportionally to cover the entire element, cropping if necessary.
+
+    (vii) "background-attachment" property is used to control whether the background image scrolls with the content or remains fixed in place. It affects how the background image is positioned relative to the element and the viewport. Here's how you can use the background-attachment property:
+        
+        selector {
+            background-attachment: value;
+        }
+
+        The value can be one of the following:
+
+        (a) scroll: This is the default value. The background image scrolls along with the element's content as you scroll the page.
+        (b) fixed: The background image remains fixed in place relative to the viewport. It does not scroll with the content. This means that even if you scroll the page, the background image stays in the same position.
+        (c) local: The background image scrolls with the element's content. It behaves similarly to the scroll value, but it allows the background to scroll within the element if the content inside the element overflows.
+
+        Here's an example that demonstrates how to use the background-attachment property:
+
+        body {
+            background-image: url("image.jpg");
+            background-attachment: fixed;
+        }
+
+
+    (viii) background-origin: property is used to specify the positioning area of the background image. It determines where the background image starts within the element's background positioning area. The background positioning area is defined by the element's padding box, border box, or content box. Here's how you can use the background-origin property:
+
+        selector {
+            background-origin: value;
+        }
+
+        The value can be one of the following:
+
+        (a) padding-box (default): The background image starts from the edge of the element's padding box. It includes the padding area but does not include the border or margin areas.
+        (b) border-box: The background image starts from the edge of the element's border box. It includes both the padding and border areas but does not include the margin area.
+        (c)content-box: The background image starts from the edge of the element's content box. It includes only the content area and does not include the padding, border, or margin areas.
+        
+        Here's an example that demonstrates how to use the background-origin property:
+
+        div {
+            background-image: url("image.jpg");
+            background-origin: border-box;
+        }
+
+    (ix) background-clip: property is used to determine the painting area of the background. It specifies how far the background extends within an element, relative to the background origin. This property allows you to control whether the background is clipped to the content box, padding box, or border box. Here's how you can use the background-clip property:
+
+        selector {
+            background-clip: value;
+        }
+
+        The value can be one of the following:
+
+        (a)border-box (default): The background is painted up to the outer edge of the element's border box. It extends underneath the border and covers the padding and content areas.
+
+        (b)padding-box: The background is painted up to the outer edge of the element's padding box. It extends underneath the padding area and covers only the content area.
+
+        (c)content-box: The background is painted only within the element's content box. It does not extend beyond the content area and is clipped by the padding and border areas.
+
+        Here's an example that demonstrates how to use the background-clip property:
+
+        div {
+            background-image: url("image.jpg");
+            background-clip: padding-box;
+        }
+
+7. Border Tag
+    
+    (i) "border-width" This specifies the width of the border. It can be set to a specific value in pixels (e.g., 2px), or you can use predefined values such as thin, medium, or thick. You can also specify different widths for each side of the border using the shorthand notation (e.g., border-width: 1px 2px 3px 4px; for top, right, bottom, left respectively).
+    (ii) "border-style" This defines the style of the border. Some common values include solid (a solid line), dashed (a dashed line), dotted (a dotted line), double (two parallel lines), and none (no border). You can also use hidden to hide the border, but it will still take up space.
+    (iii) "border-color" This sets the color of the border. You can use color names (e.g., red, blue), hexadecimal values (e.g., #FF0000 for red), RGB values (e.g., rgb(255, 0, 0) for red), or RGBA values (e.g., rgba(255, 0, 0, 0.5) for red with 50% opacity).
+    
+    (vi) Here's some examples that demonstrates how to apply a border to a <div> element:
+
+        (a) All of the Them in different tags
+
+            div {
+                border-width: 2px 4px;
+                border-style: solid dotted;
+                border-color: red blue;
+            }
+
+
+        (b) All of the Them in the same tag
+
+            div {
+                border: 2px solid red;
+            }
+        
+8. Display
+
+    (i) "Display" property is used to control the layout behavior of an element. It specifies how an element should be displayed on the web page. The display property allows you to control whether an element is rendered as a block, inline, inline-block, flex container, grid container, and more. Here's how you can use the display property:
+
+        selector {
+            display: value;
+        }
+
+    (ii) The value can be one of the following commonly used values:
+
+    (iii) block: The element is rendered as a block-level element. It takes up the full width available by default and starts on a new line.
+
+    (iv) inline: The element is rendered as an inline-level element. It does not start on a new line and only occupies the space necessary for its content.
+
+    (v) inline-block: The element is rendered as an inline-level element but behaves like a block-level element in terms of layout. It does not start on a new line and allows for setting width, height, padding, and margin properties.
+
+    (vi) none: The element is not rendered at all. It is effectively removed from the document flow and not visible.
+
+    (vii) flex: The element becomes a flex container. It enables a flex formatting context and allows you to use flexbox properties for its children.
+
+    (viii) grid: The element becomes a grid container. It enables a grid formatting context and allows you to use grid properties for its children.
+
+    (ix) inline-flex: The element becomes an inline-level flex container. It behaves like an inline-level element but allows for flexbox properties for its children.
+
+    (x) inline-grid: The element becomes an inline-level grid container. It behaves like an inline-level element but allows for grid properties for its children.
+
+    (xi) These are just a few commonly used values of the display property. There are additional values and combinations available, depending on the CSS version and layout needs.
+
+    (xi) Here's an example that demonstrates how to use the display property:
+
+        div {
+            display: block;
+        }
+
+9. Transition
+
+    (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:
+
+        selector {
+            transition: [property] [duration] [timing-function];
+        }
+    
+    Let's break down each component:
+
+    (ii) [property]: This specifies the CSS property or properties that should be transitioned. For example, you can use background-color, opacity, width, or any other CSS property.
+
+    (iii) [duration]: This determines the duration of the transition effect. It can be specified in seconds (s) or milliseconds (ms). For example, 0.5s represents a transition duration of 0.5 seconds.
+
+    (iv) [timing-function]: This defines the timing function or easing function of the transition. It specifies how the transition progresses over time. Some common timing functions include linear, ease, ease-in, ease-out, and ease-in-out. You can also use custom cubic-bezier values for more precise control.
+
+    Here's an example that demonstrates how to add a transition effect to change the background color when hovering over a <button> element:-
+
+        button {
+            background-color: blue;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+            background-color: red;
+        }
