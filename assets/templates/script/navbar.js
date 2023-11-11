@@ -1,4 +1,4 @@
-fetch('/assets/templates/html/navbar.html')
+fetch('./templates/html/navbar.html')
     .then((response)=>{
         console.info("Navbar Status Code:", response.status)
         return response.text();

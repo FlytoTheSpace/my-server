@@ -28,7 +28,7 @@ fetch('/assets/templates/html/setup.html')
 
 // If Your Script is not loading then add a slash right before the value of attribute `src`
 // The Script Itself to add other Scripts right after it
-const ItselfScript = document.querySelector("script[src=\"/assets/templates/script/setup.js\"]");
+const ItselfScript = document.querySelector("script[src=\"./templates/script/setup.js\"]");
 
 // Function to Catch Error and Adding them to The HTML file
 const setupScript = (scriptsList) => {
@@ -70,9 +70,9 @@ const footerScript = document.createElement("script");
 const CSSSetupScript = document.createElement("script");
 
 // Assign them a SRC source
-navbarScript.src = "/assets/templates/script/navbar.js";
-footerScript.src = "/assets/templates/script/footer.js";
-CSSSetupScript.src = "/assets/templates/script/css_setup.js";
+navbarScript.src = "./templates/script/navbar.js";
+footerScript.src = "./templates/script/footer.js";
+CSSSetupScript.src = "./templates/script/css_setup.js";
 
 // Pass the scripts as an array, so You can add many of them as you want
 setupScript([navbarScript, footerScript, CSSSetupScript]); 

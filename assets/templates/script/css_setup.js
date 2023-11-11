@@ -1,4 +1,4 @@
-fetch('/assets/templates/html/setup.html')
+fetch('./templates/html/setup.html')
     .then((response) => {
         console.info("CSS files Status Code:", response.status)
         return response.text()
