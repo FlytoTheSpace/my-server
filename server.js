@@ -3,7 +3,6 @@ const path = require('path')
 const app = express();
 const port = 5500;
 app.use(express.static(path.join(__dirname, "server")));
-app.use(express.static(path.join(__dirname, "node_modules")));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,'./index.html'))
@@ -15,27 +14,27 @@ app.get('/administrator', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/admin.html'))
 })
 app.get('/alarm', (req, res) => {
-    res.sendFile(path.join(__dirname,'./alarm.html'))
+    res.sendFile(path.join(__dirname,'./server/alarm.html'))
 })
 app.get('/data', (req, res) => {
-    res.sendFile(path.join(__dirname,'./data.html'))
+    res.sendFile(path.join(__dirname,'./server/data.html'))
 })
 app.get('/gradient-generator', (req, res) => {
-    res.sendFile(path.join(__dirname,'./gradient-generator.html'))
+    res.sendFile(path.join(__dirname,'./server/gradient-generator.html'))
 })
 app.get('/html-notes', (req, res) => {
-    res.sendFile(path.join(__dirname,'./html-tutorial.html'))
+    res.sendFile(path.join(__dirname,'./server/html-tutorial.html'))
 })
 app.get('/javascript-notes', (req, res) => {
-    res.sendFile(path.join(__dirname,'./javscript-tutorial.html'))
+    res.sendFile(path.join(__dirname,'./server/javascript-tutorial.html'))
 })
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname,'./login.html'))
+    res.sendFile(path.join(__dirname,'./server/login.html'))
 })
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname,'./register.html'))
+    res.sendFile(path.join(__dirname,'./server/register.html'))
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Server started on http://localhost:${port}`)
 })
