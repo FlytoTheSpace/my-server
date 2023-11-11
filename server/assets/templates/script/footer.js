@@ -1,4 +1,4 @@
-fetch('./templates/html/footer.html')
+fetch('./assets/templates/html/footer.html')
     .then((response) => {
         console.info("Footer Status Code:", response.status)
         return response.text();
