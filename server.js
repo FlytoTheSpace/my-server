@@ -1,9 +1,27 @@
+// Imports
 const express = require('express');
-const path = require('path')
 const app = express();
 const port = 5500;
-app.use(express.static(path.join(__dirname, "server")));
 
+const path = require('path')
+
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+const {mergePDFs} = require("./mergepdfs")
+
+
+
+// root
+app.use(express.static(path.join(__dirname, "server")));
+// Requests
+app.post('/merge', upload.array('pdfs', 2), async (req, res, next)=>{
+    // req.files is array of `photos` files
+    // req.body will contain the text fields, if there were any
+    await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
+    res.redirect(`http://localhost:${port}/public/merged.pdf`)
+    // res.send({data: req.files})
+})
 
 // Setting up Ports
 app.get('/', (req, res) => {

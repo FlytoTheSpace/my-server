@@ -16,6 +16,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
     "pdf-creator-node": "^2.3.5",
+    "pdf-merger-js": "^4.3.0",
     "prompt-sync": "^4.2.0"
   }
 }
