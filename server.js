@@ -4,6 +4,8 @@ const app = express();
 const port = 5500;
 app.use(express.static(path.join(__dirname, "server")));
 
+
+// Setting up Ports
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,'./index.html'))
 })
@@ -19,6 +21,9 @@ app.get('/alarm', (req, res) => {
 app.get('/data', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/data.html'))
 })
+app.get('/experiments', (req, res) => {
+    res.sendFile(path.join(__dirname,'./server/experiments.html'))
+})
 app.get('/gradient-generator', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/gradient-generator.html'))
 })
@@ -31,10 +36,14 @@ app.get('/javascript-notes', (req, res) => {
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/login.html'))
 })
+app.get('/password-generator', (req, res) => {
+    res.sendFile(path.join(__dirname,'./server/password-generator.html'))
+})
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/register.html'))
 })
 
+// Starting Server
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`)
 })

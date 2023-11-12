@@ -1,4 +1,4 @@
-const fetchedData = fetch("/admin/pass.json", {
+const fetchedData = fetch("./json/pass.json", {
     method: "GET",
     credentials: "include"
 });
@@ -11,7 +11,6 @@ fetchedData.then((data) => {
 
     // const decryptedBytes = CryptoJS.AES.decrypt(encryptedPassword);
     // const decodedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    console.log("password is :", password);
 
     let Cookies = document.cookie.split(";");
     if (Cookies == "") {

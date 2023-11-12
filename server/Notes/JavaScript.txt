@@ -4018,9 +4018,205 @@ Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
 
 	(i) `node {directory}` runs code for a specific directory in Node.js Environment 
 
+33. Regular Expressions
+
+	(i) Regular Expressions (regex or regexp) are sequences of characters that form a search pattern. They are used for pattern matching within strings. Regular expressions provide a concise and flexible means for matching strings of text, such as specific characters, words, or patterns of characters. Here are key concepts and components of regular expressions:
+
+	(ii) Syntax
+
+		let RegExpress = /aeiou/ // <-- this is the syntax for Regular Expressions
+
+		let text = "Vowels in English are aeiou";
+		
+		text = text.replace(RegExpress, "AEIOU")
+
+		console.log(text) // output: Vowels in English are AEIOU
+
+	(iii) Flags
+		
+		(a) `g` (`g`lobal): Selects Every Match it finds
+
+			let text = "I was is the Kitchen, then I went is the Bedroom";
+			let RegExpress = /is/g
+			
+			text = text.replace(RegExpress, "'in'")
+			console.log(text) 
+			// Output: I was 'in' the Kitchen, then I went 'in' the Bedroom
+
+		(b) `i` (case `i`nsensitive): selects match even if cases don't match
+
+			let text = "They ARE the same!"
+			text = text.replace(/are/gi, "are")
+			console.log(text) //Output: They `are` the same
+
+	(iii) Literal Characters: Characters in a regular expression match themselves literally. For example, the regex `abc` would match the string "abc" in a text.
+
+	Advance Pattern Matching:
+
+	(iv) Character classes
+
+		(a) .		any character except newline
+		(b) \w\d\s	word, digit, whitespace
+		(c) \W\D\S	not word, digit, whitespace
+		(d) [abc]	any of a, b, or c
+		(e) [^abc]	not a, b, or c
+		(f) [a-g]	character between a & g
+
+	(v) Anchors
+
+		(a) ^abc abc$	start / end of the string
+		(b) \b\B	word, not-word boundary
+
+	(vi) Escaped characters
+
+		(a) \.\*\\	escaped special characters
+		(b) \t\n\r	tab, linefeed, carriage return
+
+	(vii) Groups & Lookaround
+
+		(a) (abc)	capture group
+		(b) \1	backreference to group #1
+		(c) (?:abc)	non-capturing group
+		(d) (?=abc)	positive lookahead
+		(e) (?!abc)	negative lookahead
+
+	(viii) Quantifiers & Alternation
+
+		(a) a*a+a?	0 or more, 1 or more, 0 or 1
+		(b) a{5}a{2,}	exactly five, two or more
+		(c) a{1,3}	between one & three
+		(d) a+?a{2,}?	match as few as possible
+		(e) ab|cd	match ab or cd
+
+34. How JavaScript Works:
+
+	(i) What is JavaScript?
+
+		(a) JavaScript isa single threaded, non blocking, asynchronous concurrent language
+		(b) It has a call stack, an event loop and a callback queue + other APIs
+		(c) ‘V8 is the JavaScript runtime which has a call stack and a heap
+		(d) The heap is used for memory allocation and the stack holds the execution context
+		(e) DOM, setTimeout, XML HttpRequest don’t exist in V8 source code
+
+	(ii) Stack Call
+
+		function greeting(){
+			sayHi();
+		}
+		function sayHi(){
+			return "Hi!";
+		}
+
+		greeting();
+
+		(a) When executed (visually):
+
+			(I) `greeting()` function will go into Stack to be executed
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|			|
+			| 			|   <-- greeting()
+			-------------
+			 	Stack
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|			|
+			| greeting()|
+			-------------
+			 	Stack
+
+			(II) `greeting()` function will callback `sayHi()` function so it'll also be added into stack to be executed
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|			|	<-- sayHi()
+			| greeting()|
+			-------------
+			 	Stack
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|  sayHi()	|
+			| greeting()|
+			-------------
+			 	Stack
+
+			(III) Once `sayHi()` is Executed all of it's local variables will be deleted and it'll be thrown out of the Stack 
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|  			|	--> sayHi()
+			| greeting()|
+			-------------
+			 	Stack
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|  			|
+			| greeting()|
+			-------------
+			 	Stack
+
+			(IV) `greeting()` will also be thrown out once it's executed completely
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|  			|
+			| 			|	--> greeting()
+			-------------
+			 	Stack
+
+			-------------
+			|			|
+			|			|
+			|			|
+			|  			|
+			| 			|
+			-------------
+			 	Stack
+
+			(Note: Stack is Where the Code gets Executed in JavaScript)
+
+	(iii) Asynchronous CallBacks
+		
+		(a) Sometimes the JavaScript code can take a lot of time and this can block the page re render
+		(b) JavaScript has asynchronous callbacks for non blocking behaviour
+		(c) JavaScript runtime can do only one thing at a tim
+		(d) Browser gives us other things which work along with the runtime like Web APIs.
+		(e) In node, these are available as C++ APIs
+
+	(iv) Task Queue
+
+		(a) JavaScript can only do one thing at a time 
+		(b) The rest are queued to the task queue waiting to be executed
+		(c) When we run `setTimeout`, webAPIs will run a Timer and when it end it pushes the provided function to the stack where it can be executed
+		(d) Task Queue is like a lobby waiting to be executed in Stack
+
+	(v) Event Loop
+
+		(a) JavaScript has a runtime based on event loop, which is reponsible for executing the code, collecting and processing events, and executing queued sub-tasks
+		(b) The event loop pushes the tasks from the tasks queue to stack
+		(c) `setTimeout(()=>{}, 0)` in this code the function inside setTimeout will defer until all the tasks have been executed if you simplify want it to run without delay just don't provide it a second argument.
+
 Section: 3rd Party JavaScript
 
-32. Package Manager
+35. Package Manager
 
 	(i) NPM
 	Official Source: "https://www.npmjs.com"
@@ -4118,7 +4314,7 @@ Section: 3rd Party JavaScript
 			(LIV) `npm whoami`: Display npm username
 			(LV) `npx`: Run a command from an npm package
 
-33. Modules
+36. Modules
 
 	(i) there are a number of JavaScript libraries and frameworks that enable module usage (for example, other `CommonJS` and AMD-based module systems like `RequireJS`, and more recently Webpack and Babel).
 
