@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Early Access to Experimental Features!</title>
+
     <style>
         main{
             align-items: center;
@@ -19,8 +20,8 @@
         #container >*{
             margin: 0.5vw;
         }
-        button{
-            padding: 0.2vw;
+        button.t-1{
+            padding: 0.2vw 2vw;
             background-color: lime;
             color: white;
             border: transparent solid;
@@ -29,9 +30,19 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        button:hover{
+        button.t-1:hover{
             background-color: green;
             transition: 0.2s;
+        }
+        input[type="file"]{
+            align-items: center;
+            display: grid;
+            justify-content: center;
+            width: 20vw;
+            height: 10vw;
+            border: #272727 0.5vh solid;
+            border-radius: 1vw;
+            background-color: #2f2f2f;
         }
     </style>
 </head>
@@ -39,13 +50,15 @@
     <header></header>
     <main>
         <div id="container">
-            
+            <form action="/merge" method="post" enctype="multipart/form-data">
+                <label for=""></label>
+                <input type="file" name="pdfs" id="fileInputSubmit" multiple accept=".pdf">
+                <br>
+                <button class="t-1" type="submit">Merge</button>
+            </form>
         </div>
     </main>
     <footer></footer>
-    <script>
-
-    </script>
     <script src="./assets/templates/script/setup.js"></script>
 </body>
 </html>

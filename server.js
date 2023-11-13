@@ -8,20 +8,22 @@ const path = require('path')
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
-const {mergePDFs} = require("./mergepdfs")
+const {mergePDFs, PDFname} = require("./mergepdfs")
 
 
 
 // root
 app.use(express.static(path.join(__dirname, "server")));
 // Requests
-app.post('/merge', upload.array('pdfs', 2), async (req, res, next)=>{
-    // req.files is array of `photos` files
-    // req.body will contain the text fields, if there were any
-    await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
-    res.redirect(`http://localhost:${port}/public/merged.pdf`)
-    // res.send({data: req.files})
-})
+app.post('/merge', upload.array('pdfs', 2), async (req, res, next) => {
+    try {
+        const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
+        res.redirect(`http://localhost:${port}/public/${generatedPDFName}.pdf`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 // Setting up Ports
 app.get('/', (req, res) => {
@@ -40,7 +42,7 @@ app.get('/data', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/data.html'))
 })
 app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname,'./server/experiments.html'))
+    res.sendFile(path.join(__dirname, './server/experiments.html'))
 })
 app.get('/gradient-generator', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/gradient-generator.html'))
@@ -56,6 +58,9 @@ app.get('/login', (req, res) => {
 })
 app.get('/password-generator', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/password-generator.html'))
+})
+app.get('/pdf-merger', (req, res) => {
+    res.sendFile(path.join(__dirname, './server/pdfmerger.html'))
 })
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/register.html'))
