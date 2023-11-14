@@ -1,0 +1,57 @@
+/* Button Colours */
+button.c-green {
+    background-color: lime;
+    color: white;
+    border: transparent solid;
+    border-radius: 0.5vw;
+}
+
+button.c-green:hover {
+    background-color: green;
+    transition: 0.2s;
+}
+
+button.c-blue {
+    padding: 0.2vw 1.5vw;
+    background-color: dodgerblue;
+    color: white;
+    border: transparent solid;
+    border-radius: 0.5vw;
+}
+
+button.c-blue:hover {
+    background-color: #0050a0;
+    transition: 0.2s;
+}
+
+button.c-gray {
+    padding: 0.2vw 1.5vw;
+    background-color: transparent;
+    color: white;
+    border: gray solid;
+    border-radius: 0.5vw;
+}
+
+button.c-gray:hover {
+    background-color: darkslategray;
+    transition: 0.2s;
+}
+
+/* Styles */
+button.t-1{
+    padding: 0.2vw 1.5vw;
+    font-size: 1.3vw;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* general */
+button.fullspan {
+    width: 100%;
+    border-radius: 1vw;
+}
+button.withIcon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}

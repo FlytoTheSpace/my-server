@@ -2,7 +2,7 @@
 											CSS (Cascading Style Sheets)
 ==========================================================================================================
 
-1.How to use CSS
+1. How to use CSS
 
     (i) To add CSS inside the HTML File type "<style></style>" and then Your CSS content ()
 
@@ -10,18 +10,12 @@
 
     (iii) (Not Recommended) You can add A "style" attribute in the element and customize it! (warning: It's a Nightmare to Manage the website)
 
-2. Basic Steps to Use CSS
+2. Syntax:
+    Selector   property   color
+        ↓         ↓         ↓
+	    p {     color:     red;  }
 
-    (step: 1) To use css on a specific type of elements such as "<h1>" then just type the name of it like this:-"h1", or if you want to use style Elements with a class then just put a dot at the very beginning of the line and then the name of the class, or if you want to use an ID then just replace the dot"." with a HashTag"#"     
-    (step: 2) add a set of curly brackets"{}" and then you can style your website, This will look something like this:-
-		
-        h1{
-            color: blue; /*Declaration ---> "property":"value" */
-            background: dark_grey
-        }
-        /* This will change the color of the text to blue and make the background dark gray */
-		
-5. Selectors (Both for Beginners and some Advance stuff)
+3. Selectors (Both for Beginners and some Advance stuff)
 
     (i) Introduction:
         
@@ -79,7 +73,6 @@
 
         (a) This CSS rule targets all <p> elements inside a <div> and changes their text color to green.
 
-    
     (vi) Child Selector: The child selector targets an element that is a direct child of another element. It uses the greater than symbol (>) to separate the parent and child. For example:
 
         HTML:
@@ -231,194 +224,328 @@
 
         HTML:
 
-        <ul>
-          <li>First Item</li>
-          <li>Second Item</li>
-          <li>Third Item</li>
-        </ul>
+            <ul>
+              <li>First Item</li>
+              <li>Second Item</li>
+              <li>Third Item</li>
+            </ul>
 
         CSS:
 
-        /* Targets the first and last <li> elements */
-        li:first-child, li:last-child {
-          font-weight: bold;
-        }
-
-        /* Targets the only <li> element */
-        li:only-child {
-          background-color: yellow;
-        }
-
-        These CSS rules target the first and last <li> elements and make their text bold. The third rule targets the only <li> element and gives it a yellow background.
-
-5. Color Tag (Detailed)
-
-    (i) Color Names: CSS provides a set of predefined color names that you can use. For example, you can set the color of an element to red by using the color name "red" as follows:
-
-        selector {
-            color: red;
-        }
-
-        (a) You can find a list of predefined color names in CSS, such as "red", "blue", "green", and many more.
-    
-    (ii) Hexadecimal Values: Hexadecimal color values are represented by a combination of six characters, consisting of numbers 0-9 and letters A-F. Each pair of characters represents the intensity of red, green, and blue (RGB) respectively. For example, to set the color to a light shade of blue, you can use the hexadecimal value "#87CEFA" as follows:
-
-        selector {
-            color: #87CEFA;
-        }
-
-        (a) The leading "#" indicates that it is a hexadecimal value.
-
-    (iii) RGB Values: RGB values allow you to specify the intensity of red, green, and blue individually, using values from 0 to 255. To set the color to a specific RGB value, you can use the rgb() function. For example, to set the color to a dark shade of green, you can use the RGB value "rgb(0, 100, 0)" as follows:
-
-        selector {
-            color: rgb(0, 100, 0);
-        }
-
-        (a) The values within the parentheses represent the intensity of red, green, and blue, respectively.
-
-    (iv) HSL Values: HSL (Hue, Saturation, Lightness) is another color format in CSS. It allows you to specify the hue, saturation, and lightness of a color. Hue represents the color itself, saturation determines the intensity or purity of the color, and lightness controls the brightness or darkness of the color. To set the color using HSL values, you can use the hsl() function. For example, to set the color to a vibrant yellow, you can use the HSL value "hsl(60, 100%, 50%)" as follows:
-
-        selector {
-            color: hsl(60, 100%, 50%);
-        }
-
-        (a) The first value within the parentheses represents the hue in degrees (0 to 360), the second value represents saturation as a percentage, and the third value represents lightness as a percentage.
-
-6. background Tag
-
-    (i) The syntax for the background property is as follows:
-
-        selector {
-            background: [background-color] [background-image] [background-repeat] [background-position] [background-size] [background-attachment] [background-origin] [background-clip];
-        }
-
-    Here's the Breakdown of each of These values as a property
-
-    (ii) background-color: To set a background color for an element, you can use the background-color property. For example, to set the background color of a <div> element to light blue, you can use the following CSS:
-
-        selector {
-            background-color: lightblue;
-        }
-
-        (a) You can use color names, hexadecimal values, RGB values, or HSL values to specify the background color.
-
-    (iii) background-image: You can set an image as the background of an element using the background-image property. For example, to set a background image for a <div> element, you can use the following CSS:
-        
-        selector {
-            background-image: url("image.jpg");
-        }
-
-        (a) Replace "image.jpg" with the URL or relative path of the image you want to use. You can also use the linear-gradient() or radial-gradient() functions to create gradient backgrounds.
-
-    (iv) background-repeat: By default, background images repeat both horizontally and vertically. You can control the repetition behavior using the background-repeat property. For example, to prevent the background image from repeating, you can use the value no-repeat as follows:
-
-        selector {
-            background-repeat: no-repeat;
-        }
-
-        (a) Other values include repeat (repeat both horizontally and vertically), repeat-x (repeat only horizontally), and repeat-y (repeat only vertically).
-        
-    (v) background-position: You can control the position of the background image using the background-position property. It allows you to specify the horizontal and vertical position of the image. For example, to position the background image at the top right corner, you can use the following CSS:
-
-        selector {
-            background-position: top right;
-        }
-
-        (a) You can use keywords like top, bottom, left, and right, or you can use specific length values or percentages to define the position.
-
-    (vi) background-size: The background-size property allows you to control the size of the background image. You can set it to a specific length value, a percentage, or use keywords like cover or contain. For example, to make the background image cover the entire element, you can use the value cover as follows:
-
-        selector {
-            background-size: cover;
-        }
-        
-        (a) This will resize the background image proportionally to cover the entire element, cropping if necessary.
-
-    (vii) "background-attachment" property is used to control whether the background image scrolls with the content or remains fixed in place. It affects how the background image is positioned relative to the element and the viewport. Here's how you can use the background-attachment property:
-        
-        selector {
-            background-attachment: value;
-        }
-
-        The value can be one of the following:
-
-        (a) scroll: This is the default value. The background image scrolls along with the element's content as you scroll the page.
-        (b) fixed: The background image remains fixed in place relative to the viewport. It does not scroll with the content. This means that even if you scroll the page, the background image stays in the same position.
-        (c) local: The background image scrolls with the element's content. It behaves similarly to the scroll value, but it allows the background to scroll within the element if the content inside the element overflows.
-
-        Here's an example that demonstrates how to use the background-attachment property:
-
-        body {
-            background-image: url("image.jpg");
-            background-attachment: fixed;
-        }
-
-
-    (viii) background-origin: property is used to specify the positioning area of the background image. It determines where the background image starts within the element's background positioning area. The background positioning area is defined by the element's padding box, border box, or content box. Here's how you can use the background-origin property:
-
-        selector {
-            background-origin: value;
-        }
-
-        The value can be one of the following:
-
-        (a) padding-box (default): The background image starts from the edge of the element's padding box. It includes the padding area but does not include the border or margin areas.
-        (b) border-box: The background image starts from the edge of the element's border box. It includes both the padding and border areas but does not include the margin area.
-        (c)content-box: The background image starts from the edge of the element's content box. It includes only the content area and does not include the padding, border, or margin areas.
-        
-        Here's an example that demonstrates how to use the background-origin property:
-
-        div {
-            background-image: url("image.jpg");
-            background-origin: border-box;
-        }
-
-    (ix) background-clip: property is used to determine the painting area of the background. It specifies how far the background extends within an element, relative to the background origin. This property allows you to control whether the background is clipped to the content box, padding box, or border box. Here's how you can use the background-clip property:
-
-        selector {
-            background-clip: value;
-        }
-
-        The value can be one of the following:
-
-        (a)border-box (default): The background is painted up to the outer edge of the element's border box. It extends underneath the border and covers the padding and content areas.
-
-        (b)padding-box: The background is painted up to the outer edge of the element's padding box. It extends underneath the padding area and covers only the content area.
-
-        (c)content-box: The background is painted only within the element's content box. It does not extend beyond the content area and is clipped by the padding and border areas.
-
-        Here's an example that demonstrates how to use the background-clip property:
-
-        div {
-            background-image: url("image.jpg");
-            background-clip: padding-box;
-        }
-
-7. Border Tag
-    
-    (i) "border-width" This specifies the width of the border. It can be set to a specific value in pixels (e.g., 2px), or you can use predefined values such as thin, medium, or thick. You can also specify different widths for each side of the border using the shorthand notation (e.g., border-width: 1px 2px 3px 4px; for top, right, bottom, left respectively).
-    (ii) "border-style" This defines the style of the border. Some common values include solid (a solid line), dashed (a dashed line), dotted (a dotted line), double (two parallel lines), and none (no border). You can also use hidden to hide the border, but it will still take up space.
-    (iii) "border-color" This sets the color of the border. You can use color names (e.g., red, blue), hexadecimal values (e.g., #FF0000 for red), RGB values (e.g., rgb(255, 0, 0) for red), or RGBA values (e.g., rgba(255, 0, 0, 0.5) for red with 50% opacity).
-    
-    (vi) Here's some examples that demonstrates how to apply a border to a <div> element:
-
-        (a) All of the Them in different tags
-
-            div {
-                border-width: 2px 4px;
-                border-style: solid dotted;
-                border-color: red blue;
+            /* Targets the first and last <li> elements */
+            li:first-child, li:last-child {
+              font-weight: bold;
             }
 
+            /* Targets the only <li> element */
+            li:only-child {
+              background-color: yellow;
+            }
 
-        (b) All of the Them in the same tag
+        These CSS rules target the first and last <li> elements and make their text bold. The third rule targets the only <li> element and g ives it a yellow background.
+
+Properties & their Values:
+
+4. Text Properties
+
+    (i) color
+
+        (a) `color` is a property in CSS that allows you to change text color
+
+            selector {
+                color: red;
+            }
+    
+            (I) It's value can be a `Color` value (Go to Section `Color Values` to find possible values for it)
+        
+    (ii) font
+    
+        (a) font property in CSS is a shorthand property that allows you to set various font-related properties in a single declaration. It simplifies the process of styling text by combining several font properties into one line. The general syntax of the font property is as follows:
+
+        (b) Syntax:
+
+            font: [font-style] [font-variant] [font-weight] [font-size]/[line-height] [font-family];
+
+        Sub-Properties:
+
+        (c) font-style: It defines the style of the font (normal, italic, or oblique).
+
+            (I) Values: `normal`, `italic`, or `oblique`.
+
+        (d) font-variant: It defines whether the text should be in normal or small-caps variant.
+
+            (I) Values: `normal` or `small-caps`.
+
+        (e) font-weight: It defines the thickness of the font characters.
+
+            (I) Values: Numeric values like `100`, `200`, ..., `900`, or keywords like `normal`, `bold`, `bolder`, `lighter`.
+
+        (f) font-size: It specifies the size of the font.
+
+            (I) Values: Absolute values (e.g., 12px, 16pt), relative values (e.g., 1.2em, 110%), or keywords (e.g., medium, large etc).
+
+        (g) line-height: It defines the height of a line of text. It is often expressed as a multiple of the font size.
+
+            (I) Values: Numeric values, unitless numbers, percentages, or keywords like normal.
+
+        (h) font-family: It specifies the font family for the text.
+
+            (I) Values: Font family names or generic font family keywords like serif, sans-serif, monospace, etc.
+
+        (i) Here's an example of using the font property:
+
+            /* Shorthand notation */
+            font: italic small-caps bold 16px/1.5 "Helvetica", sans-serif;
+
+            /* Expanded notation */
+            font-style: italic;
+            font-variant: small-caps;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 1.5;
+            font-family: "Helvetica", sans-serif;
+
+        (j) You can use the font shorthand to set these properties in a single line or individually set each property according to your requirements.
+
+    (iii) text
+
+        Properties that start with text in CSS are related to the styling and layout of text content within HTML elements. Here are some commonly used properties that start with text:
+
+        (a) `text-align`: It sets the horizontal alignment of text content within its container.
+
+            (I) Values: left, right, center, justify.
+
+            text-align: center;
+
+        (b) `text-decoration`: It specifies the decoration added to text, such as underlining or striking through.
+
+            (I) Values: none, underline, overline, line-through.
+
+            text-decoration: underline;
+
+        (c) `text-transform`: It controls the capitalization of text.
+
+            (I) Values: none, uppercase, lowercase, capitalize.
+
+            text-transform: uppercase;
+
+        (d) `text-indent`: It sets the indentation of the first line of text within an element.
+
+            (I) Values: Length, percentage.
+
+            text-indent: 20px;
+
+        (e) `text-overflow`: It specifies how overflowed content that is not displayed should be signaled to the user.
+
+            (I) Values: clip, ellipsis.
+
+            text-overflow: ellipsis;
+
+        (f) `text-shadow`: It adds shadow to text.
+
+            (I) Values: Shadow properties (e.g., 1px 1px 2px black).
+
+            text-shadow: 1px 1px 2px black;
+
+        (g) `text-align-last`: It aligns the last line of text in a block element.
+
+            (I) Values: auto, start, end, left, right, center, justify.
+
+            text-align-last: center;
+
+        (h) text-justify: It defines the justification method used when text-align is set to justify.
+
+            (I) Values: auto, inter-word, inter-character, none.
+
+            text-justify: inter-word;
+    
+5. Area Related Properties
+
+    (i) background
+
+        (a) The syntax for the background property is as follows:
+
+            selector {
+                background: [background-color] [background-image] [background-repeat] [background-position] [background-size] [background-attachment] [background-origin] [background-clip];
+            }
+
+        Here's the Breakdown of each of These values as a property
+
+        (b) background-color: To set a background color for an element, you can use the background-color property. For example, to set the background color of a <div> element to light blue, you can use the following CSS:
+
+            selector {
+                background-color: lightblue;
+            }
+
+            (I) You can use color names, hexadecimal values, RGB values, or HSL values to specify the background color.
+
+        (c) background-image: You can set an image as the background of an element using the background-image property and many other things
+
+            selector {
+                background-image: value;
+            }
+
+            The Value can be one of the following:
+
+            (I) Image: You can provide a path to an image file. This can be a relative or absolute URL:
+
+                url('image.jpg')
+
+            (II) Gradient: You can use CSS gradients as background images. Gradients can be linear (straight) or radial (circular):
+
+                linear-gradient(to right, red, blue)
+                radial-gradient(circle, red, blue)
+
+            (III) Image Sets: You can provide multiple images and their corresponding resolutions, and the browser will choose the appropriate one based on the device's pixel density (1x, 2x, etc.):
+
+                image-set(url('image.jpg') 1x, url('high-res-image.jpg') 2x)
+
+            (IV) none: This value removes any background image set for the element.
+
+                none
+            
+            Here's an example using the background-image property with a combination of these values:
+
+                .element {
+                    background-image: url('image.jpg'), linear-gradient(to right, red, blue);
+                }
+
+                In this example, the element will have a background image composed of both the specified image file (image.jpg) and a linear gradient from red to blue.
+
+                Remember that you can use multiple background images by separating them with commas, and the images will be layered on top of each other in the order they are listed. The first image listed will be the top layer, and subsequent images will be beneath it.
+            
+        (d) background-repeat: By default, background images repeat both horizontally and vertically. You can control the repetition behavior using the background-repeat property. For example, to prevent the background image from repeating, you can use the value no-repeat as follows:
+
+            selector {
+                background-repeat: no-repeat;
+            }
+
+            (I) Other values include repeat (repeat both horizontally and vertically), `repeat-x` (repeat only horizontally), and `repeat-y` (repeat only vertically).
+
+        (e) background-position: You can control the position of the background image using the background-position property. It allows you to specify the horizontal and vertical position of the image. For example, to position the background image at the top right corner, you can use the following CSS:
+
+            selector {
+                background-position: top right;
+            }
+
+            (I) You can use keywords like top, bottom, left, and right, or you can use specific length values or percentages to define the position.
+
+        (f) background-size: The background-size property allows you to control the size of the background image. You can set it to a specific length value, a percentage, or use keywords like cover or contain. For example, to make the background image cover the entire element, you can use the value cover as follows:
+
+            selector {
+                background-size: cover;
+            }
+
+            (I) This will resize the background image proportionally to cover the entire element, cropping if necessary.
+
+        (g) "background-attachment" property is used to control whether the background image scrolls with the content or remains fixed in place. It affects how the background image is positioned relative to the element and the viewport. Here's how you can use the background-attachment property:
+
+            selector {
+                background-attachment: value;
+            }
+
+            The value can be one of the following:
+
+            (I) scroll: This is the default value. The background image scrolls along with the element's content as you scroll the page.
+            (II) fixed: The background image remains fixed in place relative to the viewport. It does not scroll with the content. This means that even if you scroll the page, the background image stays in the same position.
+            (c) local: The background image scrolls with the element's content. It behaves similarly to the scroll value, but it allows the background to scroll within the element if the content inside the element overflows.
+
+            Here's an example that demonstrates how to use the background-attachment property:
+
+            body {
+                background-image: url("image.jpg");
+                background-attachment: fixed;
+            }
+
+        (h) background-origin: property is used to specify the positioning area of the background image. It determines where the background image starts within the element's background positioning area. The background positioning area is defined by the element's padding box, border box, or content box. Here's how you can use the background-origin property:
+
+            selector {
+                background-origin: value;
+            }
+
+            The value can be one of the following:
+
+            (I) padding-box (default): The background image starts from the edge of the element's padding box. It includes the padding area but does not include the border or margin areas.
+            (II) border-box: The background image starts from the edge of the element's border box. It includes both the padding and border areas but does not include the margin area.
+            (III) content-box: The background image starts from the edge of the element's content box. It includes only the content area and does not include the padding, border, or margin areas.
+
+            Here's an example that demonstrates how to use the background-origin property:
 
             div {
-                border: 2px solid red;
+                background-image: url("image.jpg");
+                background-origin: border-box;
             }
-        
-8. Display
+
+        (i) background-clip: property is used to determine the painting area of the background. It specifies how far the background extends within an element, relative to the background origin. This property allows you to control whether the background is clipped to the content box, padding box, or border box. Here's how you can use the background-clip property:
+
+            selector {
+                background-clip: value;
+            }
+
+            The value can be one of the following:
+
+            (I) border-box (default): The background is painted up to the outer edge of the element's border box. It extends underneath the border and covers the padding and content areas.
+
+            (II) padding-box: The background is painted up to the outer edge of the element's padding box. It extends underneath the padding area and covers only the content area.
+
+            (III) content-box: The background is painted only within the element's content box. It does not extend beyond the content area and is clipped by the padding and border areas.
+
+            Here's an example that demonstrates how to use the background-clip property:
+
+            div {
+                background-image: url("image.jpg");
+                background-clip: padding-box;
+            }
+
+    (ii) Border
+    
+        (a) "border-width" This specifies the width of the border. It can be set to a specific value in pixels (e.g., 2px), or you can use predefined values such as thin, medium, or thick. You can also specify different widths for each side of the border using the shorthand notation (e.g., border-width: 1px 2px 3px 4px; for top, right, bottom, left respectively).
+        (b) "border-style" This defines the style of the border. Some common values include solid (a solid line), dashed (a dashed line), dotted (a dotted line), double (two parallel lines), and none (no border). You can also use hidden to hide the border, but it will still take up space.
+        (c) "border-color" This sets the color of the border. You can use color names (e.g., red, blue), hexadecimal values (e.g., #FF0000 for red), RGB values (e.g., rgb(255, 0, 0) for red), or RGBA values (e.g., rgba(255, 0, 0, 0.5) for red with 50% opacity).
+
+        Here's some examples that demonstrates how to apply a border to a <div> element:
+
+            (I) All of the Them in different tags
+
+                div {
+                    border-width: 2px 4px;
+                    border-style: solid dotted;
+                    border-color: red blue;
+                }
+
+            (II) All of the Them in the same tag
+
+                div {
+                    border: 2px solid red;
+                }
+
+        Additionally, you can set individual properties for each side of the border using the longhand properties:
+
+        (d) `border-top`, `border-right`, `border-bottom`, `border-left`: These properties allow you to set the individual properties for each side of the border.
+
+            border-top-width: 2px;
+            border-top-style: dashed;
+            border-top-color: red;
+
+    (iii) Height/Width
+
+        (a) The `height` property sets the height of an element, determining its vertical dimension.
+            
+            (I) Values: It Accepts Length Values
+            
+            for example:-
+
+                height: 100px;
+
+        (b) The `width` property sets the width of an element, determining its horizontal dimension.
+            
+            (I) Values: Like height, it also Accepts Length Values
+              
+            for example:-
+
+                width: 50%;
+
+6. Display Property
 
     (i) "Display" property is used to control the layout behavior of an element. It specifies how an element should be displayed on the web page. The display property allows you to control whether an element is rendered as a block, inline, inline-block, flex container, grid container, and more. Here's how you can use the display property:
 
@@ -430,7 +557,7 @@
 
     (iii) block: The element is rendered as a block-level element. It takes up the full width available by default and starts on a new line.
 
-    (iv) inline: The element is rendered as an inline-level element. It does not start on a new line and only occupies the space necessary for its content.
+    (iv) inline: The element is rendered as an inline-level element. It does not start on a new line and only occupies the space necessary for its content (disables: top-bottom margin/padding, width, height).
 
     (v) inline-block: The element is rendered as an inline-level element but behaves like a block-level element in terms of layout. It does not start on a new line and allows for setting width, height, padding, and margin properties.
 
@@ -452,7 +579,7 @@
             display: block;
         }
 
-9. Transition
+7. Transition Property
 
     (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:
 
@@ -478,3 +605,85 @@
             button:hover {
             background-color: red;
         }
+
+Section: Common Values
+
+9. Length Values:
+
+    Absolute Length Units:
+
+    (i) `px (Pixels)`: One pixel is a single dot on a screen. Pixel values are commonly used for specifying exact sizes.
+
+        width: 200px;
+    
+    (ii) `in (Inches)`: One inch is equivalent to 2.54 centimeters.
+
+        width: 2in;
+    
+    (iii) `cm (Centimeters)`: One centimeter is equal to one hundredth of a meter.
+
+        height: 5cm;
+    
+    (iv) `mm (Millimeters)`: One millimeter is equal to one thousandth of a meter.
+
+        padding: 10mm;
+    
+    Relative Length Units:
+    
+    (v) `em`: The em unit is relative to the font-size of the nearest parent or the element itself.
+
+        font-size: 1.5em; /* 1.5 times the font size of the parent or the element itself */
+
+    (vi) `rem (Root EM)`: Similar to em, but it is relative to the font-size of the root element (html).
+
+        font-size: 1.2rem; /* 1.2 times the font size of the root element */
+
+    (vii) `% (Percentage)`: The percentage unit is relative to the size of the parent element.
+
+        width: 50%; /* 50% of the width of the parent element */
+
+    (viii) `vw (Viewport Width) and vh (Viewport Height)`: These units are relative to the size of the viewport (the visible portion of the browser window).
+
+        width: 50vw; /* 50% of the viewport width */
+        height: 30vh; /* 30% of the viewport height */
+
+10. Color Values
+
+    (i) In CSS, color values are used to specify the color of various elements on a webpage. There are several ways to represent colors in CSS, and they can be broadly categorized into named colors, hexadecimal colors, RGB colors, RGBA colors, HSL colors, and HSLA colors.
+
+    (ii) Named Colors:
+        
+        color: red;
+        
+        (a) Named colors are predefined color names that you can use directly in your CSS. Examples include red, blue, green, etc. The full list of named colors can be found in the CSS specification.
+
+    (iii) Hexadecimal Colors:
+
+        color: #ff0000;
+
+        (a) Hexadecimal colors are represented using a combination of six characters, where each pair represents the intensity of the red, green, and blue color channels. For example, `#ff0000` represents pure red.
+
+    (iv) RGB Colors:
+
+        color: rgb(255, 0, 0);
+        
+        (a) RGB colors are specified using the `rgb()` function, which takes three values (red, green, and blue) ranging from 0 to 255. For example, `rgb(255, 0, 0)` also represents pure red.
+
+    (v) RGBA Colors:
+
+        color: rgba(255, 0, 0, 0.5);
+        
+        (a) RGBA colors are similar to RGB but include an additional parameter for alpha, representing the color's transparency. The alpha value ranges from 0 (completely transparent) to 1 (completely opaque). For example, `rgba(255, 0, 0, 0.5)` is a semi-transparent red.
+
+    (vi) HSL Colors:
+
+        color: hsl(0, 100%, 50%);
+        
+        (a) HSL stands for Hue, Saturation, and Lightness. The hsl() function takes three parameters: the hue (0 to 360 degrees), saturation (0% to 100%), and lightness (0% to 100%). For example, hsl(0, 100%, 50%) represents pure red.
+
+    (vii) HSLA Colors:
+
+        color: hsla(0, 100%, 50%, 0.5);
+
+        (a) HSLA colors are similar to HSL but include an alpha parameter for transparency, just like RGBA. For example, hsla(0, 100%, 50%, 0.5) is a semi-transparent red.
+    
