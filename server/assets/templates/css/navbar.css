@@ -2,6 +2,7 @@
 nav {
     background-color: #242424;
     height: 17vh;
+    width: 100%;
 }
 
 nav ul {
@@ -9,20 +10,18 @@ nav ul {
     align-items: center;
 }
 
-
-
 .nav-logo {
-    padding: 1vh 1vh;
+    padding: 1vh 1vw;
     list-style: none;
 }
 
 .nav-logo a img{
-    padding: 1vh 1vh;
-    width: 37vh;
+    padding: 1vh 1vw;
+    height: 12vh;
     border-style: solid;
     border-width: .5vh;
     border-color: #464646;
-    border-radius: 2vh;
+    border-radius: 1em;
 }
 
 .nav-logo a img:hover{
@@ -54,7 +53,7 @@ nav ul {
     align-items: left;
     justify-content: center;
 
-    padding: 3vh 2vh;
+    padding: 3vh 1vw;
 }
 .nav-link img{
     cursor: pointer;

@@ -12,11 +12,10 @@ button.c-green:hover {
 }
 
 button.c-blue {
-    padding: 0.2vw 1.5vw;
     background-color: dodgerblue;
     color: white;
     border: transparent solid;
-    border-radius: 0.5vw;
+    border-radius: 0.5em;
 }
 
 button.c-blue:hover {
@@ -25,11 +24,10 @@ button.c-blue:hover {
 }
 
 button.c-gray {
-    padding: 0.2vw 1.5vw;
     background-color: transparent;
     color: white;
     border: gray solid;
-    border-radius: 0.5vw;
+    border-radius: 0.5em;
 }
 
 button.c-gray:hover {
@@ -39,8 +37,8 @@ button.c-gray:hover {
 
 /* Styles */
 button.t-1{
-    padding: 0.2vw 1.5vw;
-    font-size: 1.3vw;
+    padding: 0.2vh 1.5vw;
+    font-size: 1.2em;
     cursor: pointer;
     transition: 0.2s;
 }
@@ -48,7 +46,7 @@ button.t-1{
 /* general */
 button.fullspan {
     width: 100%;
-    border-radius: 1vw;
+    border-radius: 1em;
 }
 button.withIcon {
     display: inline-flex;
