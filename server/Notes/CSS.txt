@@ -15,7 +15,7 @@
         ↓         ↓         ↓
 	    p {     color:     red;  }
 
-3. Selectors (Both for Beginners and some Advance stuff)
+3. Selectors
 
     (i) Introduction:
         
@@ -359,6 +359,53 @@ Properties & their Values:
 
             text-justify: inter-word;
     
+    (iv) list
+
+        (a) `list-style`: The list-style property is a shorthand property for setting the individual properties of a list in one declaration.
+        
+            (I) Values: It can take up to three values: `list-style-type`, `list-style-position`, and `list-style-image`.
+
+            list-style: square inside url('image.png');
+
+        (b) `list-style-type`: Specifies the appearance of the list item marker, such as a bullet, number, or custom marker.
+            
+            (I) Values: `disc`, `circle`, `square`, `decimal`, `decimal-leading-zero`, `lower-roman`, `upper-roman`, `lower-alpha`, `upper-alpha`, `none`.
+
+            list-style-type: square;
+
+        (c) `list-style-position`: Specifies the position of the list item marker (inside or outside the content flow).
+            
+            (I) Values:
+
+                (A) inside: The marker is placed inside the content flow.
+                (B) outside: The marker is placed outside the content flow.
+
+            list-style-position: outside;
+
+        (d) `list-style-image`: Specifies an image to be used as the list item marker.
+            
+            (I) Values:It can take the URL of an image file.
+
+            list-style-image: url('image.png');
+
+        (e) list-style-clip: Specifies whether the marker box is fixed within the containing block or scrolls with the content.
+            
+            (I) Values:
+
+                (A) auto: The marker box is fixed.
+                (B) none: The marker box scrolls with the content.
+
+            list-style-clip: auto;
+
+        (f) list-style-inline: Specifies the marker box is rendered inline with the content, rather than being block-level.
+            
+            (I) Values:
+
+                (A) inline: The marker box is rendered inline.
+                (B) block: The marker box is rendered as a block.
+            
+            list-style-inline: inline;
+
 5. Area Related Properties
 
     (i) background
@@ -537,6 +584,15 @@ Properties & their Values:
 
                 height: 100px;
 
+            (II) `min-height` and `max-height` properties let's you specify mininum and maximum height of the element and height won't able to go below/above that.
+                
+                #container{
+                    height: 200px;
+                    min-height: 100px;
+                    max-height: 300px;
+                    /* You can only set height between 100px to 300px in this example*/
+                }
+
         (b) The `width` property sets the width of an element, determining its horizontal dimension.
             
             (I) Values: Like height, it also Accepts Length Values
@@ -545,6 +601,67 @@ Properties & their Values:
 
                 width: 50%;
 
+            (II) `min-width` and `max-width` properties let's you specify mininum and maximum width of the element and width won't able to go below/above that.
+                
+                #container{
+                    width: 200px;
+                    min-width: 100px;
+                    max-width: 300px;
+                    /* You can only set width between 100px to 300px in this example*/
+                }
+
+    (iv) Padding
+
+        (a) The padding property in CSS is used to set the padding area on all four sides of an element. The padding is the space between the content of an element and its border.
+        
+        (b) Syntax:
+
+            padding: top/right/bottom/left; /* Applies Same padding on all sides */
+
+            padding: top/bottom right/left; /* Applies Same padding on 2 sides Each*/          
+            
+            padding: top right/left bottom; /* Applies Same padding on 2 sides and 2 different padding on 2 sides */          
+            
+            padding: top right bottom left; /* Applies different padding for each side*/
+
+        (c) Value: Accepts any Length Values and `inherit`.
+        (d) You can also use it's expanded form corresponding to it's name of the side
+
+            /* Shorthand */
+            padding: 10px 20px 15px 25px; /* top right bottom left */
+
+            /* Expanded */
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 15px;
+            padding-left: 25px;
+
+    (v) Margin
+
+        (a) The Margin property in CSS is used to set the margin area on all four sides of an element. The margin is the space outside the borders of an element
+        
+        (b) Syntax:
+
+            margin: top/right/bottom/left; /* Applies Same margin on all sides */
+
+            margin: top/bottom right/left; /* Applies Same margin on 2 sides Each*/          
+            
+            margin: top right/left bottom; /* Applies Same margin on 2 sides and 2 different margin on 2 sides */          
+            
+            margin: top right bottom left; /* Applies different margin for each side*/
+
+        (c) Value: like padding it also Accepts any Length Values and `inherit`.
+        (d) You can also use it's expanded form corresponding to it's name of the side
+
+            /* Shorthand */
+            margin: 10px 20px 15px 25px; /* top right bottom left */
+
+            /* Expanded */
+            margin-top: 10px;
+            margin-right: 20px;
+            margin-bottom: 15px;
+            margin-left: 25px;
+            
 6. Display Property
 
     (i) "Display" property is used to control the layout behavior of an element. It specifies how an element should be displayed on the web page. The display property allows you to control whether an element is rendered as a block, inline, inline-block, flex container, grid container, and more. Here's how you can use the display property:
@@ -579,7 +696,36 @@ Properties & their Values:
             display: block;
         }
 
-7. Transition Property
+7. Position
+
+    (i) position property in CSS is used to control the positioning of an element within its containing element or the entire viewport. It works in conjunction with other properties like `top`, `right`, `bottom`, and `left` to precisely position an element. 
+    
+    The position property can take several values:
+
+    (ii) `static`: The default value. Elements are positioned according to the normal flow of the document.
+
+        position: static;
+
+    (iii) `relative`: The element is positioned `relative` to its normal position in the document flow, but then offset based on the values of top, right, bottom, and left. for example:-
+        
+        position: relative;
+        top: 10px;
+        left: 20px;
+
+    (iv) `absolute`: The element is positioned relative to its nearest positioned ancestor. If no positioned ancestor is found, it's positioned relative to the initial containing block (usually the <html> element). for example:-
+
+        position: absolute;
+        top: 30px;
+        right: 40px;
+
+    (v) `fixed`: The element is positioned relative to the viewport, and it does not move when the page is scrolled.
+
+        position: fixed;
+        top: 0;
+        right: 0;
+    
+
+8. Transition Property
 
     (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:
 
