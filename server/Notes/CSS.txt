@@ -724,6 +724,54 @@ Properties & their Values:
         top: 0;
         right: 0;
     
+    (vi) `sticky`: The element is treated as relative positioned until it crosses a specified point, then it is treated as fixed positioned.
+
+        position: sticky;
+        top: 50px;
+    
+    (vii) `inherit`: Inherits the position value from its parent element.
+
+        position: inherit;
+
+    (viii) `initial` :Sets the position property to its default value (static).
+        
+        position: initial;
+
+    (ix) unset: Resets the position property to its inherited value if it inherits from its parent, or to its initial value if not.
+
+        position: unset;
+
+    The position property is a powerful tool for layout control. When combined with the offset properties (top, right, bottom, left), it allows precise positioning of elements on the page. Understanding the behavior of each value is crucial for effective web layout design.
+
+    (x) `top/right/bottom/left` properties
+
+        (a) `top`: Specifies the distance an element's top edge is offset from the top edge of its containing element.
+        
+            (I) Values: Any valid length unit (e.g., px, em, %)
+
+            position: absolute;
+            top: 20px;
+
+        (b) `right`: Specifies the distance an element's right edge is offset from the right edge of its containing element.
+        
+            (I) Values: Any valid length unit (e.g., px, em, %)
+
+            position: absolute;
+            right: 20px;
+
+        (c) `bottom`: Specifies the distance an element's bottom edge is offset from the bottom edge of its containing element.
+        
+            (I) Values: Any valid length unit (e.g., px, em, %)
+
+            position: absolute;
+            bottom: 20px;
+
+        (d) `left`: Specifies the distance an element's left edge is offset from the left edge of its containing element.
+        
+            (I) Values: Any valid length unit (e.g., px, em, %)
+
+            position: absolute;
+            left: 20px;
 
 8. Transition Property
 

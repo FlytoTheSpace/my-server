@@ -68,13 +68,11 @@ const setupScript = (scriptsList) => {
 const navbarScript = document.createElement("script");
 const footerScript = document.createElement("script");
 const CSSSetupScript = document.createElement("script");
-const navbarlinksRedirect = document.createElement("script");
 
 // Assign them a SRC source
 navbarScript.src = "./assets/templates/script/navbar.js";
 footerScript.src = "./assets/templates/script/footer.js";
 CSSSetupScript.src = "./assets/templates/script/css_setup.js";
-navbarlinksRedirect.src = "./assets/templates/script/navlinks-redirect.js";
 
 // Pass the scripts as an array, so You can add many of them as you want
-setupScript([navbarScript, footerScript, CSSSetupScript, navbarlinksRedirect]); 
+setupScript([navbarScript, footerScript, CSSSetupScript]); 

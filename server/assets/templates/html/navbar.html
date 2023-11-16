@@ -4,11 +4,29 @@
             <img src="./assets/Images/icons/logos/Flamer works Logo.png" alt="Logo">
         </li>
         <div id="navlinks">
-            <li class="nav-link" onclick="navbarlinksRedirectFunc( null, '/')">Home</li>
-            <li class="nav-link" onclick="navbarlinksRedirectFunc(1)">About</li>
-            <li class="nav-link" onclick="navbarlinksRedirectFunc(2)">Contact</li>
-            <li class="nav-link" onclick="navbarlinksRedirectFunc(3)">Services</li>
-            <li class="nav-link"> <img src="/assets/Images/icons/menu.png" alt="" onclick=""></li>
+            <li class="nav-link" onclick="navbarLinksRedirectFunc( null, '/')">Home</li>
+            <li class="nav-link" onclick="navbarLinksRedirectFunc(1)">About</li>
+            <li class="nav-link" onclick="navbarLinksRedirectFunc(2)">Contact</li>
+            <li class="nav-link" onclick="navbarLinksRedirectFunc(3)">Services</li>
+            <li class="nav-link" id="NavbarMenuButton"> <img src="./assets/Images/icons/menu.png" alt="" onclick="">
+            </li>
         </div>
     </ul>
+    <div id="NavbarMenu" class="displaynone">
+        <div id="NavbarMenuMain">
+            <h4>More Links</h4>
+            <ul class="extraNavMenuLinks">
+                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(0)">Experiments</li>
+                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(1)">JavaScript Notes</li>
+                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(2)">HTML Notes</li>
+            </ul>
+        </div>
+        <div id="NavbarMenuBottom">
+            <ul class="NavMenuSocialLinks">
+                <li><img src="./assets/Images/icons/logos/github_icon.png" alt=""></li>
+                <li><img src="./assets/Images/icons/logos/youtube_icon.png" alt=""></li>
+                <li><img src="./assets/Images/icons/logos/discord_icon.png" alt=""></li>
+            </ul>
+        </div>
+    </div>
 </nav>

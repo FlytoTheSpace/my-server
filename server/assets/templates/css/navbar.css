@@ -78,7 +78,70 @@ nav > ul {
     transition-duration: 0.2s;
     transition-timing-function: ease-in;
 }
+
 /* Menu */
-.nav-link > img {
+
+#NavbarMenuButton > img {
     cursor: pointer;
+}
+
+#NavbarMenu{
+    background-color: rgba(77, 77, 77, 0.589);
+    height: 50vh;
+    width: 40vh;
+    position: fixed;
+    top: 11vh;
+    right: 1vw;
+    
+    padding: 1vw;
+
+    border: 0.4vh solid transparent;
+    border-radius: 2vh;
+    border-image-slice: 2;
+    transition: 0.5s ease-in;   
+}
+#NavbarMenuMain{
+    height: 85%;
+}
+#NavbarMenu *{
+    margin: 0.5vh;
+}
+.extraNavMenuLinks{
+    list-style: circle;
+    list-style-position: inside;
+}
+.extraNavMenuLinks > li{
+    padding: 0.5vh;
+    background-color: #ffffff57;
+    cursor: pointer;
+    border: 0.4vh solid transparent;
+    border-radius: 2vh;
+    padding-left: 1vw;
+    font-weight: bold;
+}
+#NavbarMenuBottom{
+    height: 15%;
+}
+.NavMenuSocialLinks{
+    list-style: none;
+    display: flex;
+}
+.NavMenuSocialLinks > li{
+    width: 3vw;
+    height: 3vw;
+    background-color: #ffffff;
+    border-radius: 10vw;
+    align-items: center;
+    justify-content: center;
+    display: inherit;
+}
+.NavMenuSocialLinks > li > img{
+    cursor: pointer;
+    max-width: 2vw;
+    max-height: 2vw;
+    /* padding: 0.25vw; */
+}
+
+.displaynone{
+    display: none;
 }
