@@ -53,3 +53,7 @@ button.withIcon {
     justify-content: center;
     align-items: center;
 }
+button.withIcon img{
+    max-height: 1.2em;
+    max-width: 1.2em;
+}

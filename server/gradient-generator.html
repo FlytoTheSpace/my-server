@@ -1,51 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head id="head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+
     <!-- STYLES -->
     <style>
-        #Box{
-            margin: 20vh 20vh;
-            align-items: center;
+        main {
+            display: grid;
             justify-content: center;
+            align-items: center;
         }
 
-    </style>
-    <script>
-        
-        const backgroundChange = () => {
-            let from = document.getElementById("from").value;
-            let background = document.getElementById("color").value;
-            let background2 = document.getElementById("color2").value;
-    
-            if (from.includes("deg")) {
-                document.body.style.backgroundImage = `linear-gradient(${from}, ${background2}, ${background})`;
-            } else {
-                document.body.style.backgroundImage = `linear-gradient(to ${from}, ${background2}, ${background})`;
-            }
+        #from {
+            font-size: larger;
+
+            background-color: transparent;
+            border-radius: 2vh;
+            border-style: solid;
+            border-color: gray;
+
+            margin: 1vh 0;
+            padding: 1vh;
         }
-    </script>    
+
+        #from:focus {
+            outline: none;
+        }
+
+        #preview {
+            background-color: transparent;
+            width: 30vw;
+            height: 50vh;
+            border-color: white;
+            border-width: 0.5vh;
+            border-radius: 1vh;
+            border-style: solid;
+        }
+
+        #code{
+            font-family: monospace;
+            border-color: white;
+            border-width: 0.5vh;
+            border-radius: 1vh;
+            border-style: solid;
+        }
+        #code>div:first-child {
+            padding: 1% 2%;
+        }
+
+        #code>div:last-child {
+            padding: 3vh 3vh;
+            background-color: rgba(0, 0, 0, 0.507);
+            min-height: 10vh;
+            overflow-x: scroll;
+        }
+    </style>
 </head>
+
 <body>
-    <header >
+    <header>
 
     </header>
     <main>
-        <div id="Box">
+        <div class="playground">
             <form action="">
+                <select name="gradientType" id="gradientType">
+                    <option value="linear-gradient">linear Gradient</option>
+                    <option value="radial-gradient">Radial Gradient</option>
+                </select>
                 <input type="text" placeholder="from" name="from" id="from">
                 <input type="color" name="color" id="color">
                 <input type="color" name="color2" id="color2">
             </form>
-            <button onclick="backgroundChange()"> Change</button>
+            <h2>Preview</h2>
+            <div id="preview">
+
+            </div>
+            <div id="code">
+                <div>CSS</div>
+                <div></div>
+            </div>
         </div>
         <div></div>
     </main>
     <footer></footer>
     <!-- SCRIPTS -->
+    <script>
+
+        let code = document.getElementById("code").lastElementChild;
+        let preview = document.getElementById("preview");
+
+        setInterval(() => {
+            let from = document.getElementById("from").value;
+            let background = document.getElementById("color").value;
+            let background2 = document.getElementById("color2").value;
+            let gradientType = document.getElementById("gradientType").value;
+
+            if (gradientType == "linear-gradient") {
+                if (from.includes("deg")) {
+                    preview.style.backgroundImage = `${gradientType}(${from}, ${background2}, ${background})`;
+                    code.textContent = `${gradientType}(${from}, ${background2}, ${background})`;
+
+                } else if (!(from.includes("deg"))) {
+                    preview.style.backgroundImage = `${gradientType}(to ${from}, ${background2}, ${background})`;
+                    code.textContent = `${gradientType}(to ${from}, ${background2}, ${background})`;
+                }
+            } else if (gradientType == "radial-gradient") {
+                preview.style.backgroundImage = `${gradientType}(${background2}, ${background})`;
+                code.textContent = `${gradientType}(${background2}, ${background})`;
+            } else{
+                console.log("error")
+            }
+        })
+    </script>
     <script src="./assets/templates/script/setup.js"></script>
 </body>
+
 </html>
