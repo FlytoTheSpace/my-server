@@ -14,7 +14,7 @@
         }
 
         #container {
-            background: #3d3d3d;
+            /* background: #3d3d3d; */
             width: 50vw;
             min-height: 30vw;
             padding: 2vw 2vw;
@@ -31,8 +31,8 @@
         }
 
         input[type="datetime-local"] {
-            background-color: #3d3d3d;
-            color: white;
+            background-color: inherit;
+            color: inherit;
             height: 2vw;
             font-size: 1.5vw;
         }
@@ -55,10 +55,9 @@
             font-size: 1.3vw;
         }
 
-        select:focus,
-        option:focus {
+        option:focus-within {
             outline: none;
-            background-color: #2b2b2b;
+            background-color: inherit;
         }
 
         .visibility {
@@ -66,45 +65,6 @@
         }
 
         /* Buttons */
-        button.t-1 {
-            padding: 0.2vw;
-            background-color: lime;
-            color: white;
-            border: transparent solid;
-            border-radius: 0.5vw;
-            font-size: 1.3vw;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        button.t-1:hover {
-            background-color: green;
-            transition: 0.2s;
-        }
-
-        button.t-2 {
-            padding: 0.2vw;
-            background-color: #0000003a;
-            color: white;
-            border: transparent solid;
-            border-radius: 0.5vw;
-            font-size: 1.3vw;
-            cursor: pointer;
-            transition: 0.2s;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-        }
-
-        button.t-2:hover {
-            background-color: #0000001e;
-            transition: 0.2s;
-        }
-
-        button.t-2 img {
-            height: 2vw;
-            width: 2vw;
-        }
 
         #l-no1 {
             display: flex;
@@ -119,7 +79,7 @@
 <body>
     <header></header>
     <main>
-        <div id="container">
+        <div class="playground" id="container">
             <p id="time-container"></p>
             <h3>Set Alarm</h3>
             <div id="l-no1">
@@ -139,12 +99,12 @@
                     <option value="8">Beep 9</option>
                     <option value="9">Beep 10</option>
                 </select>
-                <button class="t-2" onclick="playsound(soundsArray[document.querySelector('#soundslist').value])">
+                <button class="t-1 c-gray withIcon" onclick="playsound(soundsArray[document.querySelector('#soundslist').value])">
                     <img src="https://www.freeiconspng.com/uploads/video-play-icon-26.gif"/>
                     <span>test Sound</span>
                 </button>
             </div>
-            <button type="button" class="t-1" id="setAlarmButton">Set Alarm</button>
+            <button type="button" class="t-1 c-green" id="setAlarmButton">Set Alarm</button>
             <p>Note: Refreshing or Reopening the tab will discard the alarm and reset it  !</p>
         </div>
     </main>

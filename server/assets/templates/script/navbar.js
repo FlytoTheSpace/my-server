@@ -37,6 +37,25 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
                     navlinks.style.display = "flex";
                 }
             }
+            if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
+                document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
+            } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
+                document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
+            }
+        });
+        let themeSwitchButton = document.getElementById("themeSwitchButton");
+        themeSwitchButton.addEventListener("click", ()=>{
+            if (getCookie("theme") == "dark") {
+                document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
+                themeSwitchButton.src = "./assets/Images/icons/dark_mode.png"
+                themeSwitchButton.parentElement.style.backgroundColor = "#2b2b2b"
+                document.cookie = "theme=light;"
+            } else if (getCookie("theme") == "light") {
+                document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
+                themeSwitchButton.src = "./assets/Images/icons/light_mode.png"
+                themeSwitchButton.parentElement.style.backgroundColor = "white"
+                document.cookie = "theme=dark;"
+            }
         });
     });
 

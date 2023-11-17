@@ -25,6 +25,17 @@ fetch('/assets/templates/html/setup.html')
 
 
 // The Code shown up here is the old way of loading Scripts
+const getCookie = (name)=>{
+    let cookies = document.cookie.split("; ");
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        let parts = cookie.split("=");
+        if (parts[0] === name) {
+            return decodeURIComponent(parts[1]);
+        }
+    }
+    return null;
+};
 
 // If Your Script is not loading then add a slash right before the value of attribute `src`
 // The Script Itself to add other Scripts right after it

@@ -2,5 +2,25 @@ body {
     color: black;
     font-family: Arial, Helvetica, sans-serif;
 
-    background-color: white;
+    background-color: rgb(255, 255, 255);
+    border-color: black;
+}
+header > nav{
+    background-color: rgb(188, 255, 188);
+    color: black;
+}
+#NavbarMenu{
+    color: white;
+}
+.nav-link{
+    color: #21AD84;
+}
+.nav-logo > img{
+    background-color: #21AD84;
+}
+#NavbarMenuButtonContainer{
+    background-color: #21AD84;
+}
+div.playground {
+    background-color: #a3bec96e;
 }

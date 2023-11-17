@@ -24,7 +24,7 @@ button.c-blue:hover {
 }
 
 button.c-gray {
-    background-color: transparent;
+    background-color: #2b2b2b;
     color: white;
     border: gray solid;
     border-radius: 0.5em;

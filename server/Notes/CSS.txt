@@ -802,6 +802,8 @@ Properties & their Values:
     
     Here are some key properties related to Flexbox:
 
+    For Containers:
+
     (ii) `flex-direction`: Defines the main axis of the flex container.
         
         (a) Values:
@@ -839,7 +841,7 @@ Properties & their Values:
             flex-flow: row wrap;
         }
 
-    (iv) justify-content: Defines how flex items are aligned along the main axis (horizontally).
+    (iv) `justify-content`: Defines how flex items are aligned along the main axis (horizontally).
         
         (A) Values:
 
@@ -853,6 +855,166 @@ Properties & their Values:
             justify-content: center;
         }
 
+    (v) `align-items`: Defines how flex items are aligned along the cross axis (Vertically).
+        
+        (A) Values:
+
+            (I) `stretch`: Default value. Items are stretched to fill the container.
+            (II) `flex-start`: Items are packed toward the start of the cross axis.
+            (III) `flex-end`: Items are packed toward the end of the cross axis.
+            (IV) `center`: Items are centered along the cross axis.
+            (V) `baseline`: Items are aligned based on their baselines.
+
+    For Items:
+
+    (iv) `justify-self`: overrides the alignment it's parent element gave it, and applies a new one to itself and can be used for individual alignment for all the children elements (horizontally).
+        
+        (A) Values: Same as `justify-content`
+
+        .flex-item {
+            justify-content: center;
+        }
+
+    (vi) `align-self`: overrides the alignment it's parent element gave it, and applies a new one to itself and can be used for individual alignment for all the children elements (vertically).
+    
+        (A) Values: Same as `align-items`.
+
+        .flex-item {
+            align-self: flex-end;
+        }
+    
+    (vii) `flex`: A shorthand property for the flex-grow, flex-shrink, and flex-basis properties.
+        
+        (A) Values:
+
+            (I) `flex-grow`: Specifies how much a flex item should grow relative to the rest of the flex items.
+            (II) `flex-shrink`: Specifies how much a flex item should shrink relative to the rest of the flex items.
+            (III) `flex-basis`: Specifies the initial main size of a flex item.
+
+        .flex-item {
+            flex: 1 1 auto;
+        }
+
+        individually/Expanded-form: 
+        
+        (B) `flex-grow`: Determines the ability of a flex item to grow relative to the other flex items in the same container.
+            
+            (I) Values: A Whole Number, representing the factor by which the item will grow compared to the other flex items.
+
+            .flex-item {
+                flex-grow: 2; /* This item will grow twice as much as other flex items */
+            }
+
+        (C) `flex-shrink`: Determines the ability of a flex item to shrink relative to the other flex items in the same container.
+            
+            (I) Values: A Whole Number, representing the factor by which the item will shrink compared to the other flex items.
+            
+            .flex-item {
+                flex-basis: 100px; /* Initial size of the item before it grows or shrinks */
+            }
+
+        (D) `flex-basis`: Specifies the initial main size (width or height, depending on the flex-direction) of a flex item before any free space is distributed according to the flex-grow and flex-shrink properties.
+            
+            (I) Values: A length value (e.g., px, em, %), or auto.
+
+            .flex-item {
+                flex-basis: 100px; /* Initial size of the item before it grows or shrinks */
+            }
+        
+    These properties collectively allow you to create flexible and responsive layouts easily. Flexbox is especially useful for arranging content within a container when the size of the content is unknown or dynamic.
+
+10. Grid
+
+    (i) The `grid` CSS property is a shorthand property that sets all of the explicit and implicit grid properties in a single declaration.
+    
+    (ii) Syntax:
+
+        grid: grid-template-rows / grid-template-columns;
+
+        grid: <'grid-template'> | <'grid-template-rows'> / [ auto-flow && dense? ] <'grid-auto-columns'>?  | [ auto-flow && dense? ] <'grid-auto-rows'>? / <'grid-template-columns'>  
+
+        /* <'grid-template'> values */
+
+        grid: none;
+        grid: "a" 100px "b" 1fr;
+        grid: [linename1] "a" 100px [linename2];
+        grid: "a" 200px "b" min-content;
+        grid: "a" minmax(100px, max-content) "b" 20%;
+        grid: 100px / 200px;
+        grid: minmax(400px, min-content) / repeat(auto-fill, 50px);
+
+        /* <'grid-template-rows'> / [ auto-flow && dense? ] <'grid-auto-columns'>? values */
+
+        grid: 200px / auto-flow;
+        grid: 30% / auto-flow dense;
+        grid: repeat(3, [line1 line2 line3] 200px) / auto-flow 300px;
+        grid: [line1] minmax(20em, max-content) / auto-flow dense 40%;
+
+        /* [ auto-flow && dense? ] <'grid-auto-rows'>? / <'grid-template-columns'> values */
+
+        grid: auto-flow / 200px;
+        grid: auto-flow dense / 30%;
+        grid: auto-flow 300px / repeat(3, [line1 line2 line3] 200px);
+        grid: auto-flow dense 40% / [line1] minmax(20em, max-content);
+
+        /* Global values */
+        grid: inherit;
+        grid: initial;
+        grid: revert;
+        grid: revert-layer;
+        grid: unset;
+
+    Sub-Properties:
+
+    Using `grid` you specify one axis using `grid-template-rows` or `grid-template-columns`, you then specify how content should auto-repeat in the other axis using the implicit grid properties: `grid-auto-rows`, `grid-auto-columns`, and `grid-auto-flow`.
+
+    (iii) `grid` is the shorthand property of the followings:
+
+        (a) `grid-auto-columns`
+        (b) `grid-auto-flow`
+        (c) `grid-auto-rows`
+        (d) `grid-template-areas`
+        (e) `grid-template-columns`
+        (f) `grid-template-rows`
+    
+    Alignments Grid Edition:
+
+    (iv) `justify-items`: Aligns the content of grid items along the inline (row) axis within the grid area (Horizontally).
+        
+        (A) Values:
+
+            (I) `start`: Items are packed toward the start of the container.
+            (II) `end`: Items are packed toward the end of the container.
+            (III) `center`: Items are centered in the container.
+            (IV) `stretch`: Items are stretched to fill the container.
+            (V) `left` and right: Items are aligned to the left or right of the container (for the inline axis).
+            (VI) `legacy`: Used for supporting the legacy alignment properties (justify-self and align-self) on the grid items.
+
+        /* Align rows in the center and justify items in the center */
+        .grid-container {
+            display: grid;
+            grid-template-rows: 100px 100px;
+            align-content: center;
+        }
+
+        .grid-item {
+            justify-items: center;
+        }
+
+    (v) `align-content`: Determines how multiple rows or columns of grid items are aligned within the grid container when there is extra space along the cross-axis (Vertically).
+        
+        (a) Values:
+
+            (I) `start`: Lines are packed at the start of the container.
+            (II) `end`: Lines are packed at the end of the container.
+            (III) `center`: Lines are centered in the container.
+            (IV) `stretch`: Lines stretch to fill the container.
+            (V) `space-between`: Lines are evenly distributed, with the first line at the start and the last line at the end.
+            (VI) `space-around`: Lines are evenly distributed with equal space around them.
+
+        .grid-container {
+            align-content: center;
+        }
 
 10. Transition Property
 
