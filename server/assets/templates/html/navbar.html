@@ -3,13 +3,16 @@
         <li class="nav-logo">
             <img src="./assets/Images/icons/logos/Flamer works Logo.png" alt="Logo">
         </li>
-        <div id="navlinks">
-            <li class="nav-link" onclick="navbarLinksRedirectFunc( null, '/')">Home</li>
-            <li class="nav-link" onclick="navbarLinksRedirectFunc(1)">About</li>
-            <li class="nav-link" onclick="navbarLinksRedirectFunc(2)">Contact</li>
-            <li class="nav-link" onclick="navbarLinksRedirectFunc(3)">Services</li>
-            <li class="nav-link" id="NavbarMenuButton"> <img src="./assets/Images/icons/menu.png" alt="" onclick="">
-            </li>
+        <div id="rightSideNavbar">
+            <div id="navlinks">
+                <li class="nav-link" onclick="navbarLinksRedirectFunc( null, '/')">Home</li>
+                <li class="nav-link" onclick="navbarLinksRedirectFunc(1)">About</li>
+                <li class="nav-link" onclick="navbarLinksRedirectFunc(2)">Contact</li>
+                <li class="nav-link" onclick="navbarLinksRedirectFunc(3)">Services</li>
+            </div>
+            <div id="NavbarMenuButtonContainer">
+                <li class="nav-link" id="NavbarMenuButton"> <img src="./assets/Images/icons/menu.png" alt=""></li>
+            </div>
         </div>
     </ul>
     <div id="NavbarMenu" class="displaynone">
@@ -26,6 +29,7 @@
                 <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(null, '/data')">Data - Personal Storage</li>
                 <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(5)">Gradient Generator</li>
                 <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(6)">PDF Merger</li>
+                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(7)">Password Generator</li>
             </ul>
         </div>
         <div id="NavbarMenuBottom">

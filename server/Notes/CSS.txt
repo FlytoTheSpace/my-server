@@ -773,7 +773,88 @@ Properties & their Values:
             position: absolute;
             left: 20px;
 
-8. Transition Property
+8. Float
+
+    (i) float CSS property places an element on the left or right side of its container, allowing text and inline elements to wrap around it. The element is removed from the normal flow of the page, though still remaining a part of the flow
+
+    (ii) Values: `left`, `right`, `none`, `inline-start`, `inline-end` and Global Values
+
+        (a) `left`: The element must float on the left side of its containing block.
+        (b) `right`: The element must float on the right side of its containing block.
+        (c) `none`: The element must not float.
+        (d) `inline-start`: The element must float on the start side of its containing block. That is the left side with ltr scripts, and the right side with rtl scripts.
+        (e) `inline-end`: The element must float on the end side of its containing block. That is the right side with ltr scripts, and the left side with rtl scripts.
+
+    (iii) `clear`: The clear CSS property sets whether an element must be moved below (cleared) floating elements that precede it. The `clear` property applies to floating and non-floating elements.
+
+        (a) Values: Same as `float`
+
+            (I) `none`: Is a keyword indicating that the element is not moved down to clear past floating elements.
+            (I) `left`: Is a keyword indicating that the element is moved down to clear past left floats.
+            (I) `right`: Is a keyword indicating that the element is moved down to clear past right floats.
+            (I) `both`: Is a keyword indicating that the element is moved down to clear past both left and right floats.
+            (I) `inline-start`: Is a keyword indicating that the element is moved down to clear floats on start side of its containing block, that is the left floats on ltr scripts and the right floats on rtl scripts.
+            (I) `inline-end`: Is a keyword indicating that the element is moved down to clear floats on end side of its containing block, that is the right floats on ltr scripts and the left floats on rtl scripts.
+
+9. FlexBox
+
+    (i) Flexbox layout model in CSS provides a more efficient and predictable way to structure and align content within a container. 
+    
+    Here are some key properties related to Flexbox:
+
+    (ii) `flex-direction`: Defines the main axis of the flex container.
+        
+        (a) Values:
+
+            (I) `row` (Default): Items are placed along the horizontal axis.
+            (II) `row-reverse`: Items are placed along the horizontal axis in reverse order.
+            (III) `column`: Items are placed along the vertical axis.
+            (IV) `column-reverse`: Items are placed along the vertical axis in reverse order.
+        
+        for Example:-
+
+            .flex-container {
+                flex-direction: row;
+            }
+
+    (ii) `flex-wrap`: Defines whether the flex container should wrap its contents onto multiple lines if they can't all fit in a single line.
+        
+        (a) Values:
+
+            (I) `nowrap` (Default): All flex items are on one line.
+            (II) `wrap`: Flex items wrap onto multiple lines if needed.
+            (III) `wrap-reverse`: Flex items wrap onto multiple lines in reverse.
+        
+        for Example: -
+
+        .flex-container {
+            flex-wrap: wrap;
+        }
+
+    (iii) `flex-flow`: A shorthand property that combines flex-direction and flex-wrap properties.
+        
+        (A) Values: Combination of values accepted by flex-direction and flex-wrap.
+
+        .flex-container {
+            flex-flow: row wrap;
+        }
+
+    (iv) justify-content: Defines how flex items are aligned along the main axis (horizontally).
+        
+        (A) Values:
+
+            (I) `flex-start`: Items are packed toward the start of the main axis.
+            (II) `flex-end`: Items are packed toward the end of the main axis.
+            (III) `center`: Items are centered along the main axis.
+            (IV) `space-between`: Items are evenly distributed with the first item at the start and the last item at the end.
+            (V) `space-around`: Items are evenly distributed with equal space around them.
+
+        .flex-container {
+            justify-content: center;
+        }
+
+
+10. Transition Property
 
     (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:
 
@@ -802,7 +883,7 @@ Properties & their Values:
 
 Section: Common Values
 
-9. Length Values:
+10. Length Values:
 
     Absolute Length Units:
 
@@ -841,7 +922,7 @@ Section: Common Values
         width: 50vw; /* 50% of the viewport width */
         height: 30vh; /* 30% of the viewport height */
 
-10. Color Values
+11. Color Values
 
     (i) In CSS, color values are used to specify the color of various elements on a webpage. There are several ways to represent colors in CSS, and they can be broadly categorized into named colors, hexadecimal colors, RGB colors, RGBA colors, HSL colors, and HSLA colors.
 
@@ -881,3 +962,10 @@ Section: Common Values
 
         (a) HSLA colors are similar to HSL but include an alpha parameter for transparency, just like RGBA. For example, hsla(0, 100%, 50%, 0.5) is a semi-transparent red.
     
+12. Global Values:
+
+    (i) `inherit`:
+    (ii) `initial`:
+    (iii) `revert`:
+    (iv) `revert-layer`:
+    (v) `unset`:

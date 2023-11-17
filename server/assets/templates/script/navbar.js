@@ -11,6 +11,7 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             navbarPlaceholder.innerHTML = data;
         }
         const navbarmenu = document.getElementById('NavbarMenuButton');
+
         navbarmenu.addEventListener("mouseover", () => {
             navbarmenu.firstElementChild.src = "./assets/Images/icons/menu_hover.png"
         })
@@ -20,6 +21,23 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
         navbarmenu.addEventListener('click', () => {
             document.getElementById("NavbarMenu").classList.toggle("displaynone")
         })
+        navbarmenu.addEventListener('touchmove', () => {
+            console.log("touched")
+            document.getElementById("NavbarMenu").classList.toggle("displaynone")
+        })
+        setInterval(() => {
+            if (screen.width <= 500) {
+                let navlinks = document.getElementById("navlinks");
+                if (navlinks.style.display == "flex") {
+                    navlinks.style.display = "none";
+                }
+            } else if (screen.width >= 500) {
+                let navlinks = document.getElementById("navlinks");
+                if (navlinks.style.display != "flex"){
+                    navlinks.style.display = "flex";
+                }
+            }
+        });
     });
 
 const navbarLinksRedirectFunc = (index, link) => {

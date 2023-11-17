@@ -49,7 +49,7 @@ nav > ul {
 }
 
 /* Links Container */
-#navlinks {
+#rightSideNavbar, #navlinks {
 
     width: 100%;
     justify-content: end;
@@ -80,15 +80,20 @@ nav > ul {
 }
 
 /* Menu */
-
+#NavbarMenuButtonContainer{
+    justify-content: end;
+    display: flex;
+}
 #NavbarMenuButton > img {
     cursor: pointer;
+    justify-content: end;
+    display: flex;
 }
 
 #NavbarMenu{
     background-color: rgba(77, 77, 77, 0.589);
-    height: 50vh;
-    width: 40vh;
+    height: 70vh;
+    width: 20vw;
     position: fixed;
     top: 11vh;
     right: 1vw;
@@ -99,6 +104,7 @@ nav > ul {
     border-radius: 2vh;
     border-image-slice: 2;
     transition: 0.5s ease-in;   
+    
 }
 #NavbarMenuMain{
     height: 85%;
