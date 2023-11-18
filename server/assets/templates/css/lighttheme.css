@@ -6,8 +6,10 @@ body {
     border-color: black;
 }
 header > nav{
-    background-color: rgb(188, 255, 188);
+    background-color: rgb(255, 255, 255);
+    background-image: linear-gradient(to bottom, white 85%,rgba(128, 128, 128, 0.438));
     color: black;
+    
 }
 #NavbarMenu{
     color: white;
@@ -16,7 +18,7 @@ header > nav{
     color: #21AD84;
 }
 .nav-logo > img{
-    background-color: #21AD84;
+    background-color: darkslategray;
 }
 #NavbarMenuButtonContainer{
     background-color: #21AD84;

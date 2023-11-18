@@ -1000,19 +1000,31 @@ Properties & their Values:
 
             (I) Values: Numeric line number, span keyword, start keyword.
 
+                (a) A Number without any keywords will make the grid item start from the defined Grid line
+                (b) A Number with span keyword will make the grid item start from the defined Grid Position
+
             .item {
-                grid-column-start: 2; /* Start at column line 2 */
+                grid-column-start: 2; /* Start at Grid line 2 */
             }
 
         (d) `grid-column-end`: Defines the ending position of a grid item along the column axis.
             
             (I) Values: Numeric line number, span keyword, end keyword.
 
+                (a) A Number without any keywords will make the grid item end at the defined Grid line
+                (b) A Number with `span` keyword will make the grid item end at the defined Grid Position
+
             .item {
                 grid-column-end: span 3; /* End at column line 3 (span 3 columns) */
             }
 
-        (e) 
+        (e) `grid-column-gap`: Specifies the size of the gap between columns in a grid.
+            
+            (I) Values: Any length unit (e.g., px, em, rem), percentage, or normal.
+
+            .grid-container {
+                grid-column-gap: 20px; /* Set a gap of 20 pixels between columns */
+            }
 
         (f) `grid-column`: A shorthand property that combines grid-column-start and grid-column-end in one declaration.
             
@@ -1040,9 +1052,15 @@ Properties & their Values:
                 grid-row-end: span 2; /* End at row line 2 (span 2 rows) */
             }
 
-        (i) 
+        (i) `grid-row-gap`: Specifies the size of the gap between rows in a grid.
+            
+            (I) Values: Any length unit (e.g., px, em, rem), percentage, or normal.
 
-        (j) grid-row: A shorthand property that combines grid-row-start and grid-row-end in one declaration.
+            .grid-container {
+                grid-row-gap: 10%; /* Set a gap of 10% of the row height between rows */
+            }
+
+        (j) `grid-row`: A shorthand property that combines grid-row-start and grid-row-end in one declaration.
             
             (I) Values: Two values, representing grid-row-start and grid-row-end. for Example:-
 
@@ -1050,9 +1068,69 @@ Properties & their Values:
                 grid-row: 1 / span 2; /* row-start / row-end or row-start / span */
             }
 
-            
+    (iv) `grid-gap`: A shorthand property that combines grid-column-gap and grid-row-gap in one declaration.
         
-    (v)  `grid-area`: The grid-area property is a shorthand property that allows you to specify a grid item's size, location, and name within the grid in a single declaration.
+        (a) Values: Two values, representing grid-column-gap and grid-row-gap.
+
+        .grid-container {
+            grid-gap: 10px 20px; /* Set a gap of 10 pixels between rows and 20 pixels between columns */
+        }
+
+    (v) `grid-template`
+
+        (a) `grid-template` property in CSS Grid Layout is a shorthand property that combines the individual properties `grid-template-rows, `grid-template-columns`, and `grid-template-areas` in a single declaration. It provides a convenient way to define the structure of both the rows and columns of a grid, as well as assign named grid areas.
+
+        (b) Syntax:
+
+            grid-template: [rows] / [columns] / [areas];
+            
+        (c) [rows]: Specifies the size of the rows. This can be a space-separated list of values representing row sizes. It can include length units, percentages, the `fr` unit, or other applicable values.
+        (d) [columns]: Specifies the size of the columns. Similar to rows, it can be a space-separated list of values representing column sizes.
+        (e) [areas]: Specifies named grid areas. This allows you to assign names to regions of the grid and position items within those areas using the grid-area property.
+
+        (f) Examples:
+            
+            (I) Defining Rows and Columns:
+
+                .grid-container {
+                    grid-template: 100px 200px / 1fr 2fr;
+                }
+
+                In this example, the grid has two rows with heights of 100 pixels and 200 pixels, and two columns with widths in the ratio 1:2.
+
+            (II) Defining Rows, Columns, and Areas:
+
+                .grid-container {
+                    grid-template: 
+                        "header header header" 100px
+                        "sidebar main main" 1fr
+                        "footer footer footer" 100px
+                        / 1fr 2fr 1fr;
+                }
+
+                This example defines a grid with named areas for the header, sidebar, main content, and footer.
+
+            (Note: The `grid-template` property is optional, and you can still use the individual properties like `grid-template-rows`, `grid-template-columns` `grid-template-areas` if you prefer more explicit control.)
+            
+            (III) with Explicit Properties:
+
+                /* Using individual properties */
+                .grid-container {
+                  grid-template-rows: 100px 200px;
+                  grid-template-columns: 1fr 2fr;
+                }
+
+                /* Using individual properties with named areas */
+                .grid-container-named {
+                    grid-template-rows: 100px 1fr 100px;
+                    grid-template-columns: 1fr 2fr 1fr;
+                    grid-template-areas:
+                        "header header header"
+                        "sidebar main main"
+                        "footer footer footer";
+                }
+
+    (vi)  `grid-area`: The grid-area property is a shorthand property that allows you to specify a grid item's size, location, and name within the grid in a single declaration.
         
         (A) Values: It can take up to four values, representing grid-row-start, grid-column-start, grid-row-end, and grid-column-end.
 
@@ -1060,7 +1138,7 @@ Properties & their Values:
                 grid-area: 1 / 1 / 3 / 4; /* row-start / column-start / row-end / column-end */
             }
 
-    (vi) `order`
+    (vii) `order`
 
         (a) In a Grid layout, the order property is applied to individual grid items. As in Flexbox, items with lower order values will appear first in the display order.
 
@@ -1070,7 +1148,7 @@ Properties & their Values:
                 order: -1; /* This item will appear first in the display order */
             }
 
-    (vii) `justify-items`: Aligns the content of grid items along the inline (row) axis within the grid area (Horizontally).
+    (viii) `justify-items`: Aligns the content of grid items along the inline (row) axis within the grid area (Horizontally).
         
         (A) Values:
 
@@ -1092,7 +1170,7 @@ Properties & their Values:
             justify-items: center;
         }
 
-    (viii) `align-content`: Determines how multiple rows or columns of grid items are aligned within the grid container when there is extra space along the cross-axis (Vertically).
+    (ix) `align-content`: Determines how multiple rows or columns of grid items are aligned within the grid container when there is extra space along the cross-axis (Vertically).
         
         (a) Values:
 
@@ -1107,7 +1185,7 @@ Properties & their Values:
             align-content: center;
         }
 
-10. Transition Property
+11. Transition Property
 
     (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:
 
@@ -1136,7 +1214,7 @@ Properties & their Values:
 
 Section: Common Values
 
-10. Length Values:
+12. Length Values:
 
     Absolute Length Units:
 
@@ -1175,7 +1253,7 @@ Section: Common Values
         width: 50vw; /* 50% of the viewport width */
         height: 30vh; /* 30% of the viewport height */
 
-11. Color Values
+13. Color Values
 
     (i) In CSS, color values are used to specify the color of various elements on a webpage. There are several ways to represent colors in CSS, and they can be broadly categorized into named colors, hexadecimal colors, RGB colors, RGBA colors, HSL colors, and HSLA colors.
 
@@ -1215,10 +1293,10 @@ Section: Common Values
 
         (a) HSLA colors are similar to HSL but include an alpha parameter for transparency, just like RGBA. For example, hsla(0, 100%, 50%, 0.5) is a semi-transparent red.
     
-12. Global Values:
+14. Global Values:
 
-    (i) `inherit`:
-    (ii) `initial`:
-    (iii) `revert`:
-    (iv) `revert-layer`:
-    (v) `unset`:
+    (i) `inherit`: Makes The Element Inherits value from it's Parent.
+    (ii) `initial`: The Gobal Default Value.
+    (iii) `revert`: Reverts Changes to initial but keeps changes made by The Browser.
+    (iv) `revert-layer`: If The Property is changed before than it changes it's value to it's previous value.
+    (v) `unset`: Reverts Changes to initial without excluding any.

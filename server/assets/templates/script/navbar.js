@@ -26,18 +26,18 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             document.getElementById("NavbarMenu").classList.toggle("displaynone")
         })
         setInterval(async () => {
-            if (screen.width <= 500) {
-                let navlinks = document.getElementById("navlinks");
-                if (navlinks.style.display == "flex") {
-                    navlinks.style.display = "none";
-                }
-            } else if (screen.width >= 500) {
-                let navlinks = document.getElementById("navlinks");
-                if (navlinks.style.display != "flex"){
-                    navlinks.style.display = "flex";
-                }
-            }
-            await navbarfetch;
+            // if (screen.width <= 500) {
+            //     let navlinks = document.getElementById("navlinks");
+            //     if (navlinks.style.display == "flex") {
+            //         navlinks.style.display = "none";
+            //     }
+            // } else if (screen.width >= 500) {
+            //     let navlinks = document.getElementById("navlinks");
+            //     if (navlinks.style.display != "flex"){
+            //         navlinks.style.display = "flex";
+            //     }
+            // }
+            await data;
             if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
                 document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
             } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
