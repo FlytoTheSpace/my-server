@@ -866,8 +866,28 @@ Properties & their Values:
             (V) `baseline`: Items are aligned based on their baselines.
 
     For Items:
+    
+    (vi) `order`
 
-    (iv) `justify-self`: overrides the alignment it's parent element gave it, and applies a new one to itself and can be used for individual alignment for all the children elements (horizontally).
+        (a) In a Flexbox layout, the `order` property is applied to individual flex items. The item with the lowest `order` value will appear first in the display order, followed by items with higher `order` values
+
+        (b) Value: An Integer
+
+        .flex-item {
+            order: 1; /* This item will appear second in the display order */
+        }
+
+        // another Example:-
+
+        .flex-container {
+          display: flex;
+        }
+
+        .flex-item {
+          order: 2; /* This item will appear third in the display order */
+        }
+
+    (vii) `justify-self`: overrides the alignment it's parent element gave it, and applies a new one to itself and can be used for individual alignment for all the children elements (horizontally).
         
         (A) Values: Same as `justify-content`
 
@@ -875,7 +895,7 @@ Properties & their Values:
             justify-content: center;
         }
 
-    (vi) `align-self`: overrides the alignment it's parent element gave it, and applies a new one to itself and can be used for individual alignment for all the children elements (vertically).
+    (viii) `align-self`: overrides the alignment it's parent element gave it, and applies a new one to itself and can be used for individual alignment for all the children elements (vertically).
     
         (A) Values: Same as `align-items`.
 
@@ -883,7 +903,7 @@ Properties & their Values:
             align-self: flex-end;
         }
     
-    (vii) `flex`: A shorthand property for the flex-grow, flex-shrink, and flex-basis properties.
+    (ix) `flex`: A shorthand property for the flex-grow, flex-shrink, and flex-basis properties.
         
         (A) Values:
 
@@ -964,22 +984,93 @@ Properties & their Values:
         grid: revert-layer;
         grid: unset;
 
-    Sub-Properties:
+    (iii) `grid-column` & `grid-row`:
 
-    Using `grid` you specify one axis using `grid-template-rows` or `grid-template-columns`, you then specify how content should auto-repeat in the other axis using the implicit grid properties: `grid-auto-rows`, `grid-auto-columns`, and `grid-auto-flow`.
+        (a) These properties are shorthand for defining the start and end lines of a grid item along the column or row axis.
+        (b) Values: Numeric line numbers, `span` keyword, `start` keyword, or `end` keyword.
 
-    (iii) `grid` is the shorthand property of the followings:
+        .item {
+            grid-column: 2 / span 3; /* column-start / column-end or column-start / span */
+            grid-row: 1 / 3; /* row-start / row-end */
+        }
 
-        (a) `grid-auto-columns`
-        (b) `grid-auto-flow`
-        (c) `grid-auto-rows`
-        (d) `grid-template-areas`
-        (e) `grid-template-columns`
-        (f) `grid-template-rows`
-    
-    Alignments Grid Edition:
+        Sub-properties of `grid-column`:
 
-    (iv) `justify-items`: Aligns the content of grid items along the inline (row) axis within the grid area (Horizontally).
+        (c) `grid-column-start`:Defines the starting position of a grid item along the column axis.
+
+            (I) Values: Numeric line number, span keyword, start keyword.
+
+            .item {
+                grid-column-start: 2; /* Start at column line 2 */
+            }
+
+        (d) `grid-column-end`: Defines the ending position of a grid item along the column axis.
+            
+            (I) Values: Numeric line number, span keyword, end keyword.
+
+            .item {
+                grid-column-end: span 3; /* End at column line 3 (span 3 columns) */
+            }
+
+        (e) 
+
+        (f) `grid-column`: A shorthand property that combines grid-column-start and grid-column-end in one declaration.
+            
+            (A) Values: it takes Two values, representing grid-column-start and grid-column-end.
+
+            .item {
+                grid-column: 2 / span 3; /* column-start / column-end or column-start / span */
+            }
+
+        Sub-properties of `grid-row`
+
+        (g) `grid-row-start`: Defines the starting position of a grid item along the row axis.
+            
+            (I) Values: Numeric line number, `span` keyword, `start` keyword. for example:-
+
+            .item {
+                grid-row-start: 1; /* Start at row line 1 */
+            }
+
+        (h) `grid-row-end`: Defines the ending position of a grid item along the row axis.
+            
+            (I) Values: Numeric line number, span keyword, end keyword. for example:-
+
+            .item {
+                grid-row-end: span 2; /* End at row line 2 (span 2 rows) */
+            }
+
+        (i) 
+
+        (j) grid-row: A shorthand property that combines grid-row-start and grid-row-end in one declaration.
+            
+            (I) Values: Two values, representing grid-row-start and grid-row-end. for Example:-
+
+            .item {
+                grid-row: 1 / span 2; /* row-start / row-end or row-start / span */
+            }
+
+            
+        
+    (v)  `grid-area`: The grid-area property is a shorthand property that allows you to specify a grid item's size, location, and name within the grid in a single declaration.
+        
+        (A) Values: It can take up to four values, representing grid-row-start, grid-column-start, grid-row-end, and grid-column-end.
+
+            .item {
+                grid-area: 1 / 1 / 3 / 4; /* row-start / column-start / row-end / column-end */
+            }
+
+    (vi) `order`
+
+        (a) In a Grid layout, the order property is applied to individual grid items. As in Flexbox, items with lower order values will appear first in the display order.
+
+        (b) Value: An Interger
+
+            .grid-item {
+                order: -1; /* This item will appear first in the display order */
+            }
+
+    (vii) `justify-items`: Aligns the content of grid items along the inline (row) axis within the grid area (Horizontally).
         
         (A) Values:
 
@@ -1001,7 +1092,7 @@ Properties & their Values:
             justify-items: center;
         }
 
-    (v) `align-content`: Determines how multiple rows or columns of grid items are aligned within the grid container when there is extra space along the cross-axis (Vertically).
+    (viii) `align-content`: Determines how multiple rows or columns of grid items are aligned within the grid container when there is extra space along the cross-axis (Vertically).
         
         (a) Values:
 

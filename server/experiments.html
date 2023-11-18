@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        main{
+        main {
             align-items: center;
             justify-content: center;
-            display: grid;
+            display: flex;
+            flex-direction: column;
         }
-        
+
+        div.playground {
+            display: grid;
+            border: solid;
+            grid-row-gap: 5px;
+            grid-template-columns: auto auto auto;
+        }
+
+        /* Using grid-column and grid-row properties */
+        .item1 {
+            width: 10vh;
+            height: 10vh;
+            background-color: red;
+        }
+
+        /* Using grid-column and grid-row shorthand properties */
+        .item2 {
+            width: 10vh;
+            height: 10vh;
+            background-color: blue;
+        }
     </style>
 </head>
+
 <body>
     <header></header>
     <main>
         <div class="playground">
-            <p></p>
-            <button class="t-1 c-blue withIcon "><img src="./assets/Images/icons/menu.png" alt="">idk</button>
+            <div class="item1">item1</div>
+            <div class="item2">item2</div>
         </div>
     </main>
     <footer></footer>
@@ -27,4 +50,5 @@
     </script>
     <script src="./assets/templates/script/setup.js"></script>
 </body>
+
 </html>

@@ -25,7 +25,7 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             console.log("touched")
             document.getElementById("NavbarMenu").classList.toggle("displaynone")
         })
-        setInterval(() => {
+        setInterval(async () => {
             if (screen.width <= 500) {
                 let navlinks = document.getElementById("navlinks");
                 if (navlinks.style.display == "flex") {
@@ -37,6 +37,7 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
                     navlinks.style.display = "flex";
                 }
             }
+            await navbarfetch;
             if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
                 document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
             } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
