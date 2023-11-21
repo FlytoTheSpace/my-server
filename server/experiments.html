@@ -7,32 +7,14 @@
     <title>Document</title>
     <style>
         main {
-            align-items: center;
-            justify-content: center;
             display: flex;
             flex-direction: column;
+            align-items: center;
+        }
+        div.playground{
+            /* Example */
         }
 
-        div.playground {
-            display: grid;
-            border: solid;
-            grid-row-gap: 5px;
-            grid-template-columns: auto auto auto;
-        }
-
-        /* Using grid-column and grid-row properties */
-        .item1 {
-            width: 10vh;
-            height: 10vh;
-            background-color: red;
-        }
-
-        /* Using grid-column and grid-row shorthand properties */
-        .item2 {
-            width: 10vh;
-            height: 10vh;
-            background-color: blue;
-        }
     </style>
 </head>
 
@@ -40,13 +22,17 @@
     <header></header>
     <main>
         <div class="playground">
-            <div class="item1">item1</div>
-            <div class="item2">item2</div>
         </div>
     </main>
     <footer></footer>
     <script>
-
+        /* (()=>{
+            let container = document.getElementsByClassName("playground")[0];
+            let length = 20;
+            for (let i = 1; i <= length; i++) {
+                container.insertAdjacentHTML('beforeend', `<div class="item1">${i}</div>`)
+            }
+        })() */
     </script>
     <script src="./assets/templates/script/setup.js"></script>
 </body>

@@ -12,10 +12,14 @@ const {mergePDFs, PDFname} = require("./mergepdfs")
 
 
 
-// root
+// Accepts
 app.use(express.static(path.join(__dirname, "server")));
+app.use(express.json());
+const users = [];
+
+
 // Requests
-app.post('/merge', upload.array('pdfs', 2), async (req, res, next) => {
+app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
     try {
         const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
         res.redirect(`http://localhost:${port}/public/${generatedPDFName}.pdf`);
@@ -24,8 +28,28 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res, next) => {
         res.status(500).send("Internal Server Error");
     }
 });
+app.post('/users', (req, res)=>{
+    try{
+        const user = {
+            username: req.body.username, 
+            email: req.body.email,
+            password: req.body.password
+        };
+        users.push(user)
+        console.log('User added:', user)
+        res.status(201).send()
+        console.log(users)
 
-// Setting up Ports
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+// Routes
+app.get('/users', (req, res)=>{
+    res.json(users);
+})
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,'./index.html'))
 })

@@ -1001,7 +1001,7 @@ Properties & their Values:
             (I) Values: Numeric line number, span keyword, start keyword.
 
                 (a) A Number without any keywords will make the grid item start from the defined Grid line
-                (b) A Number with span keyword will make the grid item start from the defined Grid Position
+                (b) A Number with `span` keyword will make the grid item start from the defined Grid Position
 
             .item {
                 grid-column-start: 2; /* Start at Grid line 2 */
@@ -1012,7 +1012,7 @@ Properties & their Values:
             (I) Values: Numeric line number, span keyword, end keyword.
 
                 (a) A Number without any keywords will make the grid item end at the defined Grid line
-                (b) A Number with `span` keyword will make the grid item end at the defined Grid Position
+                (b) A Number with `span` keyword will make the grid item end at the Relative defined Grid Position
 
             .item {
                 grid-column-end: span 3; /* End at column line 3 (span 3 columns) */
@@ -1040,6 +1040,9 @@ Properties & their Values:
             
             (I) Values: Numeric line number, `span` keyword, `start` keyword. for example:-
 
+                (a) A Number without any keywords will make the grid item start from the defined Grid line
+                (b) A Number with `span` keyword will make the grid item start from the defined Grid Position
+
             .item {
                 grid-row-start: 1; /* Start at row line 1 */
             }
@@ -1047,6 +1050,9 @@ Properties & their Values:
         (h) `grid-row-end`: Defines the ending position of a grid item along the row axis.
             
             (I) Values: Numeric line number, span keyword, end keyword. for example:-
+
+                (a) A Number without any keywords will make the grid item end at the defined Grid line
+                (b) A Number with `span` keyword will make the grid item end at the Relative defined Grid Position
 
             .item {
                 grid-row-end: span 2; /* End at row line 2 (span 2 rows) */
@@ -1185,7 +1191,160 @@ Properties & their Values:
             align-content: center;
         }
 
-11. Transition Property
+11. Media Queries
+
+    (i) Media queries in CSS allow you to apply different styles or rules based on certain conditions, such as the characteristics of the device or viewport. They enable you to create responsive designs that adapt to different screen sizes, resolutions, or device capabilities. Media queries are commonly used in combination with CSS rules to implement responsive web design.
+
+    (ii) Syntax:
+
+        @media media-type and (media-feature) {
+            /* CSS rules to apply when the media query conditions are met */
+        }
+
+    (iii) `media-type`: Specifies the type of media, such as screen, print, all, etc.
+    (iv) `media-feature`: Defines the condition that must be satisfied for the media query to apply.
+
+    for Example:-
+
+        /* Basic media query for screens with a maximum width of 600 pixels */
+        @media screen and (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            .container {
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
+        In this example, the styles within the media query will only apply if the screen has a maximum width of 600 pixels.
+
+    (v) Common Media Features:
+        
+        (a) Width and Height: `max-width`, `min-width`, `max-height`, `min-height`: Define the maximum or minimum width or height of the viewport.
+
+
+            @media screen and (max-width: 768px) {
+                /* Styles for screens with a maximum width of 768 pixels */
+            }
+
+        (b) Device Orientation: `orientation` Checks whether the device is in portrait or landscape mode.
+
+            @media screen and (orientation: landscape) {
+                /* Styles for landscape orientation */
+            }
+
+        (c) Device Type: `screen`, `print`, `speech`: Specifies the type of output device.
+
+            @media print {
+                /* Styles for print media */
+            }
+
+        (d) Resolution: `min-resolution`, `max-resolution` Set minimum or maximum resolution requirements.
+
+            @media screen and (min-resolution: 300dpi) {
+                /* Styles for high-resolution screens */
+            }
+
+        (e) Combining Conditions: You can combine multiple conditions within a media query using logical operators (`and`, `or`, `not`) and they working corresponding to their names.
+
+            @media screen and (max-width: 600px) and (orientation: portrait) {
+                /* Styles for screens with a maximum width of 600 pixels in portrait mode */
+            }
+
+        (f) Using Media Queries in HTML: You typically include media queries in your CSS files, but you can also include them directly in your HTML using the `<style>` element with the media attribute:
+
+            <style media="screen and (max-width: 600px)">
+                /* Styles for screens with a maximum width of 600 pixels */
+            </style>
+
+    (vi) Media queries are a crucial tool for creating responsive and adaptable designs, ensuring a good user experience across various devices and screen sizes.
+
+12. Transform
+
+    (i) The `transform` property in CSS is used to apply 2D and 3D transformations to an element. Transformations can include translations, rotations, scaling, and skewing, providing a powerful way to manipulate the appearance and layout of elements.
+
+    (ii) Syntax:
+
+        element {
+            transform: transform-function;
+        }
+
+    Values:
+
+    Common 2D Transformation Functions:
+
+    (iii) Offset values
+        
+        (a) `translate(x, y)`, `translateX(x)`, `translateY(y)` ond `translate3d(x, y, z)`: Moves the element along the X, Y, or Z-axis. `translate3d` allows movement along all three axes.
+
+        transform: translate(50px, 30px);
+        transform: translateX(50px);
+        transform: translateY(30px);
+        transform: translate3d(50px, 30px, 0);
+
+    (iv) Rotation value
+
+        (a) `rotate(angle)`: Rotates the element clockwise by the specified angle. 
+
+        /* Example */
+        transform: rotate(45deg);
+
+    (v) Scale Values
+        
+        (a) `scale(x, y)` or `scaleX(x)` or `scaleY(y)` or `scale3d(x, y, z)`: Scales the element along the X, Y, or Z-axis. scaled allows scaling along all three axes.
+
+        /* Examples */
+        transform: scale(1.5, 0.8);
+        transform: scaleX(1.5);
+        transform: scaleY(0.8);
+        transform: scale3d(1.5, 0.8, 1);
+    
+    (vi) Skew
+        
+        (a) `skew(x, y)`: Skews the element by the specified angles along the X and Y axes.
+
+        /* Example */
+        transform: skew(30deg, 20deg);
+        
+    (vii) Matrix
+        
+        (a) `matrix(a, b, c, d, e, f)`: Allows you to define a 2D transformation matrix where each value represents a transformation component.
+
+        /* Example */
+        transform: matrix(1, 0.5, -0.5, 1, 0, 0);
+
+    Common 3D Transformation Functions:
+    
+    (viii) Rotation
+        
+        (a) `rotateX(angle)`, `rotateY(angle)`, `rotateZ(angle)`: Rotates the element around the X, Y, or Z-axis.
+
+        /* Examples */
+        transform: rotateX(45deg);
+        transform: rotateY(45deg);
+        transform: rotateZ(45deg);
+        
+    (ix) Depth
+        
+        (a) `perspective(p)`: Specifies the perspective depth for the 3D transformations.
+
+            /* Example */
+            transform: perspective(1000px);
+
+        (b) `perspective-origin(x, y)`: Sets the origin for the perspective property.
+
+            /* Example */
+            transform: perspective(1000px) perspective-origin(50% 50%);
+
+    (x) Combined Transform Functions:
+        
+        (a) You can combine multiple transform functions in a single `transform` property to apply multiple transformations at once.
+
+        /* Example */
+        transform: translate(50px, 30px) rotate(45deg) scale(1.5);
+ 
+13. Transition
 
     (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:
 
@@ -1208,13 +1367,15 @@ Properties & their Values:
             transition: background-color 0.3s ease;
         }
 
-            button:hover {
+        button:hover {
             background-color: red;
         }
 
+14. Animations
+
 Section: Common Values
 
-12. Length Values:
+15. Length Values:
 
     Absolute Length Units:
 
@@ -1253,7 +1414,7 @@ Section: Common Values
         width: 50vw; /* 50% of the viewport width */
         height: 30vh; /* 30% of the viewport height */
 
-13. Color Values
+16. Color Values
 
     (i) In CSS, color values are used to specify the color of various elements on a webpage. There are several ways to represent colors in CSS, and they can be broadly categorized into named colors, hexadecimal colors, RGB colors, RGBA colors, HSL colors, and HSLA colors.
 
@@ -1293,7 +1454,7 @@ Section: Common Values
 
         (a) HSLA colors are similar to HSL but include an alpha parameter for transparency, just like RGBA. For example, hsla(0, 100%, 50%, 0.5) is a semi-transparent red.
     
-14. Global Values:
+17. Global Values:
 
     (i) `inherit`: Makes The Element Inherits value from it's Parent.
     (ii) `initial`: The Gobal Default Value.
