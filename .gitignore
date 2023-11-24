@@ -1,2 +1,8 @@
 node_modules/
 server/node_modules/
+dummy.rest
+.env
+.gitignore
+accounts.json
+dummy.rest
+nontracking/

@@ -1,3 +1,5 @@
+// const USERS_LIST_API = "ul73yoiblrhp02d8eag2"
+
 // Imports
 const express = require('express');
 const app = express();
@@ -7,9 +9,9 @@ const path = require('path')
 
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
-
+var fs = require('fs');
 const {mergePDFs, PDFname} = require("./mergepdfs")
-// require('dotenv').config();
+require('dotenv').config();
 
 
 
@@ -29,7 +31,7 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-app.post('/users', (req, res)=>{
+app.post(`/${process.env.USERS_LIST_API}`, (req, res)=>{
     try{
         const user = {
             username: req.body.username, 
@@ -40,6 +42,16 @@ app.post('/users', (req, res)=>{
         console.log('User added:', user)
         res.status(201).send()
         console.log(users)
+        fs.readFile('accounts.json', 'utf8', (err, data)=>{
+            if (err) {
+                console.log(err);
+            } else {
+                let obj = JSON.parse(data);
+                obj.push(user); //add some data
+                json = JSON.stringify(obj); //convert it back to json
+                fs.writeFile('accounts.json', json, 'utf8', ()=>{});
+            }
+        });
 
     } catch (error) {
         console.error(error);
@@ -48,8 +60,10 @@ app.post('/users', (req, res)=>{
 })
 
 // Routes
-app.get('/users', (req, res)=>{
-    res.json(users);
+app.get(`/${process.env.USERS_LIST_API}`, (req, res)=>{
+    fs.readFile('accounts.json', 'utf8', (err,data) => {
+        res.json(JSON.parse(data))
+    })
 })
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,'./index.html'))
