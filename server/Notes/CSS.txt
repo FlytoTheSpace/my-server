@@ -1311,8 +1311,19 @@ Properties & their Values:
         
         (a) `matrix(a, b, c, d, e, f)`: Allows you to define a 2D transformation matrix where each value represents a transformation component.
 
-        /* Example */
-        transform: matrix(1, 0.5, -0.5, 1, 0, 0);
+        (b) Syntax:
+            
+            matrix(a, b, c, d, tx, ty)
+            
+            (I) The `matrix()` function is specified with six values. The constant values are implied and not passed as parameters; the other parameters are described in the column-major order.
+
+            (II) The values represent the following functions: 
+                
+                matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
+
+        for Example:-
+            
+            transform: matrix(1, 0.5, -0.5, 1, 0, 0);
 
     Common 3D Transformation Functions:
     
@@ -1343,7 +1354,45 @@ Properties & their Values:
 
         /* Example */
         transform: translate(50px, 30px) rotate(45deg) scale(1.5);
- 
+
+    Sub-Properties:
+
+    (xi) transform-origin:
+            
+        (a) The `transform-origin` property defines the point around which a transformation is applied. It determines the origin of the transformation, influencing the position of the transformed element.
+        
+        (b) Values: It can take one to three values, which represent the x, y, and z coordinates of the origin. Values can be specified in pixels, percentages, or keywords like top, left, right, bottom, center, etc.
+
+            /* Set the transform origin to the center of the element */
+            transform-origin: center center;
+
+            /* Set the transform origin to the top right corner of the element */
+            transform-origin: top right;
+
+    (xii) transform-box:
+    
+        (a) The transform-box property defines the reference box for the transform property. It determines which box the transformation functions (`scale()`, `rotate()`, etc.) will be applied to.
+
+        (b) Values:
+
+            (I) `fill-box`: The transformation is applied relative to the element's border box.
+            (II) `stroke-box`: The transformation is applied relative to the element's stroke box.
+            (III) `view-box`: The transformation is applied relative to the nearest SVG viewport.
+
+    Examples:
+
+        /* Set the transform origin to the center of the element and apply a rotation */
+        .element {
+            transform-origin: center center;
+            transform: rotate(45deg);
+        }
+
+        /* Apply a scaling transformation relative to the element's border box */
+        .element {
+            transform-box: fill-box;
+            transform: scale(2);
+        }
+
 13. Transition
 
     (i) "transition" property allows you to specify the properties that should be transitioned and the duration and timing function of the transition. Here's how you can use it:

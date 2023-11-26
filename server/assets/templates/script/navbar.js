@@ -37,11 +37,14 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             //         navlinks.style.display = "flex";
             //     }
             // }
-            await data;
-            if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
-                document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
-            } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
-                document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
+            try{
+                if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
+                    document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
+                } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
+                    document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
+                }
+            } catch(err){
+                console.warn(err)
             }
         });
         let themeSwitchButton = document.getElementById("themeSwitchButton");

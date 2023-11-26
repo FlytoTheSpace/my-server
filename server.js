@@ -1,25 +1,25 @@
-// const USERS_LIST_API = "ul73yoiblrhp02d8eag2"
-
 // Imports
+
 const express = require('express');
 const app = express();
 const port = 5500;
 
-const path = require('path')
+const path = require('path');
+const fs = require('fs');
 
-const multer = require('multer')
+const bcrypt = require('bcrypt');
+const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
-var fs = require('fs');
-const {mergePDFs, PDFname} = require("./mergepdfs")
-require('dotenv').config();
+
+const {mergePDFs} = require("./mergepdfs")
+
+require('dotenv').config(); // Credientials
 
 
 
 // Accepts
 app.use(express.static(path.join(__dirname, "server")));
 app.use(express.json());
-const users = [];
-
 
 // Requests
 app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
@@ -27,43 +27,46 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
         const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
         res.redirect(`http://localhost:${port}/public/${generatedPDFName}.pdf`);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
+        console.error(`[${new Date().toLocaleTimeString()}] + ${error}`);
+        res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
     }
 });
-app.post(`/${process.env.USERS_LIST_API}`, (req, res)=>{
+app.post(`/${process.env.API_ACCOUNTS_URL}`, async (req, res)=>{
     try{
+        const GeneratedSalt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(req.body.password, GeneratedSalt)
+
         const user = {
             username: req.body.username, 
             email: req.body.email,
-            password: req.body.password
+            password: hashedPassword,
+            salt: GeneratedSalt
         };
-        users.push(user)
         console.log('User added:', user)
         res.status(201).send()
-        console.log(users)
-        fs.readFile('accounts.json', 'utf8', (err, data)=>{
+        fs.readFile('credientials/accounts.json', 'utf8', (err, data)=>{
             if (err) {
                 console.log(err);
             } else {
                 let obj = JSON.parse(data);
                 obj.push(user); //add some data
                 json = JSON.stringify(obj); //convert it back to json
-                fs.writeFile('accounts.json', json, 'utf8', ()=>{});
+                fs.writeFile('credientials/accounts.json', json, 'utf8', ()=>{});
             }
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
+        console.error(`[${new Date().toLocaleTimeString()}] + ${error}`);
+        res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
     }
 })
 
 // Routes
-app.get(`/${process.env.USERS_LIST_API}`, (req, res)=>{
-    fs.readFile('accounts.json', 'utf8', (err,data) => {
+app.get(`/${process.env.API_ACCOUNTS_URL}`, (req, res)=>{
+    fs.readFile('credientials/accounts.json', 'utf8', (err,data) => {
         res.json(JSON.parse(data))
     })
+    console.log(`[${new Date().toLocaleTimeString()}] Credientials has Been fetched!`)
 })
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,'./index.html'))
@@ -107,5 +110,5 @@ app.get('/register', (req, res) => {
 
 // Starting Server
 app.listen(port, () => {
-    console.log(`Server started on http://localhost:${port}`)
+    console.log(`[${new Date().toLocaleTimeString()}] Server started on http://localhost:${port}`)
 })
