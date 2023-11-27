@@ -75,16 +75,17 @@ app.post(`/loginSubmit`, (req, res)=>{
                 if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
                     res.status(404).send("Status: 404, The User Doesn't seems to exist")
                     console.log(EmailMatchedAcc)
-                }
-                try {
-                    if (await bcrypt.compare(req.body.password, EmailMatchedAcc.password)) {
-                        res.status(201).send("Succesful Login");
-                    }else{
-                        res.status(401).send("Incorrect Password");
+                } else{
+                    try {
+                        if (await bcrypt.compare(req.body.password, EmailMatchedAcc.password)) {
+                            res.status(201).send("Succesful Login");
+                        }else{
+                            res.status(401).send("Incorrect Password");
+                        }
+                    } catch (err) {
+                        console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
+                        res.status(500).send("Status: 500, Internal Server error. pls try again later...")
                     }
-                } catch (err) {
-                    console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
-                    res.status(500).send("Status: 500, Internal Server error. pls try again later...")
                 }
 
             }
