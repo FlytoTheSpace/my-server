@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
+const bodyParser = require('body-parser');
 
 const {mergePDFs} = require("./mergepdfs")
 
@@ -23,6 +24,7 @@ const LoginfoDecryptionKey = new Cryptr(process.env.API_ACCOUNTS_LOGINFO_DECRYPT
 // Accepts
 app.use(express.static(path.join(__dirname, "server")));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Requests
 app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
@@ -74,7 +76,6 @@ app.post(`/loginSubmit`, (req, res)=>{
                 let EmailMatchedAcc = Accounts.find(acc=>LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
                 if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
                     res.status(404).send("Status: 404, The User Doesn't seems to exist")
-                    console.log(EmailMatchedAcc)
                 } else{
                     try {
                         if (await bcrypt.compare(req.body.password, EmailMatchedAcc.password)) {
@@ -97,17 +98,14 @@ app.post(`/loginSubmit`, (req, res)=>{
 })
 
 // Routes
-app.get(`/${process.env.API_ACCOUNTS_URL}`, (req, res)=>{
+/* app.get(`/${process.env.API_ACCOUNTS_URL}`, (req, res)=>{
     fs.readFile('credientials/accounts.json', 'utf8', (err,data) => {
         res.json(JSON.parse(data))
     })
     console.log(`[${new Date().toLocaleTimeString()}] Credientials has Been fetched!`)
-})
+}) */
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,'./index.html'))
-})
-app.get('/account', (req, res) => {
-    res.sendFile(path.join(__dirname,'./server/account.html'))
 })
 app.get('/administrator', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/admin.html'))
@@ -119,7 +117,7 @@ app.get('/data', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/data.html'))
 })
 app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/experiments.html'))
+    res.sendFile(path.join(__dirname,'./server/experiments.html'))
 })
 app.get('/gradient-generator', (req, res) => {
     res.sendFile(path.join(__dirname,'./server/gradient-generator.html'))
