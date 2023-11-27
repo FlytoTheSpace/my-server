@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 const bcrypt = require('bcrypt');
+const Cryptr = require('cryptr');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
 
@@ -15,7 +16,9 @@ const {mergePDFs} = require("./mergepdfs")
 
 require('dotenv').config(); // Credientials
 
+// Other
 
+const LoginfoDecryptionKey = new Cryptr(process.env.API_ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
 
 // Accepts
 app.use(express.static(path.join(__dirname, "server")));
@@ -31,18 +34,18 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
         res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
     }
 });
-app.post(`/${process.env.API_ACCOUNTS_URL}`, async (req, res)=>{
+app.post(`/registerSubmit`, async (req, res)=>{
     try{
         const GeneratedSalt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(req.body.password, GeneratedSalt)
+        const EncrytUsername = LoginfoDecryptionKey.encrypt(req.body.username)
+        const EncrytEmail = LoginfoDecryptionKey.encrypt(req.body.email)
 
         const user = {
-            username: req.body.username, 
-            email: req.body.email,
-            password: hashedPassword,
-            salt: GeneratedSalt
+            username: EncrytUsername, 
+            email: EncrytEmail,
+            password: hashedPassword
         };
-        console.log('User added:', user)
         res.status(201).send()
         fs.readFile('credientials/accounts.json', 'utf8', (err, data)=>{
             if (err) {
@@ -56,7 +59,38 @@ app.post(`/${process.env.API_ACCOUNTS_URL}`, async (req, res)=>{
         });
 
     } catch (error) {
-        console.error(`[${new Date().toLocaleTimeString()}] + ${error}`);
+        console.error(`[${new Date().toLocaleTimeString()}] ${error}`);
+        res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
+    }
+})
+app.post(`/loginSubmit`, (req, res)=>{
+    try{
+        
+        fs.readFile('credientials/accounts.json', 'utf8', async (err, data)=>{
+            if (err) {
+                console.log(err);
+            } else {
+                let Accounts = JSON.parse(data);
+                let EmailMatchedAcc = Accounts.find(acc=>LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
+                if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
+                    res.status(404).send("Status: 404, The User Doesn't seems to exist")
+                    console.log(EmailMatchedAcc)
+                }
+                try {
+                    if (await bcrypt.compare(req.body.password, EmailMatchedAcc.password)) {
+                        res.status(201).send("Succesful Login");
+                    }else{
+                        res.status(401).send("Incorrect Password");
+                    }
+                } catch (err) {
+                    console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
+                    res.status(500).send("Status: 500, Internal Server error. pls try again later...")
+                }
+
+            }
+        });
+    } catch (error) {
+        console.error(`[${new Date().toLocaleTimeString()}] ${error}`);
         res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
     }
 })
