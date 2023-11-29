@@ -1,4 +1,4 @@
-const fetchedData = fetch("./json/pass.json", {
+const fetchedData = fetch("./assets/json/pass.json", {
     method: "GET",
     credentials: "include"
 });
