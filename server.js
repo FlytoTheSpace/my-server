@@ -18,7 +18,7 @@ const cookieParser = require('cookie-parser');
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const jwt = require('jsonwebtoken');
-const { decode } = require('punycode');
+const authenticate = require('./assets/authenticate')
 
 
 require('dotenv').config(); // Credientials
@@ -26,44 +26,6 @@ require('dotenv').config(); // Credientials
 // Other
 
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
-
-const authorizebyToken = (request) => {
-    try {
-        const token = request.cookies.accessToken;
-        if (token == undefined || token == "null") {
-            console.log("error: token is undefined")
-        } else {
-            const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-            fs.readFile('credientials/accounts.json', 'utf8', async (err, data) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let Accounts = JSON.parse(data);
-                    const EmailMatchedAcc = Accounts.find(acc => acc.email == decodedToken.email);
-                    if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                        console.log("Invalid Token, The User Doesn't seems to exist")
-                    } else {
-                        try {
-                            if (crypto.timingSafeEqual(Buffer.from(decodedToken.password), Buffer.from(EmailMatchedAcc.password))) {
-
-                                console.log(`[${new Date().toLocaleTimeString()}] Authenticated user: ${LoginfoDecryptionKey.decrypt(decodedToken.username)}`);
-                            } else {
-                                console.log(decodedToken.password + "\n" + EmailMatchedAcc.password )
-                                console.log("Invalid Token, Incorrect Password");
-                            }
-                        } catch (err) {
-                            console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
-                            console.log("Status: 500, Internal Server error while Authenticating with The Token")
-                        }
-                    }
-
-                }
-            });
-        }
-    } catch (error) {
-        console.log(`[${new Date().toLocaleTimeString()}] ${error}`)
-    };
-}
 
 // Accepts
 app.use(express.static(path.join(__dirname, "server")));
@@ -172,9 +134,26 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/data', (req, res) => {
-    authorizebyToken(req);
-    res.sendFile(path.join(__dirname, './server/data.html'))
+    authenticate.byToken(req);
+    try{
+        res.sendFile(path.join(__dirname, './server/data.html'))
+    }catch(err){
+        console.log(err)
+    }
 })
+/* This is an Example of How to use Strict Mode
+app.get('/data', (req, res) => {
+    authenticate.byToken(req, res, 'strict');
+    try{
+        res.sendFile(path.join(__dirname, './server/data.html'))
+    }catch(err){
+        if (err.name == "Can't set headers after they are sent."){
+
+        } else {
+            console.log(err)
+        }
+    }
+}) */
 app.get('/experiments', (req, res) => {
     res.sendFile(path.join(__dirname, './server/experiments.html'))
 })

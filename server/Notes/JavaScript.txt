@@ -4436,5 +4436,312 @@ Section: 3rd Party JavaScript
 		reportArea(square1.length, reportList);
 		reportPerimeter(square1.length, reportList);
 
+The Above Section has Ended on 12 November 2023, Section below this will continue to grow
 
-Ended on 12 November 2023
+37. Built in Modules
+
+	(i) `HTTP Module`:
+
+		(a) http module in Node.js is a core module that provides functionality for creating HTTP servers and making HTTP requests. This module allows you to build both server-side and client-side components for handling HTTP communication.
+
+		(b) HTTP Server with http Module:
+
+			(Note: It's recommended to make a server with `express.js`)
+
+			(I) Creating an HTTP Server:
+
+				(A) You can create an HTTP server using the `http.createServer()` method. This method takes a callback function that is executed for each incoming HTTP request.
+
+				const http = require('http');
+				const server = http.createServer((req, res) => {
+				    // Request handling logic here
+				    res.writeHead(200, { 'Content-Type': 'text/plain' });
+				    res.end('Hello, World!\n');
+				});
+				const port = 3000;
+				server.listen(port, () => {
+				    console.log(`Server listening on port ${port}`);
+				});
+
+				(B) Handling Incoming Requests: The callback function passed to `createServer` takes two parameters: `req` (the request object) and `res` (the response object). You handle incoming requests and send responses within this function.
+
+		(c) HTTP Client with http Module:
+			
+			(I) Making HTTP Requests: 
+				
+				(A) The http module can be used to make HTTP requests. The `http.request()` method is commonly used for this purpose.
+
+					const http = require('http');
+
+					const options = {
+					    hostname: 'www.example.com',
+					    port: 80,
+					    path: '/',
+					    method: 'GET',
+					};
+
+					const req = http.request(options, (res) => {
+					    let data = '';
+
+					    // A chunk of data has been received.
+					    res.on('data', (chunk) => {
+					        data += chunk;
+					    });
+
+					    // The whole response has been received.
+					    res.on('end', () => {
+					        console.log(data);
+					    });
+					});
+
+					req.end(); // Important: Close the request stream.
+
+				(B) Handling Responses: Similar to the server side, you handle responses by listening for events on the response object (`res`).
+
+		Key Concepts:
+		
+		(d) Request Object (req): Represents the HTTP request and contains information about the incoming request, such as headers and URL.
+		
+		(e) Response Object (res): Represents the HTTP response that will be sent back to the client. You use methods like `res.writeHead()` and `res.end()` to send the response.
+		
+		(f) Event Emitters: Both the `req` and `res` objects are event emitters. You can listen for events like 'data', 'end', and others to handle the flow of data.
+		
+		(g) Options Object: When making HTTP requests, an options object is often used to specify details such as the hostname, port, path, and request method.
+		
+		(h) Status Codes: HTTP status codes (e.g., 200 for OK, 404 for Not Found) are used in the `res.writeHead` method to communicate the status of the response.
+
+	(ii) `File System Module`:
+	
+		(a)  The File System module in Node.js, often referred to as the `fs` module, provides an interface for interacting with the file system. It allows you to perform various file-related operations, such as reading from and writing to files, creating and deleting directories, and more.
+
+		(b) Reading from a File:
+			
+			(I) `fs.readFile()` and `fs.readFileSync()`: These methods are used to read the contents of a file asynchronously and synchronously, respectively.
+
+			const fs = require('fs');
+
+			// Asynchronous read
+			fs.readFile('example.txt', 'utf8', (err, data) => {
+			    if (err) throw err;
+			    console.log(data);
+			});
+
+			// Synchronous read
+			const data = fs.readFileSync('example.txt', 'utf8');
+			console.log(data);
+
+		(c) Writing to a File: 
+			
+			(I) `fs.writeFile()` and `fs.writeFileSync()`: These methods are used to write data to a file asynchronously and synchronously, respectively.
+
+			const fs = require('fs');
+
+			const content = 'Hello, World!';
+
+			// Asynchronous write
+			fs.writeFile('example.txt', content, 'utf8', (err) => {
+			    if (err) throw err;
+			    console.log('File written successfully.');
+			});
+
+			// Synchronous write
+			fs.writeFileSync('example.txt', content, 'utf8');
+			console.log('File written successfully.');
+
+		(d) File Information:
+			
+			(I) `fs.stat()`: This method is used to get information about a file, such as its size, timestamps, and more.
+
+			const fs = require('fs');
+
+			fs.stat('example.txt', (err, stats) => {
+			    if (err) throw err;
+			    console.log('File size:', stats.size, 'bytes');
+			    console.log('Last modified:', stats.mtime);
+			});
+
+		(e) Directory Operations: 
+			
+			(I) `fs.mkdir()` and `fs.rmdir()`: These methods create and remove directories, respectively.
+
+			const fs = require('fs');
+
+			// Create a directory
+			fs.mkdir('new_directory', (err) => {
+			    if (err) throw err;
+			    console.log('Directory created successfully.');
+			});
+			
+			// Remove a directory
+			fs.rmdir('old_directory', (err) => {
+			    if (err) throw err;
+			    console.log('Directory removed successfully.');
+			});
+
+		(f) Renaming and Deleting Files:
+			
+			(I) `fs.rename()` and `fs.unlink()`: These methods are used to rename and delete files, respectively.
+
+				const fs = require('fs');
+
+				// Rename a file
+				fs.rename('old_file.txt', 'new_file.txt', (err) => {
+				    if (err) throw err;
+				    console.log('File renamed successfully.');
+				});
+				
+				// Delete a file
+				fs.unlink('file_to_delete.txt', (err) => {
+				    if (err) throw err;
+				    console.log('File deleted successfully.');
+				});
+
+
+	(iii) `Path Module`:
+	
+		(a) The path module helps in creating and manipulating file paths in a way that is platform-agnostic, meaning it works consistently across different operating systems (Windows, Linux, macOS, etc.).
+
+		Here are some common functions provided by the path module:
+
+		(b) `path.join([...paths])`: This method joins all the given path segments together. The resulting path is normalized, and any '..' or '.' segments are resolved.
+
+			const path = require('path');
+
+			const fullPath = path.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
+			console.log(fullPath);
+			// Output on Unix-like systems: '/foo/bar/baz/asdf'
+			// Output on Windows: '\foo\bar\baz\asdf'
+
+		(c) `path.resolve([...paths])`: Resolves the specified paths into an absolute path. It behaves similarly to `path.join()`, but it also resolves any relative paths based on the current working directory.
+
+			const fullPath = path.resolve('path', 'to', 'file.txt');
+			console.log(fullPath);
+			// Output on Unix-like systems: '/current/working/directory/path/to/file.txt'
+			// Output on Windows: 'C:\current\working\directory\path\to\file.txt'
+
+		(d) `path.basename(path[, ext])`: Returns the last portion of a path, similar to the Unix `basename` command. Optionally, you can provide an extension, and the base name will be without that extension.
+
+			const fileName = path.basename('/path/to/file.txt');
+			console.log(fileName); // Output: 'file.txt'
+			
+			const baseNameWithoutExt = path.basename('/path/to/file.txt', '.txt');
+			console.log(baseNameWithoutExt); // Output: 'file'
+
+		(e) `path.dirname(path)`: Returns the directory name of a path.
+
+			const dirName = path.dirname('/path/to/file.txt');
+			console.log(dirName);
+			// Output on Unix-like systems: '/path/to'
+			// Output on Windows: '\path\to'
+
+		(f) `path.extname(path)`: Returns the extension of the path, including the period (`.`).
+
+			const extension = path.extname('/path/to/file.txt');
+			console.log(extension); // Output: '.txt'
+
+		(g) `path.normalize(path)`: Normalizes the given path, resolving '..' and '.' segments. It simplifies the path and makes it more consistent.
+
+			const normalizedPath = path.normalize('/foo/bar//baz/asdf/quux/..');
+			console.log(normalizedPath);
+			// Output on Unix-like systems: '/foo/bar/baz/asdf'
+			// Output on Windows: '\foo\bar\baz\asdf'
+
+		(h) `path.isAbsolute(path)`: Determines if the given path is an absolute path.
+
+			console.log(path.isAbsolute('/foo/bar')); // Output: true
+			console.log(path.isAbsolute('foo/bar'));  // Output: false
+
+		(i) `path.relative(from, to)`: Returns the relative path from the from path to the to path.
+
+			const relativePath = path.relative('/data', '/data/file.txt');
+			console.log(relativePath); // Output: 'file.txt'
+
+		(j) `path.parse(pathString)`: Returns an object from a path string, providing information about the path.
+
+			const pathInfo = path.parse('/path/to/file.txt');
+			console.log(pathInfo);
+			/* Output:
+			{
+			  	root: '/',
+			  	dir: '/path/to',
+			  	base: 'file.txt',
+			  	ext: '.txt',
+			  	name: 'file'
+			}
+			*/
+
+		(k) `path.sep` and `path.delimiter`: These properties provide the platform-specific path segment separator (`/` on Unix-like systems, `\` on Windows) and the platform-specific path delimiter for PATH environment variable (: on Unix-like systems, ; on Windows), respectively.
+
+			console.log(path.sep);       // Output: '/' on Unix-like systems, '\' on Windows
+			console.log(path.delimiter); // Output: ':' on Unix-like systems, ';' on Windows
+
+
+	(iv) `Events Module`:
+	
+		(a) `events`: Implements the EventEmitter pattern, allowing objects to emit and listen for events.
+
+	(v) `OS Module`:
+	
+		(a) `os`: Provides operating system-related utility methods and information.
+
+	(vi) `Query String Module`:
+	
+		(a) `querystring`: Provides methods for parsing and formatting URL query strings.
+
+	(vii) `URL Module`:
+	
+		(a) `url`: Parses URLs and provides utilities for working with URLs.
+
+	(viii) `Net Module`:
+	
+		(a) `net`: Provides functionality for creating TCP servers and clients.
+
+	(ix) `Stream Module`:
+	
+		(a) `stream`: Implements the stream interface for working with streams of data.
+
+	(x) `Crypto Module`:
+	
+		(a) `crypto`: Offers cryptographic functionality, including hashing, encryption, and decryption.
+
+	(xi) `Buffer Module`:
+	
+		(a) `buffer`: Provides a way to interact with binary data directly.
+
+	(xii) `Process Module`:
+	
+		(a) `process`: Gives information about the current Node.js process and allows interaction with it.
+
+	(xiii) `DNS Module`:
+	
+		(a) `dns`: Performs DNS-related operations, such as hostname resolution.
+
+	(xiv) `Console Module`:
+	
+		(a) `console`: Provides a simple debugging console.
+
+	(xv) `Timers Module`:
+	
+		(a) `setTimeout`, setInterval, and clearTimeout, clearInterval: Enable scheduling functions to be called after a specified time.
+
+	(xvi) `Readline Module`:
+	
+		(a) `readline`: Provides an interface for reading lines of text from a readable stream.
+
+	(xvii) `Child Process Module`:
+	
+		(a) `child_process`: Allows you to spawn child processes and interact with them.
+
+	(xviii) `Zlib Module`:
+	
+		(a) `zlib`: Provides compression and decompression functionalities using the zlib library.
+
+	(xix) `Assert Module`:
+	
+		(a) `assert`: Provides a simple set of assertion tests.
+
+	(xx) `HTTP2 Module`:
+	
+		(a) `http2`: Implements the HTTP/2 protocol.
+
+38. 3rd Party Modules

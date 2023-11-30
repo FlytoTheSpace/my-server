@@ -1403,11 +1403,13 @@ Properties & their Values:
     
     Let's break down each component:
 
-    (ii) [property]: This specifies the CSS property or properties that should be transitioned. For example, you can use background-color, opacity, width, or any other CSS property.
+    (ii) [property]: This specifies the CSS property or properties that should be transitioned. For example, you can use `background-color`, `opacity`, `width`, or any other CSS property.
 
     (iii) [duration]: This determines the duration of the transition effect. It can be specified in seconds (s) or milliseconds (ms). For example, 0.5s represents a transition duration of 0.5 seconds.
 
-    (iv) [timing-function]: This defines the timing function or easing function of the transition. It specifies how the transition progresses over time. Some common timing functions include linear, ease, ease-in, ease-out, and ease-in-out. You can also use custom cubic-bezier values for more precise control.
+    (iv) [timing-function]: This defines the timing function or easing function of the transition. It specifies how the transition progresses over time. Some common timing functions include `linear`, `ease`, `ease-in`, `ease-out`, and `ease-in-out`. You can also use custom cubic-bezier values for more precise control.
+
+    (v) [delay]: This determines the delay before the transition begins
 
     Here's an example that demonstrates how to add a transition effect to change the background color when hovering over a <button> element:-
 
@@ -1420,7 +1422,176 @@ Properties & their Values:
             background-color: red;
         }
 
+        // They can be applied individually like this
+
+        button {
+            background-color: blue;
+            transition-property: background-color
+            transition-duration: 0.3s 
+            transition-timing-function: ease;
+        }
+        
+        (Note: You can also apply multiple transitions from a single function by seperating them why a comma)
+
+        button {
+            color: lime
+            background-color: blue;
+            transition: background-color 0.3s ease, color 0.5s ease-out;
+        }
+
+        button:hover {
+            color: white
+            background-color: red;
+        }
+
 14. Animations
+
+    (i) @keyframes rule
+        
+        (a) @keyframes rule in CSS is used to define animations by gradually changing from one set of CSS styles to another. It allows you to specify a sequence of style changes at different points in the `animation`, creating smooth and visually appealing effects.
+
+        (b) Syntax:
+
+            @keyframes animation-name {
+                /* CSS rules defining the animation at different keyframes */
+            }
+
+            (I) `animation-name`: A name for the animation, which is referenced in the animation property.
+
+        (c) Example:-
+
+            @keyframes slide-in {
+                0% {
+                    transform: translateX(-100%);
+                }
+                100% {
+                    transform: translateX(0);
+                }
+            }
+
+            /* Applying the animation to an element */
+            .element {
+                animation: slide-in 1s ease-in-out;
+            }
+
+            In this example, the `@keyframes` rule defines an animation named `slide-in`. It consists of two keyframes, one at 0% (Start) and the other at 100% (End), specifying the starting and ending styles of the animation. The animation moves an element from left to right by translating it along the X-axis. The animation property is then used to apply the `slide-in` animation to an element over a duration of 1 second with easing for smoother motion.
+
+        (d) Keyframe Percentages:
+            
+            (I) Keyframes are specified using percentages, ranging from 0% to 100%. These percentages represent the progression of the animation's timeline.
+
+            @keyframes example {
+                0% {
+                    /* styles at the start of the animation */
+                }
+                50% {
+                    /* styles in the middle of the animation */
+                }
+                100% {
+                    /* styles at the end of the animation */
+                }
+            }
+
+        (e) Multiple Keyframes:
+                
+            (I) You can define multiple keyframes within a single @keyframes rule to create complex animations with more intermediate steps.
+
+            @keyframes example {
+                0% {
+                    /* styles at the start of the animation */
+                }
+                25% {
+                    /* styles at 25% of the animation duration */
+                }
+                50% {
+                    /* styles at the middle of the animation */
+                }
+                75% {
+                    /* styles at 75% of the animation duration */
+                }
+                100% {
+                    /* styles at the end of the animation */
+                }
+            }
+
+        (f) Using keywords:
+
+            (I) You can define 0% using `from` and 100% as `to`
+
+            @keyframes example {
+                from{
+                    /* styles at the start of the animation */
+                }
+                to{
+                    /* styles at the end of the animation */
+                }
+            }
+
+    (ii) `animation` Property:
+        
+        (a) defines how the animation `@keyframes` will be applied and what'll happen during the animation
+
+        (b) Syntax:
+
+            .element {
+              animation: animation-name animation-duration animation-timing-function animation-delay animation-iteration-count animation-direction animation-fill-mode animation-play-state;
+            }
+
+            (I) `animation-name:` The name of the `@keyframes` animation.
+            (II) `animation-duration:` The time taken for the animation to complete (e.g., 1s for 1 second).
+
+                (I) Values: seconds (s) and milliseconds (ms)
+
+            (III) `animation-timing-function:` Specifies the speed curve of the animation (e.g., ease, linear, ease-in-out).
+
+                Values:
+
+                Keyword values:
+
+                (A) ease;
+                (B) ease-in;
+                (C) ease-out;
+                (D) ease-in-out;
+                (E) linear;
+                (F) step-start;
+                (G) step-end;
+
+                Function values:
+
+                (H) cubic-bezier(0.1, 0.7, 1, 0.1);
+                (I) steps(4, end);
+
+                steps function:
+
+                (J) steps(4, jump-start);
+                (K) steps(10, jump-end);
+                (L) steps(20, jump-none);
+                (M) steps(5, jump-both);
+                (N) steps(6, start);
+                (P) steps(8, end);
+
+                (Note: you can apply multiple values by seperating them with a comma)
+
+            (IV) `animation-delay:` The time before the animation starts (e.g., 0.5s for a delay of 0.5 seconds).
+            (V) `animation-iteration-count:` The number of times the animation should repeat will repeat
+
+                (A) Values: `infinite` keyword (for Non-stop Repeat), A Whole Number, Decimal (to end animation early)
+
+            (VI) `animation-direction:` Specifies whether the animation should play forward, backward, or alternate.
+
+                (A) Values: keywords: `normal` `reverse` `alternate` `alternate-reverse`
+
+            (VII) `animation-fill-mode:` Defines what styles are applied to the element before and after the animation.
+            (VIII) `animation-play-state:` Specifies whether the animation is running or paused.
+
+
+            Example:
+
+                .element {
+                    animation: slide-in 1s ease-in-out 0.5s infinite alternate both;
+                }
+
+                In this example, the animation property applies the slide-in animation with a duration of 1 second, easing in and out, a delay of 0.5 seconds before starting, infinite iterations, an alternate direction, and both fill mode (applying styles before and after the animation).
 
 Section: Common Values
 
