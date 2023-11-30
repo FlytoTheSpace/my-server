@@ -2,6 +2,7 @@ div.playground{
     width: 50vw;
     min-height: 30vw;
     padding: 2vw 2vw;
+    box-shadow: 0vh 0vh 1vh 0vh black;
 }
 div.playground >*{
     margin: 0.5vw;

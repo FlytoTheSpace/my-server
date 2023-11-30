@@ -4674,7 +4674,18 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 
 			console.log(path.sep);       // Output: '/' on Unix-like systems, '\' on Windows
 			console.log(path.delimiter); // Output: ':' on Unix-like systems, ';' on Windows
+		
+		Variables:
+		
+		(l) `__dirname` represents the current directory that the file is stored in
 
+			console.log(path.join(__dirname))
+			// C:/users/documents/project
+
+		(m) `__filename` represents the current file
+
+			console.log(path.join(__filename))
+			// index.js
 
 	(iv) `Events Module`:
 	

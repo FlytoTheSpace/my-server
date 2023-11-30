@@ -11,18 +11,27 @@ header > nav{
     color: black;
     
 }
-#NavbarMenu{
+#navbarMenu{
     color: white;
 }
-.nav-link{
+.navbarLink{
     color: #21AD84;
 }
-.nav-logo > img{
+.navbarLink:hover{
+    color: transparent;
+    background-image: linear-gradient(to top right, rgb(0, 255, 255), rgb(0, 153, 255), rgba(255, 255, 255, 0.329));
+    background-clip: text;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+}
+.navbarLogo > img{
     background-color: darkslategray;
 }
-#NavbarMenuButtonContainer{
+#navbarMenuButtonContainer{
     background-color: #21AD84;
 }
 div.playground {
-    background-color: #a3bec96e;
+    background-color: #ffffff6e;
+    border: blue solid 0.2vh;
+    border-radius: 1vh;
 }

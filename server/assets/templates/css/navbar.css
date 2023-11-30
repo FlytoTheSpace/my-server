@@ -1,5 +1,5 @@
 header {
-    padding-top: 17vh;
+    padding-top: 19vh;
 }
 
 header>nav {
@@ -8,22 +8,23 @@ header>nav {
     top: 0;
     z-index: 10;
     height: 18vh;
-    width: 100%;
+    min-width: 100%;
 }
 
-nav>ul {
+nav>ul,nav>ul *{
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 /* Navbar Logo */
 
-.nav-logo {
+#navbarLogo{
     padding: 1vh 1vw;
     list-style: none;
 }
 
-.nav-logo>img {
+#navbarLogo>img {
     padding: 1vh 1vw;
     height: 12vh;
     border-style: solid;
@@ -32,7 +33,7 @@ nav>ul {
     border-radius: 1em;
 }
 
-.nav-logo>img:hover {
+#navbarLogo>img:hover {
     border-color: #ffffff;
 
     transition-property: all;
@@ -42,31 +43,25 @@ nav>ul {
 
 
 
-#nav-logo-text {
+#navbarLogotext {
     font-size: 3vh;
     padding-left: 0;
 }
 
-/* Links Container */
-#rightSideNavbar,
-#navlinks {
-
-    width: 100%;
-    justify-content: end;
-    align-items: center;
-    display: flex;
-    height: 18vh;
+#navbarRightSide{
+    height: 100%;
+    justify-self: right;
 }
 
 @media screen and (max-width: 550px) {
-    #navlinks {
+    #navbarLinks {
         display: none;
     }
 }
 
 /* Links */
 
-.nav-link {
+.navbarLink{
     font-size: 3.3vh;
     font-family: sans-serif;
 
@@ -74,34 +69,31 @@ nav>ul {
     align-items: left;
     justify-content: center;
 
-    padding: 3vh 1vw;
+    padding: 0 1vw;
     text-decoration: none;
     cursor: pointer;
+    transition: all 0.2s ease-in;
 }
 
-.nav-link:hover {
-    color: orange;
-
-    transition-property: all;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in;
+.navbarLink:hover{
+    transition: all 0.2s ease-in;
 }
 
 /* Menu */
-#NavbarMenuButtonContainer {
+#navbarMenuButtonContainer {
     justify-content: end;
     align-items: center;
     display: flex;
     height: 100%;
 }
 
-#NavbarMenuButton>img {
+#navbarMenuButton>img {
     cursor: pointer;
     justify-content: end;
     display: flex;
 }
 
-#NavbarMenu {
+#navbarMenu {
     background-color: rgba(77, 77, 77, 0.589);
     height: 70vh;
     width: 20vw;
@@ -114,26 +106,25 @@ nav>ul {
     border: 0.4vh solid transparent;
     border-radius: 2vh;
     border-image-slice: 2;
-    transition: 0.5s ease-in;
-
+    transition: all 1s ease-in;
 }
 
-#NavbarMenuMain {
+#navbarMenuMain {
     height: 85%;
     display: flex;
     flex-direction: column;
 }
 
-#NavbarMenu * {
+#navbarMenu * {
     margin: 0.5vh;
 }
 
-.extraNavMenuLinks {
+.navbarMenuLinks {
     list-style: circle;
     list-style-position: inside;
 }
 
-.extraNavMenuLinks>li {
+.navbarMenuLinks>li {
     padding: 0.5vh;
     background-color: #ffffff57;
     cursor: pointer;
@@ -143,16 +134,16 @@ nav>ul {
     font-weight: bold;
 }
 
-#NavbarMenuBottom {
+#navbarMenuBottom {
     height: 15%;
 }
 
-.NavMenuSocialLinks {
+.navbarMenuSocialLinks {
     list-style: none;
     display: flex;
 }
 
-.NavMenuSocialLinks>li {
+.navbarMenuSocialLinks>li {
     width: 3vw;
     height: 3vw;
     background-color: #ffffff;
@@ -162,7 +153,7 @@ nav>ul {
     display: inherit;
 }
 
-.NavMenuSocialLinks>li>img {
+.navbarMenuSocialLinks>li>img {
     cursor: pointer;
     max-width: 2vw;
     max-height: 2vw;
@@ -174,47 +165,47 @@ nav>ul {
 }
 
 @media screen and (max-width: 1100px) {
-    #NavbarMenu {
+    #navbarMenu {
         width: 30vw;
     }
 
-    .NavMenuSocialLinks>li {
+    .navbarMenuSocialLinks>li {
         width: 4vh;
         height: 4vh;
     }
 
-    .NavMenuSocialLinks>li>img {
+    .navbarMenuSocialLinks>li>img {
         max-width: 3vh;
         max-height: 3vh;
     }
 }
 
 @media screen and (max-width: 800px) {
-    #NavbarMenu {
+    #navbarMenu {
         width: 50vw;
     }
 
-    .NavMenuSocialLinks>li {
+    .navbarMenuSocialLinks>li {
         width: 6vh;
         height: 6vh;
     }
 
-    .NavMenuSocialLinks>li>img {
+    .navbarMenuSocialLinks>li>img {
         max-width: 4vh;
         max-height: 4vh;
     }
 }
 
 @media screen and (max-width: 600px) {
-    #NavbarMenu {
+    #navbarMenu {
         width: 70vw;
     }
 
-    .NavMenuSocialLinks>li {
+    .navbarMenuSocialLinks>li {
         width: 8vh;
         height: 8vh;
     }
-    .NavMenuSocialLinks>li>img {
+    .navbarMenuSocialLinks>li>img {
         max-width: 6vh;
         max-height: 6vh;
     }

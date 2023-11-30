@@ -8,8 +8,13 @@ body {
 header>nav {
     background-color: #242424;
 }
-.nav-links {
-    color: white;
+
+.navbarLink:hover {
+    color: transparent;
+    background-image: linear-gradient(to top right, rgb(255, 102, 0), orange, white);
+    background-clip: text;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
 }
 div.playground{
     background-color: #3d3d3d;

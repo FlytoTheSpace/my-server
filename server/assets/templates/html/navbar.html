@@ -1,44 +1,46 @@
 <nav>
     <ul>
-        <li class="nav-logo">
-            <img onclick="navbarLinksRedirectFunc( null, '/')" src="./assets/Images/icons/logos/Flamer works Logo.png" alt="Logo">
-        </li>
-        <div id="rightSideNavbar">
-            <div id="navlinks">
-                <li class="nav-link" onclick="navbarLinksRedirectFunc( null, '/')">Home</li>
-                <li class="nav-link" onclick="navbarLinksRedirectFunc(1)">About</li>
-                <li class="nav-link" onclick="navbarLinksRedirectFunc(2)">Contact</li>
-                <li class="nav-link" onclick="navbarLinksRedirectFunc(3)">Services</li>
+        <div id="leftSideNavbar">
+            <li id="navbarLogo">
+                <img src="./assets/images/icons/logos/Flamer works Logo.png" alt="Logo" onclick="redirect('/')">
+                <li id="navbarLogoText"></li>
+            </li>
+        </div>
+        <div id="navbarRightSide">
+            <div id="navbarLinks">
+                <li class="navbarLink " onclick="redirect('/')"><img src="./assets/images/icons/home_dark.svg" alt="">Home</li>
+                <li class="navbarLink redirectbyName"><img src="" alt="">Services</li>
+                <li class="navbarLink redirectbyName"><img src="./assets/images/icons/contact_dark.svg" alt="">Contact</li>
             </div>
-            <div id="NavbarMenuButtonContainer">
-                <li class="nav-link" id="NavbarMenuButton"> <img src="./assets/Images/icons/menu.png" alt=""></li>
+            <div id="navbarMenuButtonContainer">
+                <li class="navbarLink" id="navbarMenuButton"> <img src="./assets/images/icons/menu.png" alt=""></li>
             </div>
         </div>
     </ul>
     <!-- Menu -->
-    <div id="NavbarMenu" class="displaynone">
-        <div id="NavbarMenuMain">
+    <div id="navbarMenu" class="displaynone">
+        <div id="navbarMenuMain">
             <h4>More Pages</h4>
-            <ul class="extraNavMenuLinks">
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(0)">Experiments</li>
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(1)">JavaScript Notes</li>
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(2)">HTML Notes</li>
+            <ul class="navbarMenuLinks">
+                <li class="navbarMenuLink redirectbyName">Experiments</li>
+                <li class="navbarMenuLink redirectbyName">JavaScript Notes</li>
+                <li class="navbarMenuLink redirectbyName">HTML Notes</li>
             </ul>
             <h4>Tools</h4>
-            <ul class="extraNavMenuLinks">
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(null, '/alarm')">Alarm Clock</li>
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(null, '/data')">Data - Personal Storage</li>
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(5)">Gradient Generator</li>
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(6)">PDF Merger</li>
-                <li class="nav-menu-link" onclick="navbarMenuLinksRedirectFunc(7)">Password Generator</li>
+            <ul class="navbarMenuLinks">
+                <li class="navbarMenuLink redirectbyName">Alarm Clock</li>
+                <li class="navbarMenuLink redirectbyName">Data - Personal Storage</li>
+                <li class="navbarMenuLink redirectbyName">Gradient Generator</li>
+                <li class="navbarMenuLink redirectbyName">PDF Merger</li>
+                <li class="navbarMenuLink redirectbyName">Password Generator</li>
             </ul>
         </div>
-        <div id="NavbarMenuBottom">
-            <ul class="NavMenuSocialLinks">
-                <li><img src="./assets/Images/icons/logos/github_icon.png" alt="" onclick="navbarMenuLinksRedirectFunc( null , 'https:\/\/github.com/FlytoTheSpace/my-server')"></li>
-                <li><img src="./assets/Images/icons/logos/youtube_icon.png" alt="" onclick="navbarMenuLinksRedirectFunc( null , 'https:\/\/www.youtube.com/@flytothespace')"></li>
-                <li><img src="./assets/Images/icons/logos/discord_icon.png" alt="" onclick="navbarMenuLinksRedirectFunc( null , 'https:\/\/discord.gg/MWXZuA5p6t')"></li>
-                <li style="background: #2b2b2b;"><img src="./assets/Images/icons/dark_mode.png" alt="" id="themeSwitchButton"></li>
+        <div id="navbarMenuBottom">
+            <ul class="navbarMenuSocialLinks">
+                <li><img src="./assets/images/icons/logos/github_icon.png" alt="" onclick="navbarMenuLinksRedirectFunc( null , 'https:\/\/github.com/FlytoTheSpace/my-server')"></li>
+                <li><img src="./assets/images/icons/logos/youtube_icon.png" alt="" onclick="navbarMenuLinksRedirectFunc( null , 'https:\/\/www.youtube.com/@flytothespace')"></li>
+                <li><img src="./assets/images/icons/logos/discord_icon.png" alt="" onclick="navbarMenuLinksRedirectFunc( null , 'https:\/\/discord.gg/MWXZuA5p6t')"></li>
+                <li style="background: #2b2b2b;"><img src="./assets/images/icons/dark_mode.png" alt="" id="themeSwitchButton"></li>
             </ul>
         </div>
     </div>

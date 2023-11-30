@@ -1,5 +1,5 @@
 let navbarfetch = fetch('./assets/templates/html/navbar.html')
-    .then((response)=>{
+    .then((response) => {
         console.info("Navbar Status Code:", response.status)
         return response.text();
     })
@@ -9,71 +9,57 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             navbarPlaceholder.innerHTML = data + navbarPlaceholder.innerHTML;
         } else {
             navbarPlaceholder.innerHTML = data;
-        }
-        const navbarmenu = document.getElementById('NavbarMenuButton');
+        };
 
-        navbarmenu.addEventListener("mouseover", () => {
-            navbarmenu.firstElementChild.src = "./assets/Images/icons/menu_hover.png"
-        })
-        navbarmenu.addEventListener("mouseleave", () => {
-            navbarmenu.firstElementChild.src = "./assets/Images/icons/menu.png"
-        })
-        navbarmenu.addEventListener('click', () => {
-            document.getElementById("NavbarMenu").classList.toggle("displaynone")
-        })
-        navbarmenu.addEventListener('touchmove', () => {
-            console.log("touched")
-            document.getElementById("NavbarMenu").classList.toggle("displaynone")
-        })
-        setInterval(async () => {
-            // if (screen.width <= 500) {
-            //     let navlinks = document.getElementById("navlinks");
-            //     if (navlinks.style.display == "flex") {
-            //         navlinks.style.display = "none";
-            //     }
-            // } else if (screen.width >= 500) {
-            //     let navlinks = document.getElementById("navlinks");
-            //     if (navlinks.style.display != "flex"){
-            //         navlinks.style.display = "flex";
-            //     }
-            // }
-            try{
+
+        const navbarMenu = document.getElementById('navbarMenuButton');
+
+        navbarMenu.addEventListener("mouseover", () => navbarMenu.firstElementChild.src = "./assets/images/icons/menu_hover.png");
+        navbarMenu.addEventListener("mouseleave", () => navbarMenu.firstElementChild.src = "./assets/images/icons/menu.png");
+        navbarMenu.addEventListener('click', () => document.getElementById("navbarMenu").classList.toggle("displaynone"));
+        navbarMenu.addEventListener('touchmove', () => document.getElementById("navbarMenu").classList.toggle("displaynone"));
+
+        // Theme Update
+        setInterval(() => {
+            try {
                 if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
                     document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
                 } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
                     document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
                 }
-            } catch(err){
+            } catch (err) {
                 console.warn(err)
             }
         });
+
         let themeSwitchButton = document.getElementById("themeSwitchButton");
-        themeSwitchButton.addEventListener("click", ()=>{
+
+        // Checking if 
+        if (getCookie("theme") == "dark") {
+            themeSwitchButton.src = "./assets/images/icons/light_mode.png"
+            themeSwitchButton.parentElement.style.backgroundColor = "white"
+        } else if (getCookie("theme") == "light") {
+            themeSwitchButton.src = "./assets/images/icons/dark_mode.png"
+            themeSwitchButton.parentElement.style.backgroundColor = "#2b2b2b"
+        }
+
+        themeSwitchButton.addEventListener("click", () => {
             if (getCookie("theme") == "dark") {
                 document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
-                themeSwitchButton.src = "./assets/Images/icons/dark_mode.png"
+                themeSwitchButton.src = "./assets/images/icons/dark_mode.png"
                 themeSwitchButton.parentElement.style.backgroundColor = "#2b2b2b"
                 document.cookie = "theme=light;"
             } else if (getCookie("theme") == "light") {
                 document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
-                themeSwitchButton.src = "./assets/Images/icons/light_mode.png"
+                themeSwitchButton.src = "./assets/images/icons/light_mode.png"
                 themeSwitchButton.parentElement.style.backgroundColor = "white"
                 document.cookie = "theme=dark;"
             }
         });
+        const Elements = document.getElementsByClassName("redirectbyName");
+        Array.from(Elements).forEach(element => {
+            element.addEventListener('click', (e)=>{
+                location.href = `/${e.target.textContent.toLowerCase().replace(' ', '-')}`
+            })
+        });
     });
-
-const navbarLinksRedirectFunc = (index, link) => {
-    if (typeof index == undefined || typeof index == null || index == undefined || index == null) {
-        location.href = `${link}`;
-    } else {
-        location.href = `/${document.getElementsByClassName('nav-link')[index].textContent.toLowerCase()}`
-    }
-}
-const navbarMenuLinksRedirectFunc = (index, link) => {
-    if (typeof index == undefined || typeof index == null || index == undefined || index == null) {
-        location.href = `${link}`;
-    } else {
-        location.href = `/${document.getElementsByClassName('nav-menu-link')[index].textContent.toLowerCase().replace(' ', '-')}`
-    }
-}

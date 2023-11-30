@@ -101,7 +101,7 @@
             transition: 0.3s;
         }
 
-        img[src="./assets/Images/icons/check.png"] {
+        img[src="./assets/images/icons/check.png"] {
             width: 3vw;
             height: 3vw;
             transition: .5s;
@@ -137,7 +137,7 @@
                 <input type="text" placeholder="Key" id="inputKey">
                 <input type="text" placeholder="Value" id="inputValue">
                 <button onclick="addItem()" id="addButton">Add</button>
-                <img src="./assets/Images/icons/check.png" class="visibility" alt="">
+                <img src="./assets/images/icons/check.png" class="visibility" alt="">
             </div>
         </div>
     </main>
@@ -150,7 +150,7 @@
         const deleteItem = (num) => {
             let element = document.querySelector(`td[data-deleteid="${num}"]`);
             let elementContainer = element.closest("tr");
-            let successGIF = document.querySelector(`img[src="./assets/Images/icons/check.png"]`)
+            let successGIF = document.querySelector(`img[src="./assets/images/icons/check.png"]`)
             localStorage.removeItem(elementContainer.firstElementChild.textContent)
             loadList()
 
@@ -162,7 +162,7 @@
         const addItem = () => {
             let KeyInput = document.getElementById("inputKey");
             let ValueInput = document.getElementById("inputValue");
-            let successGIF = document.querySelector(`img[src="./assets/Images/icons/check.png"]`)
+            let successGIF = document.querySelector(`img[src="./assets/images/icons/check.png"]`)
 
             if (KeyInput.value != "" && ValueInput.value != "") {
                 localStorage.setItem(KeyInput.value, ValueInput.value)
@@ -184,7 +184,7 @@
                 tableBody.innerHTML += `<tr>
                         <td>${localStorage.key(i)}</td>
                         <td>${localStorage.getItem(localStorage.key(i))}</td>
-                        <td data-deleteid="${i}" onclick="deleteItem(${i})"><img src="./assets/Images/icons/delete_button.png"></img></td>
+                        <td data-deleteid="${i}" onclick="deleteItem(${i})"><img src="./assets/images/icons/delete_button.png"></img></td>
                     </tr>`
             }
         }

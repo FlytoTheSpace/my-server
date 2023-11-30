@@ -23,7 +23,9 @@ fetch('/assets/templates/html/setup.html')
 
 */
 
-
+const redirect = (url)=>{
+    location.href = url
+}
 // The Code shown up here is the old way of loading Scripts
 const getCookie = (name)=>{
     let cookies = document.cookie.split("; ");

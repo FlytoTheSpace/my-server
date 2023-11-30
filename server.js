@@ -117,6 +117,8 @@ app.post(`/loginSubmit`, (req, res) => {
 })
 
 // Routes
+
+
 /* app.get(`/${process.env.API_ACCOUNTS_URL}`, (req, res)=>{
     fs.readFile('credientials/accounts.json', 'utf8', (err,data) => {
         res.json(JSON.parse(data))
@@ -178,6 +180,12 @@ app.get('/pdf-merger', (req, res) => {
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, './server/register.html'))
 })
+
+// 404 Page
+
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, './server/404.html'));
+});
 
 // Starting Server
 app.listen(port, () => {
