@@ -30,15 +30,16 @@ const Authenticate = {
                         let Accounts = JSON.parse(data);
                         const EmailMatchedAcc = Accounts.find(acc => acc.email == decodedToken.email);
                         if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                            console.log("Invalid Token, The User Doesn't seems to exist")
+                            if (mode == 'strict') {
+                                response.send("Access Denied, Invalid Token")
+                            }
                         } else {
                             try {
                                 if (crypto.timingSafeEqual(Buffer.from(decodedToken.password), Buffer.from(EmailMatchedAcc.password))) {
-
-                                    console.log(`[${new Date().toLocaleTimeString()}] Authenticated user: ${LoginfoDecryptionKey.decrypt(decodedToken.username)}`);
                                 } else {
-                                    console.log(decodedToken.password + "\n" + EmailMatchedAcc.password)
-                                    console.log("Invalid Token, Incorrect Password");
+                                    if (mode == 'strict') {
+                                        response.send("Access Denied, Invalid Token")
+                                    }
                                 }
                             } catch (err) {
                                 console.log(`[${new Date().toLocaleTimeString()}] ${err}`)

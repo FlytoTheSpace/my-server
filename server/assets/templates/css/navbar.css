@@ -53,11 +53,6 @@ nav>ul,nav>ul *{
     justify-self: right;
 }
 
-@media screen and (max-width: 550px) {
-    #navbarLinks {
-        display: none;
-    }
-}
 
 /* Links */
 
@@ -197,9 +192,17 @@ nav>ul,nav>ul *{
 }
 
 @media screen and (max-width: 600px) {
+    #navbarRightSide{
+        width: 100%;
+    }
     #navbarMenu {
         width: 70vw;
+        top: 16vh;
     }
+    #navbarMenuButtonContainer{
+        align-self: flex-end;
+    }
+    
 
     .navbarMenuSocialLinks>li {
         width: 8vh;
@@ -208,5 +211,11 @@ nav>ul,nav>ul *{
     .navbarMenuSocialLinks>li>img {
         max-width: 6vh;
         max-height: 6vh;
+    }
+    #navbarLogo>img{
+        height: 5vh;
+    }
+    nav>ul{
+        flex-direction: column;
     }
 }

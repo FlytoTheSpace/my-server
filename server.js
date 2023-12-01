@@ -55,7 +55,6 @@ app.post(`/registerSubmit`, async (req, res) => {
             email: EncrytEmail,
             password: hashedPassword
         };
-        res.status(201).send()
         fs.readFile('credientials/accounts.json', 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
@@ -65,11 +64,11 @@ app.post(`/registerSubmit`, async (req, res) => {
                 json = JSON.stringify(obj); //convert it back to json
                 fs.writeFile('credientials/accounts.json', json, 'utf8', () => { });
 
-                const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+                const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
                 res.cookie('accessToken', token, {
                     httpOnly: true,
                     path: '/'
-                });
+                }).status(201).send("Successful Register");
             }
         });
 
@@ -98,7 +97,8 @@ app.post(`/loginSubmit`, (req, res) => {
                                 httpOnly: true,
                                 path: '/'
                             });
-                            res.status(201).send("Successful Login");
+                            res.status(201).redirect('/');
+                            console.log(`[${new Date().toLocaleTimeString()}] ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
                         } else {
                             res.status(401).send("Incorrect Password");
                         }
