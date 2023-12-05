@@ -3038,7 +3038,7 @@ Section: Professional Methods
 
 				(Note: Parsing Data is essential to get data in specific Formats)
 				
-				(A) `Text()` Method: Returns a Promise that resolves with the response body as text.
+				(A) `text()` Method: Returns a Promise that resolves with the response body as text.
 				(B) `json()` function is used to extract JSON content from the response. It parses the response body as JSON and returns a Promise that resolves to the result of parsing the body text as JSON. This function is especially useful when dealing with APIs that return JSON data.
 				(C) `Blob()` Method: Returns a Promise that resolves with the response body as a Blob (binary large object).
 

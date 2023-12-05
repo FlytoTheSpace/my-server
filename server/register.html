@@ -85,13 +85,13 @@
                     <div>
                         <h3>Register</h3>
                         <label for="username">
-                            <input type="username" name="username" id="username" placeholder="username">
+                            <input type="username" name="username" id="username" placeholder="username" minlength="3" maxlength="20" required>
                         </label> <br>
                         <label for="email">
-                            <input type="email" name="email" id="email" placeholder="email">
+                            <input type="email" name="email" id="email" placeholder="email" required>
                         </label> <br>
                         <label for="password">
-                            <input type="password" name="password" id="password" placeholder="password">
+                            <input type="password" minlength="3" maxlength="20" name="password" id="password" placeholder="password" required>
                         </label> <br>
                     </div>
                     <button type="submit" id="submitbutton" class="t-1 c-blue fullspan">Login</button>

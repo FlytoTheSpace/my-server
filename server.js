@@ -18,7 +18,8 @@ const cookieParser = require('cookie-parser');
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const jwt = require('jsonwebtoken');
-const authenticate = require('./assets/authenticate')
+const authenticate = require('./assets/authenticate');
+const { decode } = require('punycode');
 
 
 require('dotenv').config(); // Credientials
@@ -33,6 +34,25 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.get('/profileinfofetch', (req, res)=>{
+    try {
+        let token = req.headers.authorization;
+        let decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY)
+
+        let decryptedUsername = LoginfoDecryptionKey.decrypt(decodedToken.username);
+        let decryptedEmail = LoginfoDecryptionKey.decrypt(decodedToken.email);
+
+        let ProfileInfo = {
+            'username': decryptedUsername,
+            'email': decryptedEmail
+        }
+
+        res.send(ProfileInfo)
+    } catch (error) {
+        console.log(error)
+    }
+    
+})
 // Requests
 app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
     try {
@@ -66,7 +86,7 @@ app.post(`/registerSubmit`, async (req, res) => {
 
                 const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
                 res.cookie('accessToken', token, {
-                    httpOnly: true,
+                    httpOnly: false,
                     path: '/'
                 }).status(201).send("Successful Register");
             }
@@ -94,7 +114,7 @@ app.post(`/loginSubmit`, (req, res) => {
 
                             const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
                             res.cookie('accessToken', token, {
-                                httpOnly: true,
+                                httpOnly: false,
                                 path: '/'
                             });
                             res.status(201).redirect('/');
@@ -176,6 +196,9 @@ app.get('/password-generator', (req, res) => {
 })
 app.get('/pdf-merger', (req, res) => {
     res.sendFile(path.join(__dirname, './server/pdfmerger.html'))
+})
+app.get('/profile', (req, res) => {
+    res.sendFile(path.join(__dirname, './server/profile.html'))
 })
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, './server/register.html'))
