@@ -15,10 +15,11 @@ const upload = multer({ dest: 'uploads/' })
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+const jwt = require('jsonwebtoken');
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
-const jwt = require('jsonwebtoken');
 const authenticate = require('./assets/authenticate');
+const {UIMSG_1} = require('./assets/UI_messages')
 const { decode } = require('punycode');
 
 
@@ -65,6 +66,17 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
 });
 app.post(`/registerSubmit`, async (req, res) => {
     try {
+
+        // throwing errors upon empty
+        if (req.body.username == null || req.body.username == undefined ){
+            res.send("Username Field can't be empty")
+        } else if (req.body.email == null || req.body.password == undefined ){
+            res.send("Email Field can't be empty")
+        } else if (req.body.password == null || req.body.password == undefined) {
+            res.send("Password Field can't be empty")
+        }
+
+        // Encrypting Data
         const GeneratedSalt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(req.body.password, GeneratedSalt)
         const EncrytUsername = LoginfoDecryptionKey.encrypt(req.body.username)
@@ -75,20 +87,28 @@ app.post(`/registerSubmit`, async (req, res) => {
             email: EncrytEmail,
             password: hashedPassword
         };
-        fs.readFile('credientials/accounts.json', 'utf8', (err, data) => {
+
+        // Registering Data into the Database
+        fs.readFile('credientials/accounts.json', 'utf8', (err, rawData) => {
             if (err) {
                 console.log(err);
             } else {
-                let obj = JSON.parse(data);
-                obj.push(user); //add some data
-                json = JSON.stringify(obj); //convert it back to json
-                fs.writeFile('credientials/accounts.json', json, 'utf8', () => { });
 
+                let data = JSON.parse(rawData);
+                
+                // Adding User to the Database
+                data.push(user);
+                let ReconvertedData = JSON.stringify(data); //convert it back to json
+                fs.writeFile('credientials/accounts.json', ReconvertedData, 'utf8', () => { });
+
+                // Generating a Token
                 const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                // Assigning the token and Redirecting
                 res.cookie('accessToken', token, {
                     httpOnly: false,
                     path: '/'
-                }).status(201).send("Successful Register");
+                }).status(201).redirect('/profile');
             }
         });
 
@@ -100,31 +120,49 @@ app.post(`/registerSubmit`, async (req, res) => {
 app.post(`/loginSubmit`, (req, res) => {
     try {
 
-        fs.readFile('credientials/accounts.json', 'utf8', async (err, data) => {
+        fs.readFile('credientials/accounts.json', 'utf8', async (err, rawData) => {
             if (err) {
                 console.log(err);
             } else {
-                let Accounts = JSON.parse(data);
+
+                // Logic Begins Here
+                let Accounts = JSON.parse(rawData);
+
+                // Checking if the user exists
                 let EmailMatchedAcc = Accounts.find(acc => LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
                 if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                    res.status(404).send("Status: 404, The User Doesn't seems to exist")
-                } else {
+                    res.status(404).send(UIMSG_1("404, The User Doesn't seems to exist"))
+                }
+                
+                // If the user exists then:
+                else {
                     try {
-                        if (await bcrypt.compare(req.body.password, EmailMatchedAcc.password)) {
 
+                        // Checking if Password Matches
+                        const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
+
+                        if (PasswordsMatch) {
+                            
+                            // Generating a Token
                             const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+                            
+                            // Assigning and Redirecting
                             res.cookie('accessToken', token, {
                                 httpOnly: false,
                                 path: '/'
-                            });
-                            res.status(201).redirect('/');
+                            }).status(201).redirect('/');
+
                             console.log(`[${new Date().toLocaleTimeString()}] ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
-                        } else {
-                            res.status(401).send("Incorrect Password");
                         }
+                        // On Wrong Password
+                        else {
+                            res.status(401).send(UIMSG_1("Incorrect Password"));
+                        }
+
+                    // Handling Errors while Passwords matching
                     } catch (err) {
                         console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
-                        res.status(500).send("Status: 500, Internal Server error. pls try again later...")
+                        res.status(500).send(UIMSG_1("500, Internal Server error. pls try again later..."))
                     }
                 }
 
@@ -132,7 +170,7 @@ app.post(`/loginSubmit`, (req, res) => {
         });
     } catch (error) {
         console.error(`[${new Date().toLocaleTimeString()}] ${error}`);
-        res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
+        res.status(500).send(UIMSG_1("Internal Server Error"));
     }
 })
 
@@ -156,7 +194,7 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/data', (req, res) => {
-    authenticate.byToken(req);
+    authenticate.byToken(req, res, 'strict');
     try{
         res.sendFile(path.join(__dirname, './server/data.html'))
     }catch(err){
@@ -207,7 +245,7 @@ app.get('/register', (req, res) => {
 // 404 Page
 
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, './server/404.html'));
+    res.status(404).send(UIMSG_1("Error 404 Page Not Found;"));
 });
 
 // Starting Server

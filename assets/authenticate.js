@@ -1,3 +1,5 @@
+const { UIMSG_1 } = require('./UI_messages');
+
 // Import required modules
 const fs = require('fs');
 const crypto = require('crypto');
@@ -22,33 +24,56 @@ const Authenticate = {
                     console.log("error: token is undefined")
                 }
             } else {
-                const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-                fs.readFile('credientials/accounts.json', 'utf8', async (err, data) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        let Accounts = JSON.parse(data);
-                        const EmailMatchedAcc = Accounts.find(acc => acc.email == decodedToken.email);
-                        if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                            if (mode == 'strict') {
-                                response.send("Access Denied, Invalid Token")
-                            }
+                try {
+                    const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                    fs.readFile('credientials/accounts.json', 'utf8', async (err, data) => {
+                        if (err) {
+                            console.log(err);
                         } else {
-                            try {
-                                if (crypto.timingSafeEqual(Buffer.from(decodedToken.password), Buffer.from(EmailMatchedAcc.password))) {
-                                } else {
-                                    if (mode == 'strict') {
+                            let Accounts = JSON.parse(data);
+                            const EmailMatchedAcc = Accounts.find(acc => acc.email == decodedToken.email);
+
+                            if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
+                                if (mode == 'strict') {
+                                    try {
                                         response.send("Access Denied, Invalid Token")
+                                    } catch (error) {
+                                        if (error.message == "Can't set headers after they are sent.") { }
+                                        else { console.log(error) };
                                     }
                                 }
-                            } catch (err) {
-                                console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
-                                console.log("Status: 500, Internal Server error while Authenticating with The Token")
+                            } else {
+                                try {
+                                    if (crypto.timingSafeEqual(Buffer.from(decodedToken.password), Buffer.from(EmailMatchedAcc.password))) {
+                                    } else {
+                                        if (mode == 'strict') {
+                                            try {
+                                                response.send("Access Denied, Invalid Token")
+                                            } catch (error) {
+                                                if (error.message == "Can't set headers after they are sent.") { }
+                                                else { console.log(error) };
+                                            }
+                                        }
+                                    }
+                                } catch (err) {
+                                    console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
+                                    console.log("Status: 500, Internal Server error while Authenticating with The Token")
+                                }
                             }
-                        }
 
+                        }
+                    });
+                } catch (error) {
+                    try {
+                        if (mode == 'strict') {
+                            response.send(UIMSG_1(error.message))
+                        }
+                    } catch (error) {
+                        if (error.message == "Can't set headers after they are sent.") { }
+                        else { console.log(error) };
                     }
-                });
+                }
             }
         } catch (error) {
             console.log(`[${new Date().toLocaleTimeString()}] ${error}`)
