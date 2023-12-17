@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/music.css">
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <div class="playground" id="mainContainer">
+            <h2>Music</h2>
+            <ul id="MusicList">
+            </ul>
+            <button class="t-1 c-blue" id="play">Play</button>
+        </div>
+        <div id="musicControlsPanel">
+            <div id="ControlPanelRow1"></div>
+            <div id="ControlPanelRow2">
+                <input type="range" class="center" id="progressBar" value="0">
+            </div>
+            <div id="ControlPanelRow3"></div>
+        </div>
+    </main>
+    Photo by <a
+        href="https://unsplash.com/@leyy?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Leyre</a>
+    on <a
+        href="https://unsplash.com/photos/an-aerial-view-of-a-city-at-night-71SHXwBLp5w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+    <footer></footer>
+    <script src="./assets/templates/scripts/setup.js"></script>
+    <script>
+
+        const songs = [
+            {
+                song: './assets/sounds/music/Alan Walker - Faded (Instrumental Version).mp4'
+            },
+            {
+
+                song: './assets/sounds/music/Cartoon - On & On (feat. Daniel Levi) _ Electronic Pop _ NCS - Copyright Free Music.mp4'
+            },
+            {
+                song: './assets/sounds/music/Different Heaven & EH!DE - My Heart _ Drumstep _ NCS - Copyright Free Music.mp4',
+            },
+            {
+                song: './assets/sounds/music/Disfigure - Blank _ Melodic Dubstep _ NCS - Copyright Free Music.mp4'
+            },
+            {
+                song: './assets/sounds/music/Elektronomia - Sky High _ Melodic House _ NCS - Copyright Free Music.mp4'
+            },
+            {
+                song: './assets/sounds/music/Jim Yosef - Firefly _ Melodic House _ NCS - Copyright Free Music.mp4'
+            },
+            {
+                song: './assets/sounds/music/Jim Yosef - Link _ Melodic House _ NCS - Copyright Free Music.mp4'
+            },
+            {
+                song: './assets/sounds/music/Lost Sky - Fearless pt.II (feat. Chris Linton) _ Trap _ NCS - Copyright Free Music.mp4'
+            },
+            {
+                song: './assets/sounds/music/Warriyo - Mortals (feat. Laura Brehm) _ Future Trap _ NCS - Copyright Free Music.mp4'
+            }
+        ];
+        // Loading Songs
+        for (const i in songs) {
+            const element = document.getElementById('MusicList');
+            element.insertAdjacentHTML("beforeend", `
+                <li data-item="${i}" data-song="${songs[i].song}" class="MusicListItem">
+                    <img src="./assets/images/backgrounds/patrick-tomasso-5hvn-2WW6rY-unsplash.jpg" alt="">
+                    <p class="title">${songs[i].song.replace('./assets/sounds/music/', '').replace(/\..../g, '')}</p>
+                    <button class="SongItemPlayBtn withIcon t-1"><img src="./assets/images/icons/play.svg"></img></button>
+                </li>`
+            )
+        }
+
+        // Declarations
+        const Buttons = Array.from(document.getElementsByClassName('SongItemPlayBtn'));
+        const progressBar = document.getElementById('progressBar');
+
+        let Music = new Audio(songs[0].song);
+
+        // Functions
+        const playPauseMusic = (imgElement) => {
+            if (Music.paused) {
+                Array.from(document.getElementsByClassName('SongItemPlayBtn')).forEach(btn => {
+                    btn.firstElementChild.src = "./assets/images/icons/play.svg"
+                })
+                Music.play()
+                imgElement.src = "./assets/images/icons/pause.svg"
+            } else {
+                Music.pause()
+                imgElement.src = "./assets/images/icons/play.svg"
+            }
+        }
+        const updateProgressBar = () => {
+            const progress = parseInt(Music.currentTime / Music.duration * 100)
+            progressBar.value = progress
+        }
+
+        // Events
+        progressBar.addEventListener('change', ()=>{
+            Music.currentTime = progressBar.value*Music.duration/100
+        })
+        Music.addEventListener("timeupdate", (e) => {
+            updateProgressBar();
+        });
+        Buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Defining a Base
+                const SongsListItem = e.target.closest('.MusicListItem');
+
+                // Formating The SRC
+                let formatedMusicSRC = `./${Music.src.replace(location.href.replace('music', ''), '').replace(/%20/g, ' ')}`
+
+                // Checking if Music has been changed or not Declared yet
+                if (!Music || formatedMusicSRC !== SongsListItem.dataset.song) {
+
+                    // Checking and pause any previous Music before playing new one
+                    if (formatedMusicSRC !== SongsListItem.dataset.song && Music) {
+                        Music.pause();
+                    }
+                    // Defining Song to play
+                    Music = new Audio(SongsListItem.dataset.song);
+
+                    // Updating Progress Bar
+                    Music.addEventListener("timeupdate", (e) => {
+                        updateProgressBar();
+                    });
+                }
+                // Playing Music
+                playPauseMusic(e.target);
+            })
+        });
+    </script>
+</body>
+
+</html>

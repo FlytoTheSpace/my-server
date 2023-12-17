@@ -1,8 +1,10 @@
 // Imports
 
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
-const port = 5500;
+const port = process.env.PORT || 5500;
 
 const path = require('path');
 const fs = require('fs');
@@ -19,11 +21,10 @@ const jwt = require('jsonwebtoken');
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
-const {UIMSG_1} = require('./assets/UI_messages')
+const { UIMSG_1 } = require('./assets/UI_messages')
 const { decode } = require('punycode');
 
 
-require('dotenv').config(); // Credientials
 
 // Other
 
@@ -35,7 +36,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get('/profileinfofetch', (req, res)=>{
+app.get('/profileinfofetch', (req, res) => {
     try {
         let token = req.headers.authorization;
         let decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY)
@@ -52,7 +53,7 @@ app.get('/profileinfofetch', (req, res)=>{
     } catch (error) {
         console.log(error)
     }
-    
+
 })
 // Requests
 app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
@@ -68,12 +69,18 @@ app.post(`/registerSubmit`, async (req, res) => {
     try {
 
         // throwing errors upon empty
-        if (req.body.username == null || req.body.username == undefined ){
-            res.send("Username Field can't be empty")
-        } else if (req.body.email == null || req.body.password == undefined ){
-            res.send("Email Field can't be empty")
-        } else if (req.body.password == null || req.body.password == undefined) {
-            res.send("Password Field can't be empty")
+        {
+            const usernameFieldEmpty = req.body.username == null || req.body.username == undefined;
+            const emailFieldEmpty = req.body.email == null || req.body.password == undefined;
+            const passwordFieldEmpty = req.body.password == null || req.body.password == undefined
+
+            if (usernameFieldEmpty) {
+                res.send("Username Field can't be empty")
+            } else if (emailFieldEmpty) {
+                res.send("Email Field can't be empty")
+            } else if (passwordFieldEmpty) {
+                res.send("Password Field can't be empty")
+            }
         }
 
         // Encrypting Data
@@ -95,7 +102,7 @@ app.post(`/registerSubmit`, async (req, res) => {
             } else {
 
                 let data = JSON.parse(rawData);
-                
+
                 // Adding User to the Database
                 data.push(user);
                 let ReconvertedData = JSON.stringify(data); //convert it back to json
@@ -133,7 +140,7 @@ app.post(`/loginSubmit`, (req, res) => {
                 if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
                     res.status(404).send(UIMSG_1("404, The User Doesn't seems to exist"))
                 }
-                
+
                 // If the user exists then:
                 else {
                     try {
@@ -142,10 +149,10 @@ app.post(`/loginSubmit`, (req, res) => {
                         const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
 
                         if (PasswordsMatch) {
-                            
+
                             // Generating a Token
                             const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-                            
+
                             // Assigning and Redirecting
                             res.cookie('accessToken', token, {
                                 httpOnly: false,
@@ -159,7 +166,7 @@ app.post(`/loginSubmit`, (req, res) => {
                             res.status(401).send(UIMSG_1("Incorrect Password"));
                         }
 
-                    // Handling Errors while Passwords matching
+                        // Handling Errors while Passwords matching
                     } catch (err) {
                         console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
                         res.status(500).send(UIMSG_1("500, Internal Server error. pls try again later..."))
@@ -183,6 +190,7 @@ app.post(`/loginSubmit`, (req, res) => {
     })
     console.log(`[${new Date().toLocaleTimeString()}] Credientials has Been fetched!`)
 }) */
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
@@ -195,9 +203,9 @@ app.get('/alarm', (req, res) => {
 })
 app.get('/data', (req, res) => {
     authenticate.byToken(req, res, 'strict');
-    try{
+    try {
         res.sendFile(path.join(__dirname, './server/data.html'))
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 })
@@ -228,6 +236,12 @@ app.get('/javascript-notes', (req, res) => {
 })
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, './server/login.html'))
+})
+app.get('/music', (req, res) => {
+    res.sendFile(path.join(__dirname, './server/music.html'))
+})
+app.get('/musiclist', (req, res) => {
+    res.json(fs.readFileSync('APIs/musiclist.json' , 'utf-8'))
 })
 app.get('/password-generator', (req, res) => {
     res.sendFile(path.join(__dirname, './server/password-generator.html'))
