@@ -13,22 +13,22 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' })
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
 const jwt = require('jsonwebtoken');
+const { decode } = require('punycode');
+
+const upload = multer({ dest: 'uploads/' })
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
 const { UIMSG_1 } = require('./assets/UI_messages')
-const { decode } = require('punycode');
-
-
+const { updateMusicAPI } = require('./assets/MusicListAPI')
 
 // Other
 
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
+updateMusicAPI();
 
 // Accepts
 app.use(express.static(path.join(__dirname, "server")));
@@ -241,6 +241,7 @@ app.get('/music', (req, res) => {
     res.sendFile(path.join(__dirname, './server/music.html'))
 })
 app.get('/musiclist', (req, res) => {
+    updateMusicAPI();
     res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
 })
 app.get('/password-generator', (req, res) => {

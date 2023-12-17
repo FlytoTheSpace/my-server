@@ -21,11 +21,14 @@
             <button class="t-1 c-blue" id="play">Play</button>
         </div>
         <div id="musicControlsPanel">
-            <div id="ControlPanelRow1"></div>
-            <div id="ControlPanelRow2">
+            <div>
+                
+            </div>
+            <div id="mainControls">
+
                 <input type="range" class="center" id="progressBar" value="0">
             </div>
-            <div id="ControlPanelRow3"></div>
+            <div></div>
         </div>
     </main>
     Photo by <a
@@ -35,17 +38,17 @@
     <footer></footer>
     <script src="./assets/templates/scripts/setup.js"></script>
     <script>
-        const Main = async ()=>{
+        const Main = async () => {
             const SongsFetch = await fetch(location.href.replace('music', 'musiclist'));
             const songs = await SongsFetch.json();
-            
+
             // Loading Songs
             for (const i in songs) {
                 const element = document.getElementById('MusicList');
                 element.insertAdjacentHTML("beforeend", `
                 <li data-item="${i}" data-song="${songs[i].song}" class="MusicListItem">
                     <img src="./assets/images/backgrounds/patrick-tomasso-5hvn-2WW6rY-unsplash.jpg" alt="">
-                    <p class="title">${songs[i].song.replace('./assets/sounds/music/', '').replace(/\..../g, '')}</p>
+                    <p class="title">${songs[i].name}</p>
                     <button class="SongItemPlayBtn withIcon t-1"><img src="./assets/images/icons/play.svg"></img></button>
                 </li>`
                 )
@@ -108,7 +111,29 @@
                     // Playing Music
                     playPauseMusic(e.target);
                 })
-            }); 
+            });
+
+            // Other
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key == ' ') {
+                    e.preventDefault();
+
+                    const elements = Array.from(document.getElementsByClassName('MusicListItem'))
+                    elements.forEach(element => {
+                        element.dataset.song
+                        const formatedMusicSRC = `./${Music.src.replace(location.href.replace('music', ''), '').replace(/%20/g, ' ')}`
+
+                        if (element.dataset.song == formatedMusicSRC) {
+                            playPauseMusic(element.lastElementChild.firstElementChild);
+                        }
+                    })
+                } else if (e.key == 'ArrowRight') {
+                    Music.currentTime = parseInt(Music.currentTime + 10)
+                } else if (e.key == 'ArrowLeft') {
+                    Music.currentTime = parseInt(Music.currentTime - 10)
+                }
+            })
         }
         Main();
     </script>

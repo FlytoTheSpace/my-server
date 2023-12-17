@@ -61,8 +61,7 @@ p.title {
 
 #musicControlsPanel {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     position: fixed;
     bottom: 0;
     height: 25vh;
@@ -71,11 +70,17 @@ p.title {
 }
 #musicControlsPanel > div{
     height: 100%;
-    width: 100%;
+    width: 25%;
+    border: solid 3px black;
+}
+#mainControls {
+    width: 50% !important;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+#mainControls > *{
+    border: 2px solid black;
 }
 .center{
     justify-self: center;
