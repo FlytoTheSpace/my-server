@@ -241,7 +241,7 @@ app.get('/music', (req, res) => {
     res.sendFile(path.join(__dirname, './server/music.html'))
 })
 app.get('/musiclist', (req, res) => {
-    res.json(fs.readFileSync('APIs/musiclist.json' , 'utf-8'))
+    res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
 })
 app.get('/password-generator', (req, res) => {
     res.sendFile(path.join(__dirname, './server/password-generator.html'))
