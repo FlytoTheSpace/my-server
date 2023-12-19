@@ -14,27 +14,50 @@
 <body>
     <header></header>
     <main>
-        <div class="playground" id="mainContainer">
-            <h2>Music</h2>
-            <ul id="MusicList">
-            </ul>
-            <button class="t-1 c-blue" id="play">Play</button>
+        <div id="main">
+            <div id="sideBar">
+                <ul>
+                    <li>item</li>
+                    <li>item</li>
+                    <li>item</li>
+                    <li>item</li>
+                    <li>item</li>
+                    <li>item</li>
+                    <li>item</li>
+                    <li>item</li>
+                </ul>
+            </div>
+            <div id="mainSection">
+                <h2>Music</h2>
+                <ul id="MusicList">
+                </ul>
+                <button class="t-1 c-blue" id="play">Play</button>
+            </div>
         </div>
+        Photo by <a
+            href="https://unsplash.com/@leyy?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Leyre</a>
+        on <a
+            href="https://unsplash.com/photos/an-aerial-view-of-a-city-at-night-71SHXwBLp5w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
         <div id="musicControlsPanel">
             <div>
                 
             </div>
             <div id="mainControls">
-
-                <input type="range" class="center" id="progressBar" value="0">
+                <div>
+                    <button id="masterPlay" class="circle primary c-transparent withIcon"><img src="./assets/images/icons/play.svg"></button>
+                </div>
+                <div>
+                    <input type="range" class="center" id="progressBar" value="0">
+                    <div>
+                        <p id="masterPlayed">--:--</p>
+                        <p>/</p>
+                        <p id="masterDuration">--:--</p>
+                    </div>
+                </div>
             </div>
             <div></div>
         </div>
     </main>
-    Photo by <a
-        href="https://unsplash.com/@leyy?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Leyre</a>
-    on <a
-        href="https://unsplash.com/photos/an-aerial-view-of-a-city-at-night-71SHXwBLp5w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
     <footer></footer>
     <script src="./assets/templates/scripts/setup.js"></script>
     <script>
@@ -49,7 +72,7 @@
                 <li data-item="${i}" data-song="${songs[i].song}" class="MusicListItem">
                     <img src="./assets/images/backgrounds/patrick-tomasso-5hvn-2WW6rY-unsplash.jpg" alt="">
                     <p class="title">${songs[i].name}</p>
-                    <button class="SongItemPlayBtn withIcon t-1"><img src="./assets/images/icons/play.svg"></img></button>
+                    <button class="SongItemPlayBtn circle c-gray primary withIcon"><img src="./assets/images/icons/play.svg"></img></button>
                 </li>`
                 )
             }
@@ -58,9 +81,22 @@
             const Buttons = Array.from(document.getElementsByClassName('SongItemPlayBtn'));
             const progressBar = document.getElementById('progressBar');
 
+            const masterPlay = document.getElementById('masterPlay');
+            const masterDuration = document.getElementById('masterDuration');
+            const masterPlayed = document.getElementById('masterPlayed');
+
             let Music = new Audio(songs[0].song);
 
             // Functions
+            const formatTime = (seconds)=>{
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = Math.floor(seconds % 60);
+
+                    // Use template literals to format the time
+                    const formattedTime = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+
+                    return formattedTime;
+            }
             const playPauseMusic = (imgElement) => {
                 if (Music.paused) {
                     Array.from(document.getElementsByClassName('SongItemPlayBtn')).forEach(btn => {
@@ -68,9 +104,17 @@
                     })
                     Music.play()
                     imgElement.src = "./assets/images/icons/pause.svg"
+                    masterPlay.firstElementChild.src = "./assets/images/icons/pause.svg"
+                    setTimeout(() => {
+                        masterDuration.innerHTML = formatTime(parseInt(Music.duration));
+                    }, 500);
                 } else {
                     Music.pause()
                     imgElement.src = "./assets/images/icons/play.svg"
+                    masterPlay.firstElementChild.src = "./assets/images/icons/play.svg"
+                    setTimeout(() => {
+                        masterDuration.innerHTML = formatTime(parseInt(Music.duration));
+                    }, 500);
                 }
             }
             const updateProgressBar = () => {
@@ -84,6 +128,8 @@
             })
             Music.addEventListener("timeupdate", (e) => {
                 updateProgressBar();
+                masterPlayed.innerHTML = formatTime(parseInt(Music.currentTime));
+                
             });
             Buttons.forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -106,6 +152,7 @@
                         // Updating Progress Bar
                         Music.addEventListener("timeupdate", (e) => {
                             updateProgressBar();
+                            masterPlayed.innerHTML = formatTime(parseInt(Music.currentTime));
                         });
                     }
                     // Playing Music
