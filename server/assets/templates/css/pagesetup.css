@@ -9,3 +9,7 @@
 main{
     min-height: 500px;
 }
+hr{
+    width: 98%;
+    margin: 1vh auto !important;
+}

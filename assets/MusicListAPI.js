@@ -9,11 +9,22 @@ const updateMusicAPI = ()=>{
             song: `./assets/sounds/music/${file}`
         })
     });
-    const MusicAPIOld = JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8'));
+    const MusicAPIOld = JSON.parse(fs.readFileSync('./APIs/musiclist.json', 'utf8'));
+    
+    for(let i = 0; i<MusicAPI.length; i++){
+        if (MusicAPIOld[i].song !== MusicAPI[i].song){
+            MusicAPIOld[i].song = MusicAPI[i].song
 
-    if((MusicAPI !== MusicAPI)){
-        console.log(`${new Date().toLocaleTimeString()} Updating Music API`)
-        fs.writeFileSync('APIs/musiclist.json', JSON.stringify(MusicAPI), 'utf8')
+            console.log(`${new Date().toLocaleTimeString()} Updating Music API`)
+            fs.writeFileSync('APIs/musiclist.json', JSON.stringify(MusicAPIOld), 'utf8')
+            
+        } else if (MusicAPIOld[i].name !== MusicAPI[i].name){
+            MusicAPIOld[i].name = MusicAPI[i].name
+
+            console.log(`[${new Date().toLocaleTimeString()}] Updating Music API`)
+            fs.writeFileSync('APIs/musiclist.json', JSON.stringify(MusicAPI), 'utf8')
+
+        }
     }
 }
 
