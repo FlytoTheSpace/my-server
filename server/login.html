@@ -78,6 +78,10 @@
         #submitbutton {
             height: 6vh;
         }
+        .errorBox{
+            color: red;
+            margin: 1vh 0;
+        }
     </style>
 </head>
 
@@ -86,14 +90,16 @@
     <main>
         <div>
             <div id="form-container">
-                <form action="/loginSubmit" method="post">
+                <form action="/loginSubmit" method="post" id="LoginForm">
                     <div>
                         <h3>Login</h3>
                         <label for="email">
                             <input type="email" name="email" id="email" placeholder="email" required>
+                            <p id="emailErrbox" class="errorBox"></p>
                         </label> <br>
                         <label for="password">
                             <input type="password" name="password" id="password" placeholder="password" required>
+                            <p id="passwordErrbox" class="errorBox"></p>
                         </label> <br>
                         <a href="">forgot password?</a>
                     </div>
@@ -108,6 +114,61 @@
     </main>
     <footer></footer>
     <!-- Scripts -->
+    <script defer>
+        const LoginForm = document.getElementById('LoginForm')
+        LoginForm.addEventListener("submit", async (e)=>{
+            e.preventDefault();
+
+            // Clearing Error Box
+            Array.from(document.getElementsByClassName('errorBox')).forEach(box=>{
+                box.textContent = "";
+            })
+            // Error Boxes
+            const passwordErrbox = document.getElementById('passwordErrbox')
+            const emailErrbox = document.getElementById('emailErrbox')
+
+            // Getting All the Fields and Formatting Them
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const content = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+            
+            // Requesting Server
+            const SubmitReq = await fetch(`${location.href}Submit`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded"
+                },
+                body: content
+            });
+
+            // Getting A Reponse
+            const SubmitRes = await SubmitReq.text();
+
+            // Error Handling
+
+            switch (SubmitRes) {
+                case "The User Doesn't exist!":
+                    emailErrbox.textContent = SubmitRes
+                    break;
+                case "Internal Server Error!":
+                    emailErrbox.textContent = `${SubmitRes} pls try again later...`
+                    break;
+                case "Incorrect Password!":
+                    passwordErrbox.textContent = SubmitRes
+                    break;
+                case "Internal Server Error While Comparing Passwords!":
+                    passwordErrbox.textContent = `${SubmitRes} pls try again later...`
+                    break;
+                case "Successful Login!":
+                    location.href = "/profile"
+                    break;
+                default:
+                    break;
+            }
+
+            console.log(SubmitRes) // for Debugging
+        })
+    </script>
     <!-- <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="./assets/templates/scripts/setup.js"></script>
 </body>

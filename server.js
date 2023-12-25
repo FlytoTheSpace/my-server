@@ -8,23 +8,25 @@ const port = process.env.PORT || 5500;
 
 const path = require('path');
 const fs = require('fs');
-const crypto = require('crypto');
 
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
-const multer = require('multer');
+
+const { decode } = require('punycode');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-const { decode } = require('punycode');
 
+const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
+
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
 const { UIMSG_1 } = require('./assets/UI_messages')
 const { updateMusicAPI } = require('./assets/MusicListAPI');
-const {logprefix} = require('./assets/logs');
+const { logprefix } = require('./assets/logs');
 
 // Other
 
@@ -125,60 +127,55 @@ app.post(`/registerSubmit`, async (req, res) => {
         res.status(500).send(`${logprefix('server')} Internal Server Error`);
     }
 })
-app.post(`/loginSubmit`, (req, res) => {
+app.post(`/loginSubmit`, async (req, res) => {
     try {
+        if (req.headers.origin !== `http://localhost:${port}/login`) {
 
-        fs.readFile('credientials/accounts.json', 'utf8', async (err, rawData) => {
-            if (err) {
-                console.log(err);
-            } else {
+        }
+        const rawData = fs.readFileSync('credientials/accounts.json', 'utf8')
 
-                // Logic Begins Here
-                let Accounts = JSON.parse(rawData);
+        // Logic Begins Here
+        let Accounts = JSON.parse(rawData);
 
-                // Checking if the user exists
-                let EmailMatchedAcc = Accounts.find(acc => LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
-                if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                    res.status(404).send(UIMSG_1("404, The User Doesn't seems to exist"))
+        // Checking if the user exists
+        let EmailMatchedAcc = Accounts.find(acc => LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
+        if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
+            res.status(404).send("The User Doesn't exist!")
+        } else {
+
+            // If the user exists then:
+            try {
+
+                // Checking if Password Matches
+                const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
+
+                if (PasswordsMatch) {
+
+                    // Generating a Token
+                    const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                    // Assigning and Redirecting
+                    res.cookie('accessToken', token, {
+                        httpOnly: false,
+                        path: '/'
+                    }).status(202).send(`Successful Login!`);
+
+                    console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
                 }
-
-                // If the user exists then:
+                // On Wrong Password
                 else {
-                    try {
-
-                        // Checking if Password Matches
-                        const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
-
-                        if (PasswordsMatch) {
-
-                            // Generating a Token
-                            const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-
-                            // Assigning and Redirecting
-                            res.cookie('accessToken', token, {
-                                httpOnly: false,
-                                path: '/'
-                            }).status(201).redirect('/');
-
-                            console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
-                        }
-                        // On Wrong Password
-                        else {
-                            res.status(401).send(UIMSG_1("Incorrect Password"));
-                        }
-
-                        // Handling Errors while Passwords matching
-                    } catch (err) {
-                        console.log(`${logprefix('server')} ${err}`)
-                        res.status(500).send(UIMSG_1("500, Internal Server error. pls try again later..."))
-                    }
+                    res.status(406).send("Incorrect Password!");
                 }
 
+                // Handling Errors while Passwords matching
+            } catch (err) {
+                console.log(`${logprefix('server')} ${err}`)
+                res.status(500).send("Internal Server Error While Comparing Passwords!")
             }
-        });
+        }
     } catch (error) {
         console.error(`${logprefix('server')} ${error}`);
-        res.status(500).send(UIMSG_1("Internal Server Error"));
+        res.status(500).send("Internal Server Error!");
     }
 })
 
