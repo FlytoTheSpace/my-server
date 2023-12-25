@@ -23,7 +23,8 @@ const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
 const { UIMSG_1 } = require('./assets/UI_messages')
-const { updateMusicAPI } = require('./assets/MusicListAPI')
+const { updateMusicAPI } = require('./assets/MusicListAPI');
+const {logprefix} = require('./assets/logs');
 
 // Other
 
@@ -61,8 +62,8 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
         const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
         res.redirect(`http://localhost:${port}/public/${generatedPDFName}.pdf`);
     } catch (error) {
-        console.error(`[${new Date().toLocaleTimeString()}] + ${error}`);
-        res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
+        console.error(`${logprefix('server')} + ${error}`);
+        res.status(500).send(`${logprefix('server')} Internal Server Error`);
     }
 });
 app.post(`/registerSubmit`, async (req, res) => {
@@ -120,8 +121,8 @@ app.post(`/registerSubmit`, async (req, res) => {
         });
 
     } catch (error) {
-        console.error(`[${new Date().toLocaleTimeString()}] ${error}`);
-        res.status(500).send(`[${new Date().toLocaleTimeString()}] Internal Server Error`);
+        console.error(`${logprefix('server')} ${error}`);
+        res.status(500).send(`${logprefix('server')} Internal Server Error`);
     }
 })
 app.post(`/loginSubmit`, (req, res) => {
@@ -159,7 +160,7 @@ app.post(`/loginSubmit`, (req, res) => {
                                 path: '/'
                             }).status(201).redirect('/');
 
-                            console.log(`[${new Date().toLocaleTimeString()}] ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
+                            console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
                         }
                         // On Wrong Password
                         else {
@@ -168,7 +169,7 @@ app.post(`/loginSubmit`, (req, res) => {
 
                         // Handling Errors while Passwords matching
                     } catch (err) {
-                        console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
+                        console.log(`${logprefix('server')} ${err}`)
                         res.status(500).send(UIMSG_1("500, Internal Server error. pls try again later..."))
                     }
                 }
@@ -176,7 +177,7 @@ app.post(`/loginSubmit`, (req, res) => {
             }
         });
     } catch (error) {
-        console.error(`[${new Date().toLocaleTimeString()}] ${error}`);
+        console.error(`${logprefix('server')} ${error}`);
         res.status(500).send(UIMSG_1("Internal Server Error"));
     }
 })
@@ -188,7 +189,7 @@ app.post(`/loginSubmit`, (req, res) => {
     fs.readFile('credientials/accounts.json', 'utf8', (err,data) => {
         res.json(JSON.parse(data))
     })
-    console.log(`[${new Date().toLocaleTimeString()}] Credientials has Been fetched!`)
+    console.log(`${logprefix('server')} Credientials has Been fetched!`)
 }) */
 
 app.get('/', (req, res) => {
@@ -265,5 +266,5 @@ app.use((req, res, next) => {
 
 // Starting Server
 app.listen(port, () => {
-    console.log(`[${new Date().toLocaleTimeString()}] Server started on http://localhost:${port}`)
+    console.log(`${logprefix('server')} Server started on http://localhost:${port}`)
 })
