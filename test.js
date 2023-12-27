@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // Connection URI
-const uri = 'mongodb://localhost:27017/your-database-name';
+const uri = 'mongodb://${LocalIPv4()}:27017/your-database-name';
 
 // Create a new MongoClient
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });

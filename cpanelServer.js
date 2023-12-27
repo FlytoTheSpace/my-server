@@ -17,7 +17,7 @@ app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, 'cpanel/index.html'));
 })
 app.post('/requests', (req, res)=>{
-    if (req.headers.origin == `http://localhost:${PORT}`) {
+    if (req.headers.origin == `http://${LocalIPv4()}:${PORT}`) {
         if(req.body.action == 'StartServer'){
 
             console.log(`${logprefix('cpanel')} Starting The Server...`);
@@ -41,5 +41,5 @@ app.post('/requests', (req, res)=>{
 })
 
 app.listen(PORT, '0.0.0.0' , ()=>{
-    console.log(`${logprefix('cpanel')} Control Panel started on http://localhost:${PORT}`)
+    console.log(`${logprefix('cpanel')} Control Panel started on http://${LocalIPv4()}:${PORT}`)
 })

@@ -66,6 +66,39 @@ No-SQL Databases:
             use MyDB
             db.createCollection('comments')
 
+        (b) Reading Full Datasetup
+            
+            (
+                async ()=>{
+                    const uri = 'mongodb://127.0.0.1:27017/ServerDB';
+                    const client = new MongoClient(uri);
+                    
+
+                    try{
+
+                        await client.connect(); // Connect to MongoDB
+                        console.log('Connected to MongoDB');
+
+                        // Format Data
+                        const rawDataInfo = client.db('ServerDB').collection('accounts');
+                        
+                        // Read Data
+                        let DataArr = [];
+                        await rawDataInfo.find().forEach(data => {
+                            DataArr.push(data);
+                        });
+
+                        // Insert Data
+                        await rawDataInfo.insertOne({ name: 'John Doe', age: 30 });
+                    
+                    } catch{
+
+                    } finally{
+                        await client.close();
+                    }
+                }
+            )();
+
     (vi) Functions
 
         (a) `.pretty()` formats the Displaying Content

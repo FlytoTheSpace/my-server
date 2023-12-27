@@ -8,6 +8,7 @@ const port = process.env.PORT || 5500;
 
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
@@ -17,23 +18,26 @@ const { decode } = require('punycode');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const { MongoClient } = require('mongodb');
 
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ dest: 'uploads/' });
 
 const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
-const { UIMSG_1 } = require('./assets/UI_messages')
+const { UIMSG_1 } = require('./assets/UI_messages');
 const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
+const { LocalIPv4 } = require('./assets/ip');
 
 // Other
 
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
 updateMusicAPI();
 
-// Accepts
+// Middlewares
+
 app.use(express.static(path.join(__dirname, "server")));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,7 +66,7 @@ app.get('/profileinfofetch', (req, res) => {
 app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
     try {
         const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
-        res.redirect(`http://localhost:${port}/public/${generatedPDFName}.pdf`);
+        res.redirect(`http://${LocalIPv4()}:${port}/public/${generatedPDFName}.pdf`);
     } catch (error) {
         console.error(`${logprefix('server')} + ${error}`);
         res.status(500).send(`${logprefix('server')} Internal Server Error`);
@@ -128,49 +132,59 @@ app.post(`/registerSubmit`, async (req, res) => {
     }
 })
 app.post(`/loginSubmit`, async (req, res) => {
+    const uri = 'mongodb://127.0.0.1:27017/ServerDB';
+    const client = new MongoClient(uri);
+    let Accounts = [];
     try {
-        if (req.headers.origin !== `http://localhost:${port}/login`) {
-
-        }
-        const rawData = fs.readFileSync('credientials/accounts.json', 'utf8')
-
-        // Logic Begins Here
-        let Accounts = JSON.parse(rawData);
-
-        // Checking if the user exists
-        let EmailMatchedAcc = Accounts.find(acc => LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
-        if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-            res.status(404).send("The User Doesn't exist!")
+        if (req.headers.origin !== `http://${LocalIPv4()}:${port}/login`) {
+            res.send('Unauthorized Connection denied')
         } else {
 
-            // If the user exists then:
-            try {
 
-                // Checking if Password Matches
-                const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
+            await client.connect();
+            console.log('Connected to MongoDB');
+            const rawAccountsInfo = client.db('ServerDB').collection('accounts');
+            await rawAccountsInfo.find().forEach(account => {
+                Accounts.push(account);
+            });
 
-                if (PasswordsMatch) {
+            // Checking if the user exists
+            let EmailMatchedAcc = Accounts.find(acc => LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
+            if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
+                res.status(404).send("The User Doesn't exist!")
+            } else {
 
-                    // Generating a Token
-                    const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+                // If the user exists then:
+                try {
 
-                    // Assigning and Redirecting
-                    res.cookie('accessToken', token, {
-                        httpOnly: false,
-                        path: '/'
-                    }).status(202).send(`Successful Login!`);
+                    // Checking if Password Matches
+                    const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
 
-                    console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
+                    if (PasswordsMatch) {
+
+                        // Generating a Token
+                        const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                        // Assigning and Redirecting
+                        res.cookie('accessToken', token, {
+                            httpOnly: false,
+                            path: '/'
+                        }).status(202).send(`Successful Login!`);
+
+                        console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
+                    }
+                    // On Wrong Password
+                    else {
+                        res.status(406).send("Incorrect Password!");
+                    }
+
+                    // Handling Errors while Passwords matching
+                } catch (err) {
+                    console.log(`${logprefix('server')} ${err}`)
+                    res.status(500).send("Internal Server Error While Comparing Passwords!")
+                } finally {
+                    await client.close();
                 }
-                // On Wrong Password
-                else {
-                    res.status(406).send("Incorrect Password!");
-                }
-
-                // Handling Errors while Passwords matching
-            } catch (err) {
-                console.log(`${logprefix('server')} ${err}`)
-                res.status(500).send("Internal Server Error While Comparing Passwords!")
             }
         }
     } catch (error) {
@@ -263,5 +277,5 @@ app.use((req, res, next) => {
 
 // Starting Server
 app.listen(port, () => {
-    console.log(`${logprefix('server')} Server started on http://localhost:${port}`)
+    console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`)
 })
