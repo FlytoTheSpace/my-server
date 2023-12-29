@@ -4,202 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <title>Document</title>
     <link rel="stylesheet" href="./assets/css/music.css">
 </head>
 
 <body>
     <header></header>
     <main>
-        <div id="main">
-            <div id="sideBar">
-                <ul>
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                    <li>item</li>
-                </ul>
-            </div>
-            <div id="mainSection">
-                <h2>Music</h2>
-                <ul id="MusicList">
-                    <div class="MainRows" id="row-1"></div>
-                    <hr>
-                    <div class="MainRows" id="row-2"></div>
-                    <div class="MainRows" id="row-3"></div>
-                </ul>
-                <button class="t-1 c-blue" id="play">Play</button>
+        <div id="leftSection">
+            <div id="leftSectionBox">
             </div>
         </div>
-        Photo by <a
-            href="https://unsplash.com/@leyy?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Leyre</a>
-        on <a
-            href="https://unsplash.com/photos/an-aerial-view-of-a-city-at-night-71SHXwBLp5w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-        <div id="musicControlsPanel">
-            <div>
-                
-            </div>
-            <div id="mainControls">
-                <div>
-                    <button id="masterPlay" class="circle primary c-transparent withIcon"><img src="./assets/images/icons/play.svg"></button>
-                </div>
-                <div>
-                    <input type="range" class="center" id="progressBar" value="0">
+        <div id="rightSection">
+            <div id="rightSectionBox">
+                <div id="statusBar">
                     <div>
-                        <p id="masterPlayed">--:--</p>
-                        <p>/</p>
-                        <p id="masterDuration">--:--</p>
+                        <button class="circle primary c-gray no-border"></button>
+                        <button class="circle primary c-gray no-border"></button>
                     </div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <hr>
+                <h2>Your Library</h2>
+                <div id="Library" class="songItemContainer">
+                </div>
+                <hr>
+                <h2>Recommendation</h2>
+                <div id="Recommendation" class="songItemContainer">
                 </div>
             </div>
-            <div></div>
         </div>
     </main>
-    <footer></footer>
+    <div id="controlPanel">
+        <div>
+        
+        </div>
+        <div id="mainControls">
+            <div>
+                <button id="masterPlay" class="circle primary c-transparent withIcon"><img src="./assets/images/icons/play.svg"></button>
+            </div>
+            <div>
+                <input type="range" class="center" id="progressBar" value="0">
+                <div>
+                    <p id="masterPlayed">--:--</p>
+                    <p>/</p>
+                    <p id="masterDuration">--:--</p>
+                </div>
+            </div>
+        </div>
+        <div></div>
+    </div>
     <script src="./assets/templates/scripts/setup.js"></script>
-    <script>
-        const Main = async () => {
-            const SongsFetch = await fetch(location.href.replace('music', 'musiclist'));
-            const songs = await SongsFetch.json();
-
-            // Loading Songs
-            const MusicList = document.getElementById('MusicList');
-            
-
-            for (const i in songs) {
-                const element = MusicList.children[0];
-                element.insertAdjacentHTML("beforeend", `
-                <li data-item="${i}" data-song="${songs[i].song}" class="MusicListItem">
-                    <img src="${songs[i].banner == undefined ? './assets/images/backgrounds/patrick-tomasso-5hvn-2WW6rY-unsplash.jpg': songs[i].banner}" alt="">
-                    <p class="title">${30<songs[i].name ? songs[i].name: songs[i].name.slice(0, 30)+"..."}</p>
-                    <img src="./assets/animations/AudioPlaying.gif" alt="" class="playingGIF">
-                </li>`
-                )
-            }
-
-            // Declarations
-            const MusicListItems = Array.from(document.getElementsByClassName('MusicListItem'));
-            const progressBar = document.getElementById('progressBar');
-
-            const masterPlay = document.getElementById('masterPlay');
-            const masterDuration = document.getElementById('masterDuration');
-            const masterPlayed = document.getElementById('masterPlayed');
-
-            let Music = new Audio(songs[0].song);
-
-            // Functions
-            const formatTime = (seconds)=>{
-                    const minutes = Math.floor(seconds / 60);
-                    const remainingSeconds = Math.floor(seconds % 60);
-
-                    // Use template literals to format the time
-                    const formattedTime = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-
-                    return formattedTime;
-            }
-            const playPauseMusic = (titleElement) => {
-                if (Music.paused) {
-                    Array.from(document.getElementsByClassName('title')).forEach(title => {
-                        title.style.color = "white"
-                    })
-                    Music.play()
-                    masterPlay.firstElementChild.src = "./assets/images/icons/pause.svg"
-                    try{
-                        titleElement.style.color = "lime"
-                    }catch(err){};
-                    setTimeout(() => {
-                        masterDuration.innerHTML = formatTime(parseInt(Music.duration));
-                    }, 500);
-                } else if(!(Music.paused)){
-                    Music.pause()
-                    masterPlay.firstElementChild.src = "./assets/images/icons/play.svg"
-                    try{
-                        titleElement.style.color = "white"
-                    }catch(err){};
-                    setTimeout(() => {
-                        masterDuration.innerHTML = formatTime(parseInt(Music.duration));
-                    }, 500);
-                }else{
-                    console.warn("something went wrong")
-                }
-            }
-            const updateProgressBar = () => {
-                const progress = parseInt(Music.currentTime / Music.duration * 100)
-                progressBar.value = progress
-            }
-
-            // Events
-            progressBar.addEventListener('change', () => {
-                Music.currentTime = progressBar.value * Music.duration / 100
-            })
-            Music.addEventListener("timeupdate", (e) => {
-                updateProgressBar();
-                masterPlayed.innerHTML = formatTime(parseInt(Music.currentTime)); 
-            });
-
-            masterPlay.addEventListener('click', ()=>{
-                playPauseMusic();
-            })
-            MusicListItems.forEach(MusicListItem => {
-                MusicListItem.addEventListener('click', (e) => {
-                    // Defining a Base
-                    const SongsListItem = MusicListItem;
-
-                    // Formating The SRC
-                    let formatedMusicSRC = `./${Music.src.replace(location.href.replace('music', ''), '').replace(/%20/g, ' ')}`
-
-                    // Checking if Music has been changed or not Declared yet
-                    if (!Music || formatedMusicSRC !== SongsListItem.dataset.song) {
-
-                        // Checking and pause any previous Music before playing new one
-                        if (formatedMusicSRC !== SongsListItem.dataset.song && Music) {
-                            Music.pause();
-                        }
-                        // Defining Song to play
-                        Music = new Audio(SongsListItem.dataset.song);
-
-                        // Updating Progress Bar
-                        Music.addEventListener("timeupdate", (e) => {
-                            updateProgressBar();
-                            masterPlayed.innerHTML = formatTime(parseInt(Music.currentTime));
-                        });
-                    }
-                    // Playing Music
-                    playPauseMusic(MusicListItem.children[1]);
-                })
-            });
-
-            // Other
-
-            window.addEventListener('keydown', (e) => {
-                if (e.key == ' ') {
-                    e.preventDefault();
-
-                    const elements = Array.from(document.getElementsByClassName('MusicListItem'))
-                    elements.forEach(element => {
-                        element.dataset.song
-                        const formatedMusicSRC = `./${Music.src.replace(location.href.replace('music', ''), '').replace(/%20/g, ' ')}`
-
-                        if (element.dataset.song == formatedMusicSRC) {
-                            playPauseMusic(element.children[1]);
-                        }
-                    })
-                } else if (e.key == 'ArrowRight') {
-                    Music.currentTime = parseInt(Music.currentTime + 10)
-                } else if (e.key == 'ArrowLeft') {
-                    Music.currentTime = parseInt(Music.currentTime - 10)
-                }
-            })
-        }
-        Main();
-    </script>
+    <script src="./assets/scripts/music.js"></script>
 </body>
 
 </html>

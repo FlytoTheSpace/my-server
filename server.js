@@ -18,7 +18,7 @@ const { decode } = require('punycode');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose')
 
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
@@ -32,9 +32,27 @@ const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 
 // Other
-
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
 updateMusicAPI();
+let Accounts;
+
+
+// Connecting to The Database
+const mongodbURI = process.env.MONGODB_URI;
+
+mongoose.connect(mongodbURI, {});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+    console.log('Connected to MongoDB!');
+});
+
+const AccountsCollection = mongoose.model('Accounts', mongoose.Schema({
+    username: String,
+    email: String,
+    password: String,
+}), 'accounts');
 
 // Middlewares
 
@@ -102,29 +120,19 @@ app.post(`/registerSubmit`, async (req, res) => {
             password: hashedPassword
         };
 
-        // Registering Data into the Database
-        fs.readFile('credientials/accounts.json', 'utf8', (err, rawData) => {
-            if (err) {
-                console.log(err);
-            } else {
+        // Adding User to the Database 
+        const newAccount = new AccountsCollection(user);
+        newAccount.save();
+        console.log('Registered New User', req.body.username);
+        // Generating a Token
+        const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
 
-                let data = JSON.parse(rawData);
 
-                // Adding User to the Database
-                data.push(user);
-                let ReconvertedData = JSON.stringify(data); //convert it back to json
-                fs.writeFile('credientials/accounts.json', ReconvertedData, 'utf8', () => { });
-
-                // Generating a Token
-                const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-
-                // Assigning the token and Redirecting
-                res.cookie('accessToken', token, {
-                    httpOnly: false,
-                    path: '/'
-                }).status(201).redirect('/profile');
-            }
-        });
+        // Assigning the token and Redirecting
+        res.cookie('accessToken', token, {
+            httpOnly: false,
+            path: '/'
+        }).status(201).send('Registered Your Account!');
 
     } catch (error) {
         console.error(`${logprefix('server')} ${error}`);
@@ -132,61 +140,53 @@ app.post(`/registerSubmit`, async (req, res) => {
     }
 })
 app.post(`/loginSubmit`, async (req, res) => {
-    const uri = 'mongodb://127.0.0.1:27017/ServerDB';
-    const client = new MongoClient(uri);
-    let Accounts = [];
     try {
-        if (req.headers.origin !== `http://${LocalIPv4()}:${port}/login`) {
-            res.send('Unauthorized Connection denied')
-        } else {
+        // if (req.headers.origin !== `http://${LocalIPv4()}:${port}/login`) {
+        //     res.send('Unauthorized Connection denied')
+        // } else {
 
-
-            await client.connect();
-            console.log('Connected to MongoDB');
-            const rawAccountsInfo = client.db('ServerDB').collection('accounts');
-            await rawAccountsInfo.find().forEach(account => {
-                Accounts.push(account);
-            });
-
-            // Checking if the user exists
-            let EmailMatchedAcc = Accounts.find(acc => LoginfoDecryptionKey.decrypt(acc.email) == req.body.email);
-            if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                res.status(404).send("The User Doesn't exist!")
-            } else {
-
-                // If the user exists then:
-                try {
-
-                    // Checking if Password Matches
-                    const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
-
-                    if (PasswordsMatch) {
-
-                        // Generating a Token
-                        const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-
-                        // Assigning and Redirecting
-                        res.cookie('accessToken', token, {
-                            httpOnly: false,
-                            path: '/'
-                        }).status(202).send(`Successful Login!`);
-
-                        console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
-                    }
-                    // On Wrong Password
-                    else {
-                        res.status(406).send("Incorrect Password!");
-                    }
-
-                    // Handling Errors while Passwords matching
-                } catch (err) {
-                    console.log(`${logprefix('server')} ${err}`)
-                    res.status(500).send("Internal Server Error While Comparing Passwords!")
-                } finally {
-                    await client.close();
-                }
+        // Checking if the user exists
+        let EmailMatchedAcc;
+        for (const account of await AccountsCollection.find()) {
+            if (LoginfoDecryptionKey.decrypt(account.email) == req.body.email) {
+                EmailMatchedAcc = account._doc;
             }
         }
+        if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
+            res.status(404).send("The User Doesn't exist!")
+        } else {
+
+            // If the user exists then:
+            try {
+
+                // Checking if Password Matches
+                const PasswordsMatch = await bcrypt.compare(req.body.password, EmailMatchedAcc.password)
+
+                if (PasswordsMatch) {
+
+                    // Generating a Token
+                    const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                    // Assigning and Redirecting
+                    res.cookie('accessToken', token, {
+                        httpOnly: false,
+                        path: '/'
+                    }).status(202).send(`Successful Login!`);
+
+                    console.log(`${logprefix('server')} ${LoginfoDecryptionKey.decrypt(EmailMatchedAcc.username)} has Logged in`)
+                }
+                // On Wrong Password
+                else {
+                    res.status(406).send("Incorrect Password!");
+                }
+
+                // Handling Errors while Passwords matching
+            } catch (err) {
+                console.log(`${logprefix('server')} ${err}`)
+                res.status(500).send("Internal Server Error While Comparing Passwords!")
+            }
+        }
+        // }
     } catch (error) {
         console.error(`${logprefix('server')} ${error}`);
         res.status(500).send("Internal Server Error!");
@@ -213,11 +213,13 @@ app.get('/administrator', (req, res) => {
 app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
-app.get('/data', (req, res) => {
-    authenticate.byToken(req, res, 'strict');
+app.get('/data', async (req, res) => {
+    authenticate.byToken(req, res, 'strict', await AccountsCollection.find({ email: jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).email}));
     try {
         res.sendFile(path.join(__dirname, './server/data.html'))
     } catch (err) {
+        // if (err.message == "Cannot set headers after they are sent to the client"){}
+        // else{console.log(err.message)}
         console.log(err)
     }
 })
@@ -277,5 +279,7 @@ app.use((req, res, next) => {
 
 // Starting Server
 app.listen(port, () => {
-    console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`)
-})
+    console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`);
+});
+
+(async()=>{module.exports = { AccountsCollection }})();
