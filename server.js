@@ -32,7 +32,11 @@ const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 
 // Other
-const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
+const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
+    encoding: 'base64',
+    pbkdf2Iterations: 10000,
+    saltLength: 1
+});
 updateMusicAPI();
 let Accounts;
 
@@ -214,28 +218,17 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/data', async (req, res) => {
-    authenticate.byToken(req, res, 'strict', await AccountsCollection.find({ email: jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).email}));
-    try {
-        res.sendFile(path.join(__dirname, './server/data.html'))
-    } catch (err) {
-        // if (err.message == "Cannot set headers after they are sent to the client"){}
-        // else{console.log(err.message)}
-        console.log(err)
-    }
+    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
+        res.sendFile(path.join(__dirname, './server/data.html'));
+    });
 })
-/* This is an Example of How to use Strict Mode
-app.get('/data', (req, res) => {
-    authenticate.byToken(req, res, 'strict');
-    try{
-        res.sendFile(path.join(__dirname, './server/data.html'))
-    }catch(err){
-        if (err.name == "Can't set headers after they are sent."){
-
-        } else {
-            console.log(err)
-        }
-    }
-}) */
+/* Here's an Example of How to use  Mode
+app.get('/data', async (req, res) => {
+    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
+        res.sendFile(path.join(__dirname, './server/data.html'));
+    });
+})
+*/
 app.get('/experiments', (req, res) => {
     res.sendFile(path.join(__dirname, './server/experiments.html'))
 })
@@ -282,4 +275,4 @@ app.listen(port, () => {
     console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`);
 });
 
-(async()=>{module.exports = { AccountsCollection }})();
+(async () => { module.exports = { AccountsCollection } })();

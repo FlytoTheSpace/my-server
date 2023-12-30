@@ -1,8 +1,0 @@
-[
-    "All the data should be stored as Encrypted and Hased with salt this data shown below is just for represeting purpose only",
-    {
-        "username" : "dummy",
-        "email" : "dummy@hotmail.com",
-        "password" : "1234567890"
-    }
-]

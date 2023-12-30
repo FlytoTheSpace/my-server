@@ -5,79 +5,71 @@ const fs = require('fs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const Cryptr = require('cryptr');
+const { logprefix } = require('./logs');
+const mongoose = require('mongoose');
+
+// Connecting to The Database
 
 // Load environment variables from .env file
 
 require('dotenv').config();
 
 // Initialize LoginfoDecryptionKey using Cryptr
-const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 1 });
+const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
+    encoding: 'base64',
+    pbkdf2Iterations: 10000,
+    saltLength: 1
+});
 
 const Authenticate = {
-    byToken: (request, response, mode) => {
-        try {
+    byToken: async (request, response, strictMode, Collection, callBack) => {
+        try{
+            const CallBackFunc = callBack
             const token = request.cookies.accessToken;
-            if (token == undefined || token == "null") {
-                if(mode == 'strict'){
-                    response.send('Account Required to access this page')
-                } else{
-                    console.log("error: token is undefined")
-                }
+            
+            if (!request.cookies.accessToken && strictMode) {
+                response.send(UIMSG_1(`Account Required to Access The Requested Page`))
             } else {
-                try {
-                    const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+                // If The Token is Provided Then
+                const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
 
-                    fs.readFile('credientials/accounts.json', 'utf8', async (err, data) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            let Accounts = JSON.parse(data);
-                            const EmailMatchedAcc = Accounts.find(acc => acc.email == decodedToken.email);
+                let EmailMatchedAcc;
+                for (const account of Collection) {
+                    // Checking if the user exists in the database
+                    if (LoginfoDecryptionKey.decrypt(account._doc.email).trim() == LoginfoDecryptionKey.decrypt(decodedToken.email).trim()) {
+                        EmailMatchedAcc = account._doc;
+                    };
+                };
 
-                            if (EmailMatchedAcc === undefined || EmailMatchedAcc === null) {
-                                if (mode == 'strict') {
-                                    try {
-                                        response.send("Access Denied, Invalid Token")
-                                    } catch (error) {
-                                        if (error.message == "Can't set headers after they are sent.") { }
-                                        else { console.log(error) };
-                                    }
-                                }
-                            } else {
-                                try {
-                                    if (crypto.timingSafeEqual(Buffer.from(decodedToken.password), Buffer.from(EmailMatchedAcc.password))) {
-                                    } else {
-                                        if (mode == 'strict') {
-                                            try {
-                                                response.send("Access Denied, Invalid Token")
-                                            } catch (error) {
-                                                if (error.message == "Can't set headers after they are sent.") { }
-                                                else { console.log(error) };
-                                            }
-                                        }
-                                    }
-                                } catch (err) {
-                                    console.log(`[${new Date().toLocaleTimeString()}] ${err}`)
-                                    console.log("Status: 500, Internal Server error while Authenticating with The Token")
-                                }
-                            }
-
-                        }
-                    });
-                } catch (error) {
+                if (!EmailMatchedAcc) {
+                    response.status(404).send(UIMSG_1(`Invalid Token, User Doesn\'t exist`))
+                } else {
+                    // If The User Exists Then
                     try {
-                        if (mode == 'strict') {
-                            response.send(UIMSG_1(error.message))
+                        const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
+                        if (PasswordsMatch) {
+                            CallBackFunc();
+                        } else if (!PasswordsMatch) {
+                            if (strictMode) {
+                                response.status(401).send(UIMSG_1("Invalid Token, Incorrect Password"));
+                            }
                         }
-                    } catch (error) {
-                        if (error.message == "Can't set headers after they are sent.") { }
-                        else { console.log(error) };
+                    } catch (error2) {
+                        if (strictMode) {
+                            response.status(500).send(UIMSG_1("Internal Server Error, while Authentication!"))
+                        }
                     }
                 }
             }
-        } catch (error) {
-            console.log(`[${new Date().toLocaleTimeString()}] ${error}`)
-        };
+        } catch (error1){
+            if (strictMode) {
+                try {
+                    response.status(403).send(UIMSG_1(error1.message))
+                } catch (error) {
+                    
+                }
+            }
+        }
     }
 }
 
