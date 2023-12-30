@@ -23,7 +23,6 @@ const mongoose = require('mongoose')
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
-const { mergePDFs } = require("./mergepdfs");
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
 const { UIMSG_1 } = require('./assets/UI_messages');
@@ -31,7 +30,12 @@ const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 
+const { mergePDFs } = require("./scripts/mergepdfs");
+const { deleteOldFiles } = require('./scripts/clean')
+
 // Other
+setInterval(deleteOldFiles, 3600000);
+
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
     encoding: 'base64',
     pbkdf2Iterations: 10000,

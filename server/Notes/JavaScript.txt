@@ -4514,9 +4514,11 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 	
 		(a)  The File System module in Node.js, often referred to as the `fs` module, provides an interface for interacting with the file system. It allows you to perform various file-related operations, such as reading from and writing to files, creating and deleting directories, and more.
 
+		(Note: Add `Sync` right after name of Any function in this module to make it work synchronously instead of Asynchronously )
+
 		(b) Reading from a File:
 			
-			(I) `fs.readFile()` and `fs.readFileSync()`: These methods are used to read the contents of a file asynchronously and synchronously, respectively.
+			(I) `fs.readFile( <path>, <encoding>, <callback> )` and `fs.readFileSync( <path>, <encoding> )`: These methods are used to read the contents of a file asynchronously and synchronously, respectively.
 
 			const fs = require('fs');
 
@@ -4532,7 +4534,7 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 
 		(c) Writing to a File: 
 			
-			(I) `fs.writeFile()` and `fs.writeFileSync()`: These methods are used to write data to a file asynchronously and synchronously, respectively.
+			(I) `fs.writeFile( <path>, <content>, <encoding>, <callback> )` and `fs.writeFileSync( <path>, <content>, <encoding>)`: These methods are used to write data to a file asynchronously and synchronously, respectively.
 
 			const fs = require('fs');
 
@@ -4550,7 +4552,7 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 
 		(d) File Information:
 			
-			(I) `fs.stat()`: This method is used to get information about a file, such as its size, timestamps, and more.
+			(I) `fs.stat( <path>, <callback>)`, `fs.statSync( <path> )`: This method is used to get information about a file, such as its size, timestamps, and more.
 
 			const fs = require('fs');
 
@@ -4560,27 +4562,45 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 			    console.log('Last modified:', stats.mtime);
 			});
 
+			const stats = fs.statSync('example.txt');
+
+			console.log('File size:', stats.size, 'bytes');
+			console.log('Last modified:', stats.mtime);
+			
+
 		(e) Directory Operations: 
 			
-			(I) `fs.mkdir()` and `fs.rmdir()`: These methods create and remove directories, respectively.
+			(I) fs.readdir(path, callback), fs.readdirSync(path): Returns an array of filenames in that directory
 
-			const fs = require('fs');
+				fs.readdir('.', (err, files) => {
+				  	if (err) throw err;
+				  	console.log('Files in the current directory:', files);
+				});
 
-			// Create a directory
-			fs.mkdir('new_directory', (err) => {
-			    if (err) throw err;
-			    console.log('Directory created successfully.');
-			});
-			
-			// Remove a directory
-			fs.rmdir('old_directory', (err) => {
-			    if (err) throw err;
-			    console.log('Directory removed successfully.');
-			});
+				const files = fs.readdirSync('.');
+				console.log('Files in the current directory:', files);
+
+			(II) `fs.mkdir( <path>, <callback> )` and `fs.rmdir( <path>, <callback> )`: These methods create and remove directories, respectively.
+
+				const fs = require('fs');
+
+				// Create a directory
+				fs.mkdir('new_directory', (err) => {
+				    if (err) throw err;
+				    console.log('Directory created successfully.');
+				});
+				fs.mkdir('new_directory');
+
+				// Remove a directory
+				fs.rmdir('old_directory', (err) => {
+				    if (err) throw err;
+				    console.log('Directory removed successfully.');
+				});
+				fs.rmdir('old_directory');
 
 		(f) Renaming and Deleting Files:
 			
-			(I) `fs.rename()` and `fs.unlink()`: These methods are used to rename and delete files, respectively.
+			(I) `fs.rename( <path+name>, <new path+name> , <callback> )` and `fs.unlink( <path>, <callback> )`: These methods are used to rename and delete files, respectively.
 
 				const fs = require('fs');
 
@@ -4589,13 +4609,20 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 				    if (err) throw err;
 				    console.log('File renamed successfully.');
 				});
+				fs.renameSync('old_file.txt', 'new_file.txt');
+
+				// Move a File
+				fs.renameSync('./old_directory/file.txt', './new_directory/file.txt', (err) => {
+				    if (err) throw err;
+				    console.log('File renamed successfully.');
+				});
+				fs.renameSync('./old_directory/file.txt', './new_directory/file.txt');
 				
 				// Delete a file
 				fs.unlink('file_to_delete.txt', (err) => {
 				    if (err) throw err;
 				    console.log('File deleted successfully.');
 				});
-
 
 	(iii) `Path Module`:
 	
