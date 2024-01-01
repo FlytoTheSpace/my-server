@@ -287,10 +287,17 @@ app.get('/cloudFiles', (req, res)=>{
 })
 app.get('/cloudFilesContent', (req, res)=>{
     try{
-        res.sendFile(path.join(__dirname, req.headers.path));
+        const FilePath = req.headers.path
+        if (req.headers.action.toLowerCase() == "getfile"){
+            res.sendFile(path.join(__dirname, FilePath));
+        }else if (req.headers.action.toLowerCase() == "delete"){
+            fs.unlinkSync(path.join(__dirname, FilePath));
+            res.status(201).send("Succefully Deleted The Requested File!")
+        }
     }catch(error){
         console.log(`${logprefix('Server')} ${error}`)
-        res.send(error)
+        
+        try {res.send(error)} catch (err) {}
     }
 })
 // Routes

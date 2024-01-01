@@ -41,13 +41,16 @@
             display: flex;
             align-items: center;
         }
+
         @keyframes toggleActions {
             0% {
                 height: 0px;
             }
-            50%{
+
+            50% {
                 height: 25px;
             }
+
             100% {
                 height: 50px;
             }
@@ -61,38 +64,93 @@
             justify-content: space-between;
             display: none;
         }
-        .FileActionsBtn{
+
+        .FileActionsBtn {
             cursor: pointer;
         }
-        .no-padding-left-right{
+
+        .no-padding-left-right {
             padding-left: 0 !important;
             padding-right: 0 !important;
         }
-        .FileActionsDeleteBtn:hover{
+
+        .FileActionsDeleteBtn:hover {
             background: red;
         }
-        .displaynone{
+
+        .displaynone {
             display: none !important;
         }
-        
+
+        #MessageBox {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 10vh;
+        }
+
+        #MessageBox>p {
+            font-size: larger;
+            text-align: center;
+        }
+        #previewBox{
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5vh 5vh;
+        }
+        #previewBox iframe{
+            width: 50%;
+            height: 70%;
+            background: white;
+        }
     </style>
     <script defer src="./assets/templates/scripts/setup.js"></script>
 </head>
 
 <body>
     <header></header>
+    <div id="MessageBox">
+        <p>MESSAGE</p>
+    </div>
     <main>
         <div id="FilesGrid">
 
         </div>
     </main>
+    <hr>
+    <div id="previewBox">
+        <iframe src="" frameborder="0" id="preview" contenteditable="true"></iframe>
+    </div>
     <script defer>
         const MainFunc = async () => {
             const FilesFetch = await fetch('/cloudFiles')
             const Reponse = await FilesFetch.json();
+            const MessageBox = document.getElementById('MessageBox');
             const FilesGrid = document.getElementById('FilesGrid');
+            const preview = document.getElementById('preview')
 
-            Reponse.forEach(({name, path})=>{
+            const displayMSG = (msg, isErr) => {
+                if (isErr) {
+                    MessageBox.style.background = "red"
+                    MessageBox.innerHTML = msg
+                    MessageBox.style.display = "flex"
+                    setTimeout(() => {
+                        MessageBox.style.display = "none"
+                    }, 3 * 1000)
+                } else {
+                    MessageBox.style.background = "green"
+                    MessageBox.innerHTML = msg
+                    MessageBox.style.display = "flex"
+                    setTimeout(() => {
+                        MessageBox.style.display = "none"
+                    }, 3 * 1000)
+                }
+            }
+
+            Reponse.forEach(({ name, path }) => {
                 FilesGrid.insertAdjacentHTML("beforeend", `
             <div class="File" data-path="${path}">
                 <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
@@ -107,60 +165,128 @@
                     <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDownloadBtn">
                         <img src="./assets/images/icons/download_light.png" alt="">
                     </button>
-                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsEditBtn">
-                        <img src="./assets/images/icons/edit_light.png" alt="">
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsPreviewBtn">
+                        <img src="./assets/images/icons/preview_light.png" alt="">
                     </button>
                 </div>
             </div>
                 `)
             })
-            // "toggleActions 0.3s linear 0s 1 normal none running"
+            // Button to Toggle Actions
             const FileActionsBtns = Array.from(document.getElementsByClassName('FileActionsBtn'))
-            FileActionsBtns.forEach(btn=>{
-                btn.addEventListener('click', ({target})=>{
+            FileActionsBtns.forEach(btn => {
+                btn.addEventListener('click', ({ target }) => {
                     const BaseFile = target.closest('.File')
                     const Duration = 0.3;
 
-                    if (BaseFile.children[2].classList.contains('displaynone')){
+                    if (BaseFile.children[2].classList.contains('displaynone')) {
                         BaseFile.children[2].classList.remove('displaynone')
                         BaseFile.children[2].style.animation = `toggleActions ${Duration}s linear 0s 1 normal none running`
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             BaseFile.children[2].style.animation = '';
-                        }, Duration *1000)
-                    } else{
+                        }, Duration * 1000)
+                    } else {
                         BaseFile.children[2].style.animation = `toggleActions ${Duration}s linear 0s 1 reverse none running`
                         setTimeout(() => {
                             BaseFile.children[2].classList.add('displaynone')
                             BaseFile.children[2].style.animation = '';
                         }, Duration * 1000)
                     }
-                    
+
+                })
+            })
+            // Button to Delete
+            const FileActionsDeleteBtns = Array.from(document.getElementsByClassName('FileActionsDeleteBtn'));
+            FileActionsDeleteBtns.forEach(btn => {
+                btn.addEventListener('click', async ({ target }) => {
+                    try {
+                        const Consent = confirm("Are you sure you want to delete this Item?")
+                        if (Consent) {
+                            const BaseFile = target.closest('.File')
+                            const Path = BaseFile.dataset.path
+                            const Request = await fetch('/cloudFilesContent', {
+                                method: "GET",
+                                headers: {
+                                    "path": Path,
+                                    "action": "delete"
+                                }
+                            })
+                            const Reponse = await Request.text();
+                            console.log(Reponse);
+                            if (Reponse !== "Succefully Deleted The Requested File!") {
+                                throw Error(Reponse)
+                            } else {
+                                displayMSG("Succefully Deleted The Requested File!", false);
+                                FilesGrid.innerHTML = '';
+                                MainFunc();
+                            }
+                        }
+                    } catch (error) {
+                        displayMSG("Succefully Deleted The Requested File!", false)
+                        console.error(error);
+                    }
                 })
             })
             // Button to Download
             const FileActionsDownloadBtns = Array.from(document.getElementsByClassName('FileActionsDownloadBtn'));
-            FileActionsDownloadBtns.forEach(btn=>{
-                btn.addEventListener('click', async ({target})=>{
+            FileActionsDownloadBtns.forEach(btn => {
+                btn.addEventListener('click', async ({ target }) => {
                     try {
                         const BaseFile = target.closest('.File')
                         const Path = BaseFile.dataset.path
                         const Request = await fetch('/cloudFilesContent', {
                             method: "GET",
                             headers: {
-                                "path": Path
+                                "path": Path,
+                                "action": "getfile"
                             }
                         })
                         const Reponse = await Request.blob()
-                        console.log(Reponse);
 
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(Reponse);
+                        console.log(link.href)
                         link.download = Path.replace('./cloud/', '');
                         document.body.appendChild(link);
                         link.click();
-                        document.body.removeChild(link);   
+                        document.body.removeChild(link);
+                        displayMSG("Succesfully Downloaded The Requested File", false)
                     } catch (error) {
-                        console.error("Unable to Download Requested File")
+                        displayMSG("Unable to Download Requested File", true)
+                        console.error(error)
+                    }
+                })
+            })
+            // Edit Button
+            const FileActionsPreviewBtns = Array.from(document.getElementsByClassName('FileActionsPreviewBtn'));
+            FileActionsPreviewBtns.forEach(btn => {
+                btn.addEventListener('click', async ({ target }) => {
+                    try {
+                        const BaseFile = target.closest('.File')
+                        const Path = BaseFile.dataset.path
+                        const Request = await fetch('/cloudFilesContent', {
+                            method: "GET",
+                            headers: {
+                                "path": Path,
+                                "action": "getfile"
+                            }
+                        })
+                        const Reponse = await Request.blob()
+                        const Link = URL.createObjectURL(Reponse);
+
+                        const linkElement = document.createElement('a');
+
+                        linkElement.href = "#preview"
+                        document.body.appendChild(linkElement);
+                        linkElement.click();
+                        document.body.removeChild(linkElement);
+
+                        preview.src = Link
+
+                        displayMSG("Succesfully Downloaded The Requested File", false)
+                    } catch (error) {
+                        displayMSG("Unable to Download Requested File", true)
+                        console.error(error)
                     }
                 })
             })
