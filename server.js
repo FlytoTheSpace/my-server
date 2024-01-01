@@ -40,7 +40,7 @@ const { calculateBroadcastAddress, broadcastMessage } = require('./assets/broadc
 const udpPort = 3001; // UDP port for broadcasting
 const subnetMask = '255.255.255.0';
 
-setInterval(deleteOldFiles, 30*60*1000);
+setInterval(deleteOldFiles, 30 * 60 * 1000);
 
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
     encoding: 'base64',
@@ -113,7 +113,7 @@ app.post('/mergepdfs', upload.array('pdfs', 2), async (req, res) => {
         res.status(500).send(`${logprefix('server')} Internal Server Error`);
     }
 });
-app.post(`/registerSubmit`, apiLimiter , async (req, res) => {
+app.post(`/registerSubmit`, apiLimiter, async (req, res) => {
     try {
 
         // throwing errors upon empty
@@ -194,7 +194,7 @@ app.post(`/registerSubmit`, apiLimiter , async (req, res) => {
     }
 
 })
-app.post(`/loginSubmit`, apiLimiter , async (req, res) => {
+app.post(`/loginSubmit`, apiLimiter, async (req, res) => {
     try {
         // if (req.headers.origin !== `http://${LocalIPv4()}:${port}/login`) {
         //     res.send('Unauthorized Connection denied')
@@ -269,41 +269,41 @@ app.get('/profileinfofetch', (req, res) => {
         console.log(error)
     }
 })
-app.post('/cloudFilesUpload', upload.any(), (req, res)=>{
-    if(!req.files) {
+app.post('/cloudFilesUpload', upload.any(), (req, res) => {
+    if (!req.files) {
         res.status(400).send('No files were uploaded.');
     }
     res.status(201).redirect('/cloud');
 })
-app.get('/cloudFiles', (req, res)=>{
-    try{
+app.get('/cloudFiles', (req, res) => {
+    try {
         const files = fs.readdirSync(path.join(__dirname, 'cloud/'));
         const ReponseObject = []
-        files.forEach(fileName=>{
+        files.forEach(fileName => {
             ReponseObject.push({
                 name: fileName,
                 path: `./cloud/${fileName}`
             })
         })
         res.json(ReponseObject);
-    }catch(error){
+    } catch (error) {
         console.log(`${logprefix('Server')} ${error}`)
         res.send(error)
     }
 })
-app.get('/cloudFilesContent', (req, res)=>{
-    try{
+app.get('/cloudFilesContent', (req, res) => {
+    try {
         const FilePath = req.headers.path
-        if (req.headers.action.toLowerCase() == "getfile"){
+        if (req.headers.action.toLowerCase() == "getfile") {
             res.sendFile(path.join(__dirname, FilePath));
-        }else if (req.headers.action.toLowerCase() == "delete"){
+        } else if (req.headers.action.toLowerCase() == "delete") {
             fs.unlinkSync(path.join(__dirname, FilePath));
             res.status(201).send("Succefully Deleted The Requested File!")
         }
-    }catch(error){
+    } catch (error) {
         console.log(`${logprefix('Server')} ${error}`)
-        
-        try {res.send(error)} catch (err) {}
+
+        try { res.send(error) } catch (err) { }
     }
 })
 // Routes
@@ -327,9 +327,7 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/cloud', async (req, res) => {
-    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
-        res.sendFile(path.join(__dirname, './admin/cloud.html'));
-    });
+    res.sendFile(path.join(__dirname, './admin/cloud.html'));
 })
 app.get('/data', async (req, res) => {
     authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
