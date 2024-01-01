@@ -172,6 +172,11 @@
             border-radius: 20px;
             background: #505050;
         }
+        #refreshBtn{
+            position: fixed;
+            right: 3vw;
+            bottom: 3vh;
+        }
     </style>
     <script defer src="./assets/templates/scripts/setup.js"></script>
 </head>
@@ -208,12 +213,17 @@
             <iframe src="" frameborder="0" id="preview" contenteditable="true"></iframe>
         </div>
     </div>
+    <button id="refreshBtn" class="t-1 c-gray withIcon" onclick="MainFunc()">
+        <img src="./assets/images/icons/refresh_light.png" alt="">
+    </button>
     <script defer>
         const MainFunc = async () => {
+            console.log("Loading...")
             const FilesFetch = await fetch('/cloudFiles')
             const Reponse = await FilesFetch.json();
             const MessageBox = document.getElementById('MessageBox');
             const FilesGrid = document.getElementById('FilesGrid');
+            FilesGrid.innerHTML = ''
             const preview = document.getElementById('preview')
             const previewMainBox = document.getElementById('previewMainBox')
 
@@ -302,7 +312,6 @@
                                 throw Error(Reponse)
                             } else {
                                 displayMSG("Succefully Deleted The Requested File!", false);
-                                FilesGrid.innerHTML = '';
                                 MainFunc();
                             }
                         }
