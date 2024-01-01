@@ -94,17 +94,78 @@
             font-size: larger;
             text-align: center;
         }
-        #previewBox{
-            height: 50vh;
+        #previewMainBox{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 26, 26, 0.555);
+
+            z-index: 11;
+        }
+        #previewMainBox #previewBox{
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+            width: 60%;
+            background: #3b3b3b;
+            border-radius: 20px;
+        }
+        #previewMainBox #previewBox #previewBoxToolbar{
+            border-top-right-radius: inherit;
+            border-top-left-radius: inherit;
+            width: 100%;
+            height: 15%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        #previewMainBox iframe{
+            border-bottom-right-radius: inherit;
+            border-bottom-left-radius: inherit;
+            width: auto;
+            height: 100%;
+            background: white;
+        }
+        @media screen and (max-width: 600px) {
+            #previewMainBox #previewBox{
+                width: 100%;
+            }
+        }
+        #uploadSection{
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 5vh 5vh;
+            height: 50vh;
+            width: 100%;
         }
-        #previewBox iframe{
-            width: 50%;
-            height: 70%;
-            background: white;
+        input[type="file"]{
+            align-items: center;
+            display: grid;
+            justify-content: center;
+            width: auto;
+            height: 100%;
+            border: #272727 0.5vh solid;
+            border-radius: 10px;
+            background-color: #2f2f2f;
+        }
+        #uploadSection *{
+            margin: 0.5vw;
+        }
+        #uploadSection > form{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 250px;
+            height: 250px;
+            padding: 2vh 2vw;
+            border-radius: 20px;
+            background: #505050;
         }
     </style>
     <script defer src="./assets/templates/scripts/setup.js"></script>
@@ -113,7 +174,7 @@
 <body>
     <header></header>
     <div id="MessageBox">
-        <p>MESSAGE</p>
+        <p></p>
     </div>
     <main>
         <div id="FilesGrid">
@@ -121,8 +182,26 @@
         </div>
     </main>
     <hr>
-    <div id="previewBox">
-        <iframe src="" frameborder="0" id="preview" contenteditable="true"></iframe>
+    <div id="uploadSection">
+        <form action="/cloudFilesUpload" method="post" enctype="multipart/form-data">
+            <label for=""></label>
+            <input type="file" name="files" id="fileInputSubmit" multiple>
+            <br>
+            <button class="t-1 c-blue fullspan withIcon" type="submit"><img src="./assets/images/icons/upload_light.png" alt="">Upload</button>
+        </form>
+    </div>
+    <!-- preview Pop Up -->
+    <div id="previewMainBox">
+        <div id="previewBox">
+            <div id="previewBoxToolbar">
+                <button class="t-1 c-transparent withIcon" 
+                    onclick="previewMainBox.style.display = 'none'; preview.src = '';"
+                    >
+                    <img src="./assets/images/icons/close_light.png" alt="">
+                </button>
+            </div>
+            <iframe src="" frameborder="0" id="preview" contenteditable="true"></iframe>
+        </div>
     </div>
     <script defer>
         const MainFunc = async () => {
@@ -131,6 +210,7 @@
             const MessageBox = document.getElementById('MessageBox');
             const FilesGrid = document.getElementById('FilesGrid');
             const preview = document.getElementById('preview')
+            const previewMainBox = document.getElementById('previewMainBox')
 
             const displayMSG = (msg, isErr) => {
                 if (isErr) {
@@ -274,18 +354,10 @@
                         const Reponse = await Request.blob()
                         const Link = URL.createObjectURL(Reponse);
 
-                        const linkElement = document.createElement('a');
-
-                        linkElement.href = "#preview"
-                        document.body.appendChild(linkElement);
-                        linkElement.click();
-                        document.body.removeChild(linkElement);
-
+                        previewMainBox.style.display = "flex"
                         preview.src = Link
-
-                        displayMSG("Succesfully Downloaded The Requested File", false)
                     } catch (error) {
-                        displayMSG("Unable to Download Requested File", true)
+                        displayMSG("Unable to Preview The Requested File", true)
                         console.error(error)
                     }
                 })

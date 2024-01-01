@@ -58,7 +58,7 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         if (req.path === '/mergepdfs') {
             cb(null, 'uploads/pdfs/');
-        } else if (req.path === '/cloudUpload') {
+        } else if (req.path === '/cloudFilesUpload') {
             cb(null, 'cloud/');
         } else {
             cb(new Error('Invalid upload path'));
@@ -268,6 +268,12 @@ app.get('/profileinfofetch', (req, res) => {
     } catch (error) {
         console.log(error)
     }
+})
+app.post('/cloudFilesUpload', upload.any(), (req, res)=>{
+    if(!req.files) {
+        res.status(400).send('No files were uploaded.');
+    }
+    res.status(201).redirect('/cloud');
 })
 app.get('/cloudFiles', (req, res)=>{
     try{
