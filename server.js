@@ -18,9 +18,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
-const rateLimit = require('express-rate-limit');
-
 const multer = require('multer');
+const rateLimit = require('express-rate-limit');
+const dgram = require('dgram');
+const udpServer = dgram.createSocket('udp4');
 
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
@@ -32,8 +33,13 @@ const { LocalIPv4 } = require('./assets/ip');
 const { mergePDFs } = require("./scripts/mergepdfs");
 const { deleteOldFiles } = require('./scripts/clean');
 const { resolveSoa } = require('dns');
+const { calculateBroadcastAddress, broadcastMessage } = require('./assets/broadcast')
+
 
 // Other
+const udpPort = 3001; // UDP port for broadcasting
+const subnetMask = '255.255.255.0';
+
 setInterval(deleteOldFiles, 30*60*1000);
 
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
@@ -366,6 +372,8 @@ app.use((req, res, next) => {
 // Starting Server
 app.listen(port, () => {
     console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`);
+    broadcastMessage(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`);
 });
-
-(async () => { module.exports = { AccountsCollection } })();
+udpServer.bind(() => {
+    udpServer.setBroadcast(true);
+});

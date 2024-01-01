@@ -83,14 +83,14 @@
     <header></header>
     <main>
         <div id="FilesGrid">
-            
+
         </div>
     </main>
     <script defer>
-        const FilesGrid = document.getElementById('FilesGrid')
-        const loadFile = async () => {
+        const MainFunc = async () => {
             const FilesFetch = await fetch('/cloudFiles')
             const Reponse = await FilesFetch.json();
+            const FilesGrid = document.getElementById('FilesGrid');
 
             Reponse.forEach(({name, path})=>{
                 FilesGrid.insertAdjacentHTML("beforeend", `
@@ -137,30 +137,35 @@
                     
                 })
             })
+            // Button to Download
             const FileActionsDownloadBtns = Array.from(document.getElementsByClassName('FileActionsDownloadBtn'));
             FileActionsDownloadBtns.forEach(btn=>{
                 btn.addEventListener('click', async ({target})=>{
-                    const BaseFile = target.closest('.File')
-                    const Path = BaseFile.dataset.path
-                    const Request = await fetch('/cloudFilesContent',{
-                        method: "GET",
-                        headers: {
-                            "path": Path
-                        }
-                    })
-                    const Reponse = await Request.blob()
-                    console.log(Reponse);
+                    try {
+                        const BaseFile = target.closest('.File')
+                        const Path = BaseFile.dataset.path
+                        const Request = await fetch('/cloudFilesContent', {
+                            method: "GET",
+                            headers: {
+                                "path": Path
+                            }
+                        })
+                        const Reponse = await Request.blob()
+                        console.log(Reponse);
 
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(Reponse);
-                    link.download = Path.replace('./cloud/', '');
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(Reponse);
+                        link.download = Path.replace('./cloud/', '');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);   
+                    } catch (error) {
+                        console.error("Unable to Download Requested File")
+                    }
                 })
             })
         }
-        loadFile();
+        MainFunc();
 
 
     </script>
