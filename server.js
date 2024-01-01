@@ -93,31 +93,16 @@ app.use(cookieParser());
 
 // Requests
 
-app.get('/profileinfofetch', (req, res) => {
-    try {
-        let token = req.headers.authorization;
-        let decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY)
-
-        let decryptedUsername = LoginfoDecryptionKey.decrypt(decodedToken.username);
-        let decryptedEmail = LoginfoDecryptionKey.decrypt(decodedToken.email);
-
-        let ProfileInfo = {
-            'username': decryptedUsername,
-            'email': decryptedEmail
-        }
-
-        res.send(ProfileInfo)
-    } catch (error) {
-        console.log(error)
-    }
-
-})
 app.post('/mergepdfs', upload.array('pdfs', 2), async (req, res) => {
     try {
-        const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
+        const generatedPDFName = await mergePDFs(
+            path.join(__dirname, req.files[0].path),
+            path.join(__dirname, req.files[1].path)
+        );
+
         res.redirect(`http://${LocalIPv4()}:${port}/public/${generatedPDFName}.pdf`);
     } catch (error) {
-        console.error(`${logprefix('server')} + ${error}`);
+        console.error(`${logprefix('server')} ${error}`);
         res.status(500).send(`${logprefix('server')} Internal Server Error`);
     }
 });
@@ -259,7 +244,24 @@ app.post(`/loginSubmit`, apiLimiter , async (req, res) => {
         res.status(500).send("Internal Server Error!");
     }
 })
+app.get('/profileinfofetch', (req, res) => {
+    try {
+        let token = req.cookies.accessToken;
+        let decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY)
 
+        let decryptedUsername = LoginfoDecryptionKey.decrypt(decodedToken.username);
+        let decryptedEmail = LoginfoDecryptionKey.decrypt(decodedToken.email);
+
+        let ProfileInfo = {
+            'username': decryptedUsername,
+            'email': decryptedEmail
+        }
+
+        res.send(ProfileInfo)
+    } catch (error) {
+        console.log(error)
+    }
+})
 // Routes
 
 

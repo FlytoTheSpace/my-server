@@ -41,6 +41,17 @@
             display: flex;
             align-items: center;
         }
+        @keyframes toggleActions {
+            0% {
+                height: 0px;
+            }
+            50%{
+                height: 25px;
+            }
+            100% {
+                height: 50px;
+            }
+        }
 
         .FileActions {
             background: #252525;
@@ -50,6 +61,9 @@
             justify-content: space-between;
             display: none;
         }
+        .FileActionsBtn{
+            cursor: pointer;
+        }
         .no-padding-left-right{
             padding-left: 0 !important;
             padding-right: 0 !important;
@@ -57,6 +71,10 @@
         .FileActionsDeleteBtn:hover{
             background: red;
         }
+        .displaynone{
+            display: none !important;
+        }
+        
     </style>
     <script defer src="./assets/templates/scripts/setup.js"></script>
 </head>
@@ -71,7 +89,7 @@
                     <p class="FileName">Lorem ipsum dolor sit amet.</p>
                     <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
                 </div>
-                <div class="FileActions">
+                <div class="displaynone FileActions">
                     <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDeleteBtn">
                         <img src="./assets/images/icons/delete_button.png" alt="">
                     </button>
@@ -83,6 +101,8 @@
                     </button>
                 </div>
             </div>
+
+            
         </div>
     </main>
     <script defer>
@@ -93,25 +113,49 @@
 
             for (let i = 0; i < 5; i++) {
                 FilesGrid.insertAdjacentHTML("beforeend", `
-                    <div class="File" data-path="">
-                    <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
-                    <div>
-                        <p class="FileName">Lorem ipsum dolor sit amet.</p>
-                        <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
-                    </div>
-                    <div class="FileActions">
-                        <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDeleteBtn">
-                            <img src="./assets/images/icons/delete_button.png" alt="">
-                        </button>
-                        <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDownloadBtn">
-                            <img src="./assets/images/icons/download_light.png" alt="">
-                        </button>
-                        <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsEditBtn">
-                            <img src="./assets/images/icons/edit_light.png" alt="">
-                        </button>
-                    </div>
-                </div>`)
+            <div class="File" data-path="">
+                <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
+                <div>
+                    <p class="FileName">Lorem ipsum dolor sit amet.</p>
+                    <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
+                </div>
+                <div class="displaynone FileActions">
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDeleteBtn">
+                        <img src="./assets/images/icons/delete_button.png" alt="">
+                    </button>
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDownloadBtn">
+                        <img src="./assets/images/icons/download_light.png" alt="">
+                    </button>
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsEditBtn">
+                        <img src="./assets/images/icons/edit_light.png" alt="">
+                    </button>
+                </div>
+            </div>
+                `)
             }
+            // "toggleActions 0.3s linear 0s 1 normal none running"
+            const FileActionsBtns = Array.from(document.getElementsByClassName('FileActionsBtn'))
+            FileActionsBtns.forEach(btn=>{
+                btn.addEventListener('click', ({target})=>{
+                    const BaseFile = target.closest('.File')
+                    const Duration = 0.3;
+
+                    if (BaseFile.children[2].classList.contains('displaynone')){
+                        BaseFile.children[2].classList.remove('displaynone')
+                        BaseFile.children[2].style.animation = `toggleActions ${Duration}s linear 0s 1 normal none running`
+                        setTimeout(()=>{
+                            BaseFile.children[2].style.animation = '';
+                        }, Duration *1000)
+                    } else{
+                        BaseFile.children[2].style.animation = `toggleActions ${Duration}s linear 0s 1 reverse none running`
+                        setTimeout(() => {
+                            BaseFile.children[2].classList.add('displaynone')
+                            BaseFile.children[2].style.animation = '';
+                        }, Duration * 1000)
+                    }
+                    
+                })
+            })
         }
         loadFile();
 
