@@ -83,40 +83,21 @@
     <header></header>
     <main>
         <div id="FilesGrid">
-            <div class="File" data-path="">
-                <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
-                <div>
-                    <p class="FileName">Lorem ipsum dolor sit amet.</p>
-                    <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
-                </div>
-                <div class="displaynone FileActions">
-                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDeleteBtn">
-                        <img src="./assets/images/icons/delete_button.png" alt="">
-                    </button>
-                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDownloadBtn">
-                        <img src="./assets/images/icons/download_light.png" alt="">
-                    </button>
-                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsEditBtn">
-                        <img src="./assets/images/icons/edit_light.png" alt="">
-                    </button>
-                </div>
-            </div>
-
             
         </div>
     </main>
     <script defer>
         const FilesGrid = document.getElementById('FilesGrid')
         const loadFile = async () => {
-            // const FilesFetch = await fetch('/cloudFile')
-            // const Reponse = await FilesFetch.json()
+            const FilesFetch = await fetch('/cloudFiles')
+            const Reponse = await FilesFetch.json();
 
-            for (let i = 0; i < 5; i++) {
+            Reponse.forEach(({name, path})=>{
                 FilesGrid.insertAdjacentHTML("beforeend", `
-            <div class="File" data-path="">
+            <div class="File" data-path="${path}">
                 <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
                 <div>
-                    <p class="FileName">Lorem ipsum dolor sit amet.</p>
+                    <p class="FileName">${name}</p>
                     <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
                 </div>
                 <div class="displaynone FileActions">
@@ -132,7 +113,7 @@
                 </div>
             </div>
                 `)
-            }
+            })
             // "toggleActions 0.3s linear 0s 1 normal none running"
             const FileActionsBtns = Array.from(document.getElementsByClassName('FileActionsBtn'))
             FileActionsBtns.forEach(btn=>{
@@ -154,6 +135,28 @@
                         }, Duration * 1000)
                     }
                     
+                })
+            })
+            const FileActionsDownloadBtns = Array.from(document.getElementsByClassName('FileActionsDownloadBtn'));
+            FileActionsDownloadBtns.forEach(btn=>{
+                btn.addEventListener('click', async ({target})=>{
+                    const BaseFile = target.closest('.File')
+                    const Path = BaseFile.dataset.path
+                    const Request = await fetch('/cloudFilesContent',{
+                        method: "GET",
+                        headers: {
+                            "path": Path
+                        }
+                    })
+                    const Reponse = await Request.blob()
+                    console.log(Reponse);
+
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(Reponse);
+                    link.download = Path.replace('./cloud/', '');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                 })
             })
         }

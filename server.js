@@ -30,7 +30,8 @@ const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 
 const { mergePDFs } = require("./scripts/mergepdfs");
-const { deleteOldFiles } = require('./scripts/clean')
+const { deleteOldFiles } = require('./scripts/clean');
+const { resolveSoa } = require('dns');
 
 // Other
 setInterval(deleteOldFiles, 30*60*1000);
@@ -260,6 +261,30 @@ app.get('/profileinfofetch', (req, res) => {
         res.send(ProfileInfo)
     } catch (error) {
         console.log(error)
+    }
+})
+app.get('/cloudFiles', (req, res)=>{
+    try{
+        const files = fs.readdirSync(path.join(__dirname, 'cloud/'));
+        const ReponseObject = []
+        files.forEach(fileName=>{
+            ReponseObject.push({
+                name: fileName,
+                path: `./cloud/${fileName}`
+            })
+        })
+        res.json(ReponseObject);
+    }catch(error){
+        console.log(`${logprefix('Server')} ${error}`)
+        res.send(error)
+    }
+})
+app.get('/cloudFilesContent', (req, res)=>{
+    try{
+        res.sendFile(path.join(__dirname, req.headers.path));
+    }catch(error){
+        console.log(`${logprefix('Server')} ${error}`)
+        res.send(error)
     }
 })
 // Routes
