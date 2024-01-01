@@ -20,7 +20,7 @@
         }
 
         .File {
-            margin: 2vh 2vw;
+            margin: 2vh 15px;
             min-height: 120px;
             width: 120px;
             background: #505050;
@@ -33,13 +33,18 @@
             width: 90%;
         }
 
-        .File p {
+        .FileName{
             width: 90%;
+            overflow: auto;
+            overflow-wrap: break-word;
         }
 
         .File>div {
             display: flex;
             align-items: center;
+        }
+        .FileIconandName{
+            width: 100%;
         }
 
         @keyframes toggleActions {
@@ -234,7 +239,7 @@
                 FilesGrid.insertAdjacentHTML("beforeend", `
             <div class="File" data-path="${path}">
                 <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
-                <div>
+                <div class="FileIconandName">
                     <p class="FileName">${name}</p>
                     <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
                 </div>
