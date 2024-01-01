@@ -21,7 +21,6 @@ const mongoose = require('mongoose')
 const rateLimit = require('express-rate-limit');
 
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
 
 const GenRandomChar = require("./assets/randomchars");
 const authenticate = require('./assets/authenticate');
@@ -47,6 +46,23 @@ const apiLimiter = rateLimit({
     max: 100, // limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
+// Function to set storage configuration dynamically
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        if (req.path === '/mergepdfs') {
+            cb(null, 'uploads/pdfs/');
+        } else if (req.path === '/cloudUpload') {
+            cb(null, 'cloud/');
+        } else {
+            cb(new Error('Invalid upload path'));
+        }
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 let Accounts;
 
@@ -96,8 +112,7 @@ app.get('/profileinfofetch', (req, res) => {
     }
 
 })
-// Requests
-app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
+app.post('/mergepdfs', upload.array('pdfs', 2), async (req, res) => {
     try {
         const generatedPDFName = await mergePDFs(path.join(__dirname, req.files[0].path), path.join(__dirname, req.files[1].path));
         res.redirect(`http://${LocalIPv4()}:${port}/public/${generatedPDFName}.pdf`);

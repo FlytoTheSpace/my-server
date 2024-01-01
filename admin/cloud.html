@@ -1,22 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LAN Cloud Storage</title>
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+        }
+
+        #FilesGrid {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5vh 5vw;
+        }
+
+        .File {
+            margin: 2vh 2vw;
+            min-height: 120px;
+            width: 120px;
+            background: #505050;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .File img.FileIcon {
+            width: 90%;
+        }
+
+        .File p {
+            width: 90%;
+        }
+
+        .File>div {
+            display: flex;
+            align-items: center;
+        }
+
+        .FileActions {
+            background: #252525;
+            height: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            display: none;
+        }
+        .no-padding-left-right{
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .FileActionsDeleteBtn:hover{
+            background: red;
+        }
+    </style>
     <script defer src="./assets/templates/scripts/setup.js"></script>
-    <script defer>
-        fetch('Files')
-    </script>
 </head>
+
 <body>
     <header></header>
     <main>
-
+        <div id="FilesGrid">
+            <div class="File" data-path="">
+                <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
+                <div>
+                    <p class="FileName">Lorem ipsum dolor sit amet.</p>
+                    <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
+                </div>
+                <div class="FileActions">
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDeleteBtn">
+                        <img src="./assets/images/icons/delete_button.png" alt="">
+                    </button>
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDownloadBtn">
+                        <img src="./assets/images/icons/download_light.png" alt="">
+                    </button>
+                    <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsEditBtn">
+                        <img src="./assets/images/icons/edit_light.png" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
-    <form action="/uploadcloud" method="post" enctype="multipart/form-data">
-        <input type="file" name="fileInputSubmit" id="">
-    </form>
-    <footer></footer>
+    <script defer>
+        const FilesGrid = document.getElementById('FilesGrid')
+        const loadFile = async () => {
+            // const FilesFetch = await fetch('/cloudFile')
+            // const Reponse = await FilesFetch.json()
+
+            for (let i = 0; i < 5; i++) {
+                FilesGrid.insertAdjacentHTML("beforeend", `
+                    <div class="File" data-path="">
+                    <img src="./assets/images/icons/file.png" class="FileIcon" alt="">
+                    <div>
+                        <p class="FileName">Lorem ipsum dolor sit amet.</p>
+                        <img src="./assets/images/icons/options.png" alt="" class="FileActionsBtn">
+                    </div>
+                    <div class="FileActions">
+                        <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDeleteBtn">
+                            <img src="./assets/images/icons/delete_button.png" alt="">
+                        </button>
+                        <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsDownloadBtn">
+                            <img src="./assets/images/icons/download_light.png" alt="">
+                        </button>
+                        <button class="t-1 c-transparent withIcon no-padding-left-right FileActionsEditBtn">
+                            <img src="./assets/images/icons/edit_light.png" alt="">
+                        </button>
+                    </div>
+                </div>`)
+            }
+        }
+        loadFile();
+
+
+    </script>
 </body>
+
 </html>
