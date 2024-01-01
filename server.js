@@ -9,16 +9,16 @@ const port = process.env.PORT || 5500;
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-
 const crypto = require('crypto');
+
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
-
 const { decode } = require('punycode');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
+const rateLimit = require('express-rate-limit');
 
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
@@ -42,6 +42,12 @@ const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_
     saltLength: 1
 });
 updateMusicAPI();
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
 let Accounts;
 
 
@@ -49,7 +55,6 @@ let Accounts;
 const mongodbURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongodbURI, {});
-
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
@@ -69,6 +74,8 @@ app.use(express.static(path.join(__dirname, "server")));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Requests
 
 app.get('/profileinfofetch', (req, res) => {
     try {
@@ -99,7 +106,7 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res) => {
         res.status(500).send(`${logprefix('server')} Internal Server Error`);
     }
 });
-app.post(`/registerSubmit`, async (req, res) => {
+app.post(`/registerSubmit`, apiLimiter , async (req, res) => {
     try {
 
         // throwing errors upon empty
@@ -180,7 +187,7 @@ app.post(`/registerSubmit`, async (req, res) => {
     }
 
 })
-app.post(`/loginSubmit`, async (req, res) => {
+app.post(`/loginSubmit`, apiLimiter , async (req, res) => {
     try {
         // if (req.headers.origin !== `http://${LocalIPv4()}:${port}/login`) {
         //     res.send('Unauthorized Connection denied')
@@ -258,16 +265,19 @@ app.get(`/${process.env.ADMIN_PANEL_URL}`, (req, res) => {
 app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
+app.get('/cloud', async (req, res) => {
+    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
+        res.sendFile(path.join(__dirname, './admin/cloud.html'));
+    });
+})
 app.get('/data', async (req, res) => {
     authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
         res.sendFile(path.join(__dirname, './server/data.html'));
     });
 })
-/* Here's an Example of How to use  Mode
-app.get('/data', async (req, res) => {
-    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
-        res.sendFile(path.join(__dirname, './server/data.html'));
-    });
+/* Here's an Example of How to Authenticate
+app.get('/', async (req, res) => {
+    authenticate.byToken(<req>, <res>, <StrictMode?>, <Array of Accounts>, <callback>);
 })
 */
 app.get('/experiments', (req, res) => {
