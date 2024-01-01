@@ -73,6 +73,11 @@
         #submitbutton {
             height: 6vh;
         }
+
+        .errorBox{
+            color: red;
+            margin: 1vh 0;
+        }
     </style>
 </head>
 
@@ -81,17 +86,20 @@
     <main>
         <div>
             <div id="form-container">
-                <form action="/registerSubmit" method="post">
+                <form id="RegisterForm">
                     <div>
                         <h3>Register</h3>
                         <label for="username">
                             <input type="username" name="username" id="username" placeholder="username" minlength="3" maxlength="20" required>
+                            <p id="usernameErrbox" class="errorBox"></p>
                         </label> <br>
                         <label for="email">
                             <input type="email" name="email" id="email" placeholder="email" required>
+                            <p id="emailErrbox" class="errorBox"></p>
                         </label> <br>
                         <label for="password">
                             <input type="password" minlength="3" maxlength="20" name="password" id="password" placeholder="password" required>
+                            <p id="passwordErrbox" class="errorBox"></p>
                         </label> <br>
                     </div>
                     <button type="submit" id="submitbutton" class="t-1 c-blue fullspan">Login</button>
@@ -105,6 +113,68 @@
     </main>
     <footer></footer>
     <!-- Scripts -->
+    <script defer>
+        const RegisterForm = document.getElementById('RegisterForm')
+        RegisterForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            // Clearing Error Box
+            Array.from(document.getElementsByClassName('errorBox')).forEach(box => {
+                box.textContent = "";
+            })
+            // Error Boxes
+            const usernameErrbox = document.getElementById('usernameErrbox')
+            const passwordErrbox = document.getElementById('passwordErrbox')
+            const emailErrbox = document.getElementById('emailErrbox')
+
+            // Getting All the Fields and Formatting Them
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const content = JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            })
+
+            // Requesting Server
+            const SubmitReq = await fetch(`${location.href}Submit`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: content
+            });
+
+            // Getting A Reponse
+            const SubmitRes = await SubmitReq.text();
+
+            // Error Handling
+
+            switch (SubmitRes) {
+                case "Internal Server Error!":
+                    passwordErrbox.textContent = `${SubmitRes} pls try again later...`;
+                    break;
+                case "Username Occupied!":
+                    usernameErrbox.textContent = SubmitRes;
+                    break;
+                case "An acount with this Email already Exists!":
+                    emailErrbox.textContent = SubmitRes;
+                    break;
+                case "You can't register, you're Already Logged in":
+                    passwordErrbox.textContent = SubmitRes;
+                    break
+                case "Successfully Registered!":
+                    alert(SubmitRes)
+                    break;
+                default:
+                    break;
+            }
+
+            console.log(SubmitRes) // for Debugging
+        })
+    </script>
     <!-- <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="./assets/templates/scripts/setup.js"></script>
 </body>

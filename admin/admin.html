@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" id="webpage">
+
+<head id="head">
+    <!-- Security -->
+    <script src="./node_modules/crypto-js/crypto-js.js"></script>
+    <script src="./assets/scripts/access.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel</title>
+    <!-- STYLES -->
+    <style>
+        body {
+            overflow: hidden;
+        }
+        #main{
+            display: flex;
+            height: calc(100vh - 19vh);
+            width: 100%;
+        }
+        #sidebar{
+            height: calc(100vh - 19vh);
+            width: 25%;
+            background: #202020;
+            transition: all 0.3s ease-in;
+        }
+        #sidebar >ul{
+            padding-top: 5vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            list-style: none;
+        }
+        #sidebar li{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+            width: 80%;
+            height: 6vh;
+            color: white;
+            font-style: normal;
+            text-decoration: none;
+        }
+        #sidebar li:hover{
+            background: #313131;
+            transition: all 0.3s ease-in;
+        }
+        main{
+            height: calc(100vh - 19vh);
+            width: 75%;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <div id="main">
+        <div id="sidebar">
+            <ul>
+                <li class="sidebarLinks" >Dashboard</li>
+                <li class="sidebarLinks" >Database</li>
+                <li class="sidebarLinks" >Console</li>
+            </ul>
+        </div>
+        <main>
+            <div id="Dashboard">Dashboard</div>
+        </main>
+    </div>
+    <!-- Scripts -->
+    <script>
+        const sidebarLinks = document.getElementsByClassName('sidebarLinks');
+        Array.from(sidebarLinks).forEach(sidebarLink=>{
+            sidebarLink.addEventListener('click', ({target})=>{
+                location.href = `#${target.textContent}`
+            })
+        })
+    </script>
+    <script src="./assets/templates/scripts/setup.js"></script>
+</body>
+
+</html>

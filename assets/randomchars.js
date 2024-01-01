@@ -9,5 +9,4 @@ const GenRandomChar = (Length)=>{
     }
     return randomCharString.slice(0, randomCharString.length -1)
 }
-console.log(GenRandomChar(30))
 module.exports = GenRandomChar;

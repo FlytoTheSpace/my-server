@@ -34,7 +34,7 @@ const { mergePDFs } = require("./scripts/mergepdfs");
 const { deleteOldFiles } = require('./scripts/clean')
 
 // Other
-setInterval(deleteOldFiles, 3600000);
+setInterval(deleteOldFiles, 30*60*1000);
 
 const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
     encoding: 'base64',
@@ -53,13 +53,14 @@ mongoose.connect(mongodbURI, {});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
-    console.log('Connected to MongoDB!');
+    console.log(`${logprefix("Database")} Connected to MongoDB!`);
 });
 
 const AccountsCollection = mongoose.model('Accounts', mongoose.Schema({
     username: String,
     email: String,
     password: String,
+    userID: Number
 }), 'accounts');
 
 // Middlewares
@@ -115,37 +116,69 @@ app.post(`/registerSubmit`, async (req, res) => {
                 res.send("Password Field can't be empty")
             }
         }
+        if (req.cookies.accessToken) {
+            res.status(406).send("You can't register, you're Already Logged in")
+        } else {
 
+            let UsernameOccupied;
+            let EmailAccountExists;
+            for (const account of await AccountsCollection.find()) {
+                if (LoginfoDecryptionKey.decrypt(account._doc.username).toLowerCase() == req.body.username.toLowerCase()) {
+                    UsernameOccupied = true;
+                }
+                if (LoginfoDecryptionKey.decrypt(account._doc.email).toLowerCase() == req.body.email.toLowerCase()) {
+                    EmailAccountExists = true
+                }
+            }
+            if (UsernameOccupied) {
+                res.status(406).send("Username Occupied!")
+            } else if (EmailAccountExists) {
+                res.status(406).send("An acount with this Email already Exists!")
+            } else if (!UsernameOccupied && !EmailAccountExists) {
+
+                const GeneratedSalt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(req.body.password, GeneratedSalt)
+                const EncrytUsername = LoginfoDecryptionKey.encrypt(req.body.username.toLowerCase())
+                const EncrytEmail = LoginfoDecryptionKey.encrypt(req.body.email.toLowerCase())
+                const userID = Math.floor(Math.random() * 10000000000);
+
+                const user = {
+                    username: EncrytUsername,
+                    email: EncrytEmail,
+                    password: hashedPassword,
+                    userID: userID
+                };
+
+                // Adding User to the Database 
+                const newAccount = new AccountsCollection(user);
+                newAccount.save();
+                console.log(`${logprefix("Database")} Registered New User ${req.body.username.toLowerCase()}`);
+                // Generating a Token
+                const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                // Assigning the token and Redirecting
+                const expirationDate = new Date();
+                expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+
+                res.cookie('accessToken', token, {
+                    expires: expirationDate,
+                    httpOnly: true,
+                    path: '/'
+                }).status(201).send("Successfully Registered!");
+            } else {
+                res.status(500).send("Internal Server Error!")
+            }
+        }
+        /*
         // Encrypting Data
-        const GeneratedSalt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(req.body.password, GeneratedSalt)
-        const EncrytUsername = LoginfoDecryptionKey.encrypt(req.body.username)
-        const EncrytEmail = LoginfoDecryptionKey.encrypt(req.body.email)
-
-        const user = {
-            username: EncrytUsername,
-            email: EncrytEmail,
-            password: hashedPassword
-        };
-
-        // Adding User to the Database 
-        const newAccount = new AccountsCollection(user);
-        newAccount.save();
-        console.log('Registered New User', req.body.username);
-        // Generating a Token
-        const token = jwt.sign(user, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
-
-
-        // Assigning the token and Redirecting
-        res.cookie('accessToken', token, {
-            httpOnly: false,
-            path: '/'
-        }).status(201).send('Registered Your Account!');
-
+        */
     } catch (error) {
         console.error(`${logprefix('server')} ${error}`);
-        res.status(500).send(`${logprefix('server')} Internal Server Error`);
+        try {
+            res.status(500).send(`${logprefix('server')} Internal Server Error`);
+        } catch (error) { }
     }
+
 })
 app.post(`/loginSubmit`, async (req, res) => {
     try {
@@ -176,8 +209,12 @@ app.post(`/loginSubmit`, async (req, res) => {
                     const token = jwt.sign(EmailMatchedAcc, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
 
                     // Assigning and Redirecting
+                    const expirationDate = new Date();
+                    expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+
                     res.cookie('accessToken', token, {
-                        httpOnly: false,
+                        expires: expirationDate,
+                        httpOnly: true,
                         path: '/'
                     }).status(202).send(`Successful Login!`);
 
@@ -215,8 +252,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
 
-app.get('/administrator', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/admin.html'))
+app.get(`/${process.env.ADMIN_PANEL_URL}`, (req, res) => {
+    res.sendFile(path.join(__dirname, './admin/admin.html'))
 })
 app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
