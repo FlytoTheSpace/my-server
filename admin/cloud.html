@@ -340,7 +340,7 @@
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(Reponse);
                         console.log(link.href)
-                        link.download = Path.replace('./cloud/', '');
+                        link.download = Path.replace(/\.\/cloud\/..........\//, '');
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);

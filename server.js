@@ -355,7 +355,7 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/cloud', async (req, res) => {
-    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
+    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {2222222222222222
         res.sendFile(path.join(__dirname, './admin/cloud.html'));
     });
 })
