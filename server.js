@@ -55,11 +55,21 @@ const apiLimiter = rateLimit({
 });
 // Function to set storage configuration dynamically
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: async (req, file, cb) => {
         if (req.path === '/mergepdfs') {
             cb(null, 'uploads/pdfs/');
         } else if (req.path === '/cloudFilesUpload') {
-            cb(null, 'cloud/');
+            try {
+                const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
+                const uploadPath = `cloud/${UserID}/`;
+
+                cb(null, uploadPath);
+
+                fs.mkdirSync(uploadPath, { recursive: true });
+            } catch (error) {
+                console.error('Error during directory creation:', error);
+                cb(error);
+            }
         } else {
             cb(new Error('Invalid upload path'));
         }
@@ -277,15 +287,33 @@ app.post('/cloudFilesUpload', upload.any(), (req, res) => {
 })
 app.get('/cloudFiles', (req, res) => {
     try {
-        const files = fs.readdirSync(path.join(__dirname, 'cloud/'));
-        const ReponseObject = []
-        files.forEach(fileName => {
-            ReponseObject.push({
-                name: fileName,
-                path: `./cloud/${fileName}`
-            })
-        })
-        res.json(ReponseObject);
+        if (!req.cookies.accessToken) {
+            res.send("Account Required to Access Cloud Storage")
+        } else {
+            const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
+            let files
+            const LoadFiles = ()=>{
+                files = fs.readdirSync(path.join(__dirname, `cloud/${UserID}`));
+                const ReponseObject = []
+                files.forEach(fileName => {
+                    ReponseObject.push({
+                        name: fileName,
+                        path: `./cloud/${UserID}/${fileName}`
+                    })
+                })
+                res.json(ReponseObject);
+            }
+            try {
+                LoadFiles()
+            } catch (err) {
+                if (err.message.includes('no such file or directory')){
+                    fs.mkdirSync(path.join(__dirname, `cloud/${UserID}/`))
+                    LoadFiles()
+                } else {
+                    console.log(err)
+                }
+            }
+        }
     } catch (error) {
         console.log(`${logprefix('Server')} ${error}`)
         res.send(error)
@@ -327,7 +355,9 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/cloud', async (req, res) => {
-    res.sendFile(path.join(__dirname, './admin/cloud.html'));
+    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
+        res.sendFile(path.join(__dirname, './admin/cloud.html'));
+    });
 })
 app.get('/data', async (req, res) => {
     authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
