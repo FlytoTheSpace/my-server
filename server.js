@@ -277,7 +277,7 @@ app.post(`/loginSubmit`, apiLimiter, async (req, res) => {
         res.status(500).send("Internal Server Error!");
     }
 })
-app.get('/profileinfofetch', Authenticate.byTokenMiddleware, (req, res) => {
+app.get('/profileinfofetch', Authenticate.byToken, (req, res) => {
     try {
         let token = req.cookies.accessToken;
         let decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY)
@@ -295,14 +295,14 @@ app.get('/profileinfofetch', Authenticate.byTokenMiddleware, (req, res) => {
         console.log(error)
     }
 })
-app.post('/cloudFilesUpload', Authenticate.byTokenMiddleware, upload.any(), (req, res) => {
+app.post('/cloudFilesUpload', Authenticate.byToken, upload.any(), (req, res) => {
     if (!req.files) {
         res.status(400).send('No files were uploaded.');
     } else {
         res.status(201).redirect('/cloud');
     }
 })
-app.get('/cloudFiles', Authenticate.byTokenMiddleware, (req, res) => {
+app.get('/cloudFiles', Authenticate.byToken, (req, res) => {
     try {
         const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID;
         const LoadFiles = () => {
@@ -332,7 +332,7 @@ app.get('/cloudFiles', Authenticate.byTokenMiddleware, (req, res) => {
         res.send(error)
     }
 })
-app.get('/cloudFilesContent', Authenticate.byTokenMiddleware, async (req, res) => {
+app.get('/cloudFilesContent', Authenticate.byToken, async (req, res) => {
     try {
 
         const FilePath = req.headers.path
@@ -362,16 +362,16 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
 
-app.get(`/${process.env.ADMIN_PANEL_URL}`, (req, res) => {
+app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly , (req, res) => {
     res.sendFile(path.join(__dirname, './admin/admin.html'))
 })
 app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
-app.get('/cloud', Authenticate.byTokenMiddleware, async (req, res) => {
+app.get('/cloud', Authenticate.byToken, async (req, res) => {
     res.sendFile(path.join(__dirname, './admin/cloud.html'));
 })
-app.get('/data', Authenticate.byTokenMiddleware, async (req, res) => {
+app.get('/data', Authenticate.byToken, async (req, res) => {
     res.sendFile(path.join(__dirname, './server/data.html'));
 })
 
