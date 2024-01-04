@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5500;
 
 const path = require('path');
 const fs = require('fs');
@@ -118,7 +118,7 @@ app.post('/mergepdfs', upload.array('pdfs', 2), async (req, res) => {
             path.join(__dirname, req.files[1].path)
         );
 
-        res.redirect(`http://${LocalIPv4()}:${port}/public/${generatedPDFName}.pdf`);
+        res.redirect(`http://${LocalIPv4()}:${PORT}/public/${generatedPDFName}.pdf`);
     } catch (error) {
         console.error(`${logprefix('server')} ${error}`);
         res.status(500).send(`${logprefix('server')} Internal Server Error`);
@@ -222,7 +222,7 @@ app.post(`/registerSubmit`, apiLimiter, async (req, res) => {
 })
 app.post(`/loginSubmit`, apiLimiter, async (req, res) => {
     try {
-        // if (req.headers.origin !== `http://${LocalIPv4()}:${port}/login`) {
+        // if (req.headers.origin !== `http://${LocalIPv4()}:${PORT}/login`) {
         //     res.send('Unauthorized Connection denied')
         // } else {
 
@@ -369,7 +369,7 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/cloud', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, './admin/cloud.html'));
+    res.sendFile(path.join(__dirname, './server/cloud.html'));
 })
 app.get('/data', Authenticate.byToken, async (req, res) => {
     res.sendFile(path.join(__dirname, './server/data.html'));
@@ -417,9 +417,9 @@ app.use((req, res, next) => {
 });
 
 // Starting Server
-app.listen(port, () => {
-    console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`);
-    broadcastMessage(`${logprefix('server')} Server started on http://${LocalIPv4()}:${port}`);
+app.listen(PORT,  () => {
+    console.log(`${logprefix('server')} Server started on http://${LocalIPv4()}:${PORT}`);
+    broadcastMessage(`${logprefix('server')} Server started on http://${LocalIPv4()}:${PORT}`);
 });
 udpServer.bind(() => {
     udpServer.setBroadcast(true);
