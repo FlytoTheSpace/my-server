@@ -24,7 +24,7 @@ const dgram = require('dgram');
 const udpServer = dgram.createSocket('udp4');
 
 const GenRandomChar = require("./assets/randomchars");
-const authenticate = require('./assets/authenticate');
+const Authenticate = require('./assets/authenticate');
 const { UIMSG_1 } = require('./assets/UI_messages');
 const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
@@ -98,7 +98,8 @@ const AccountsCollection = mongoose.model('Accounts', mongoose.Schema({
     username: String,
     email: String,
     password: String,
-    userID: Number
+    userID: Number,
+    role: String
 }), 'accounts');
 
 // Middlewares
@@ -140,10 +141,7 @@ app.post(`/registerSubmit`, apiLimiter, async (req, res) => {
                 res.send("Password Field can't be empty")
             }
         }
-        if (req.cookies.accessToken) {
-            res.status(406).send("You can't register, you're Already Logged in")
-        } else {
-
+        const RegisterAcc = async () => {
             let UsernameOccupied;
             let EmailAccountExists;
             for (const account of await AccountsCollection.find()) {
@@ -170,7 +168,8 @@ app.post(`/registerSubmit`, apiLimiter, async (req, res) => {
                     username: EncrytUsername,
                     email: EncrytEmail,
                     password: hashedPassword,
-                    userID: userID
+                    userID: userID,
+                    role: "member"
                 };
 
                 // Adding User to the Database 
@@ -192,6 +191,23 @@ app.post(`/registerSubmit`, apiLimiter, async (req, res) => {
             } else {
                 res.status(500).send("Internal Server Error!")
             }
+        }
+
+        let decodedToken;
+        let corrupted = false;
+        try {
+            decodedToken = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+        } catch (error) {
+            console.log(error);
+            corrupted = true;
+        }
+        if (req.cookies.accessToken && corrupted){
+            req.cookies.accessToken = '';
+            RegisterAcc()
+        } else if (req.cookies.accessToken && !corrupted) {
+            res.status(406).send("You can't register, you're Already Logged in")
+        } else if (!req.cookies.accessToken) {
+            RegisterAcc()
         }
         /*
         // Encrypting Data
@@ -261,7 +277,7 @@ app.post(`/loginSubmit`, apiLimiter, async (req, res) => {
         res.status(500).send("Internal Server Error!");
     }
 })
-app.get('/profileinfofetch', (req, res) => {
+app.get('/profileinfofetch', Authenticate.byTokenMiddleware, (req, res) => {
     try {
         let token = req.cookies.accessToken;
         let decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY)
@@ -279,65 +295,57 @@ app.get('/profileinfofetch', (req, res) => {
         console.log(error)
     }
 })
-app.post('/cloudFilesUpload', upload.any(), (req, res) => {
+app.post('/cloudFilesUpload', Authenticate.byTokenMiddleware, upload.any(), (req, res) => {
     if (!req.files) {
         res.status(400).send('No files were uploaded.');
+    } else {
+        res.status(201).redirect('/cloud');
     }
-    res.status(201).redirect('/cloud');
 })
-app.get('/cloudFiles', (req, res) => {
+app.get('/cloudFiles', Authenticate.byTokenMiddleware, (req, res) => {
     try {
-        if (!req.cookies.accessToken) {
-            res.send("Account Required to Access Cloud Storage")
-        } else {
-            const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
-            let files
-            const LoadFiles = ()=>{
-                files = fs.readdirSync(path.join(__dirname, `cloud/${UserID}`));
-                const ReponseObject = []
-                files.forEach(fileName => {
-                    ReponseObject.push({
-                        name: fileName,
-                        path: `./cloud/${UserID}/${fileName}`
-                    })
+        const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID;
+        const LoadFiles = () => {
+            files = fs.readdirSync(path.join(__dirname, `cloud/${UserID}`));
+            const ReponseObject = []
+            files.forEach(fileName => {
+                ReponseObject.push({
+                    name: fileName,
+                    path: `./cloud/${UserID}/${fileName}`
                 })
-                res.json(ReponseObject);
-            }
-            try {
+            })
+            res.json(ReponseObject);
+        }
+        try {
+            LoadFiles()
+        } catch (err) {
+            if (err.message.includes('no such file or directory')) {
+                fs.mkdirSync(path.join(__dirname, `cloud/${UserID}/`))
                 LoadFiles()
-            } catch (err) {
-                if (err.message.includes('no such file or directory')){
-                    fs.mkdirSync(path.join(__dirname, `cloud/${UserID}/`))
-                    LoadFiles()
-                } else {
-                    console.log(err)
-                }
+            } else {
+                console.log(err)
             }
         }
+
     } catch (error) {
         console.log(`${logprefix('Server')} ${error}`)
         res.send(error)
     }
 })
-app.get('/cloudFilesContent', async (req, res) => {
+app.get('/cloudFilesContent', Authenticate.byTokenMiddleware, async (req, res) => {
     try {
-        const AccountValid = authenticate.validateAccount(req.cookies.accessToken, await AccountsCollection.find()) // Returns Whether if an Account is Valid or Not
 
-        if(AccountValid){
-            const FilePath = req.headers.path
-            if (req.headers.action.toLowerCase() == "getfile") {
-                res.sendFile(path.join(__dirname, FilePath));
-            } else if (req.headers.action.toLowerCase() == "delete") {
-                fs.unlinkSync(path.join(__dirname, FilePath));
-                res.status(201).send("Succefully Deleted The Requested File!")
-            }
-        } else{
-            res.send("Unauthorized Access")
+        const FilePath = req.headers.path
+        if (req.headers.action.toLowerCase() == "getfile") {
+            res.sendFile(path.join(__dirname, FilePath));
+        } else if (req.headers.action.toLowerCase() == "delete") {
+            fs.unlinkSync(path.join(__dirname, FilePath));
+            res.status(201).send("Succefully Deleted The Requested File!")
         }
     } catch (error) {
         console.log(`${logprefix('Server')} ${error}`)
 
-        try { res.send(error) } catch (err) { }
+        try { res.json([error]) } catch (err) { }
     }
 })
 // Routes
@@ -360,21 +368,13 @@ app.get(`/${process.env.ADMIN_PANEL_URL}`, (req, res) => {
 app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
-app.get('/cloud', async (req, res) => {
-    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
-        res.sendFile(path.join(__dirname, './admin/cloud.html'));
-    });
+app.get('/cloud', Authenticate.byTokenMiddleware, async (req, res) => {
+    res.sendFile(path.join(__dirname, './admin/cloud.html'));
 })
-app.get('/data', async (req, res) => {
-    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
-        res.sendFile(path.join(__dirname, './server/data.html'));
-    });
+app.get('/data', Authenticate.byTokenMiddleware, async (req, res) => {
+    res.sendFile(path.join(__dirname, './server/data.html'));
 })
-/* Here's an Example of How to Authenticate
-app.get('/', async (req, res) => {
-    authenticate.byToken(<req>, <res>, <StrictMode?>, <Array of Accounts>, <callback>);
-})
-*/
+
 app.get('/experiments', (req, res) => {
     res.sendFile(path.join(__dirname, './server/experiments.html'))
 })
