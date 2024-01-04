@@ -319,14 +319,20 @@ app.get('/cloudFiles', (req, res) => {
         res.send(error)
     }
 })
-app.get('/cloudFilesContent', (req, res) => {
+app.get('/cloudFilesContent', async (req, res) => {
     try {
-        const FilePath = req.headers.path
-        if (req.headers.action.toLowerCase() == "getfile") {
-            res.sendFile(path.join(__dirname, FilePath));
-        } else if (req.headers.action.toLowerCase() == "delete") {
-            fs.unlinkSync(path.join(__dirname, FilePath));
-            res.status(201).send("Succefully Deleted The Requested File!")
+        const AccountValid = authenticate.validateAccount(req.cookies.accessToken, await AccountsCollection.find()) // Returns Whether if an Account is Valid or Not
+
+        if(AccountValid){
+            const FilePath = req.headers.path
+            if (req.headers.action.toLowerCase() == "getfile") {
+                res.sendFile(path.join(__dirname, FilePath));
+            } else if (req.headers.action.toLowerCase() == "delete") {
+                fs.unlinkSync(path.join(__dirname, FilePath));
+                res.status(201).send("Succefully Deleted The Requested File!")
+            }
+        } else{
+            res.send("Unauthorized Access")
         }
     } catch (error) {
         console.log(`${logprefix('Server')} ${error}`)
@@ -355,7 +361,7 @@ app.get('/alarm', (req, res) => {
     res.sendFile(path.join(__dirname, './server/alarm.html'))
 })
 app.get('/cloud', async (req, res) => {
-    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {2222222222222222
+    authenticate.byToken(req, res, true, await AccountsCollection.find(), () => {
         res.sendFile(path.join(__dirname, './admin/cloud.html'));
     });
 })

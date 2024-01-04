@@ -70,6 +70,42 @@ const Authenticate = {
                 }
             }
         }
+    },
+    validateAccount: async (token, Collection) => {
+        try {
+            if (!token) {
+                return false;
+            } else {
+                // If The Token is Provided Then
+                const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+
+                let EmailMatchedAcc;
+                for (const account of Collection) {
+                    // Checking if the user exists in the database
+                    if (LoginfoDecryptionKey.decrypt(account._doc.email).trim() == LoginfoDecryptionKey.decrypt(decodedToken.email).trim()) {
+                        EmailMatchedAcc = account._doc;
+                    };
+                };
+
+                if (!EmailMatchedAcc) {
+                    return false
+                } else {
+                    // If The User Exists Then
+                    try {
+                        const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
+                        if (PasswordsMatch) {
+                            return true
+                        } else if (!PasswordsMatch) {
+                            return false
+                        }
+                    } catch (error2) {
+                        return false
+                    }
+                }
+            }
+        } catch (error1) {
+            return false
+        }
     }
 }
 
