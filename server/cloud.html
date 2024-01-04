@@ -370,6 +370,8 @@
 
                         previewMainBox.style.display = "flex"
                         preview.src = Link
+
+                        URL.revokeObjectURL(Link);
                     } catch (error) {
                         displayMSG("Unable to Preview The Requested File", true)
                         console.error(error)
