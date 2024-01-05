@@ -29,6 +29,7 @@ const { UIMSG_1 } = require('./assets/UI_messages');
 const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
+const { getUserID, getUsername, getEmail, getRole } = require('./assets/getFunctions');
 
 const { mergePDFs } = require("./scripts/mergepdfs");
 const { deleteOldFiles } = require('./scripts/clean');
@@ -302,7 +303,7 @@ app.post('/cloudFilesUpload', Authenticate.byToken, upload.any(), (req, res) => 
         res.status(201).redirect('/cloud');
     }
 })
-app.get('/cloudFiles', Authenticate.byToken, (req, res) => {
+app.get('/cloudFiles', Authenticate.byTokenAPI, (req, res) => {
     try {
         const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID;
         const LoadFiles = () => {
@@ -311,7 +312,7 @@ app.get('/cloudFiles', Authenticate.byToken, (req, res) => {
             files.forEach(fileName => {
                 ReponseObject.push({
                     name: fileName,
-                    path: `./cloud/${UserID}/${fileName}`
+                    path: `/${fileName}`
                 })
             })
             res.json(ReponseObject);
@@ -332,14 +333,14 @@ app.get('/cloudFiles', Authenticate.byToken, (req, res) => {
         res.send(error)
     }
 })
-app.get('/cloudFilesContent', Authenticate.byToken, async (req, res) => {
+app.get('/cloudFileActions', Authenticate.byToken, async (req, res) => {
     try {
 
         const FilePath = req.headers.path
         if (req.headers.action.toLowerCase() == "getfile") {
-            res.sendFile(path.join(__dirname, FilePath));
+            res.sendFile(path.join(__dirname, `cloud/${getUserID(req.cookies.accessToken)}` , FilePath));
         } else if (req.headers.action.toLowerCase() == "delete") {
-            fs.unlinkSync(path.join(__dirname, FilePath));
+            fs.unlinkSync(path.join(__dirname, `cloud/${getUserID(req.cookies.accessToken)}` , FilePath));
             res.status(201).send("Succefully Deleted The Requested File!")
         }
     } catch (error) {
@@ -350,7 +351,10 @@ app.get('/cloudFilesContent', Authenticate.byToken, async (req, res) => {
 })
 
 app.get('/isAccValid', async (req, res)=>{
-    res.json({ isAccValid: await Authenticate.validateAccount(req.cookies.accessToken) })
+    res.status(201).json({ isAccValid: await Authenticate.validateAccount(req.cookies.accessToken) })
+})
+app.get('/isAdmin', Authenticate.byTokenAPI , async (req, res)=>{
+    res.status(201).json({isAdmin: await Authenticate.isAdmin(req.cookies.accessToken)})
 })
 // Routes
 

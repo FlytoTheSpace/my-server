@@ -70,13 +70,13 @@
                 location.href = `/${e.target.textContent.toLowerCase().replace(' ', '-')}`
             })
         });
-        const isAccValid = await (await fetch('/isAccValid')).json();
+        const Request = await (await fetch('/isAdmin')).text();
 
-        if (!isAccValid){
-            const NavbarLinks = document.getElementsByClassName('navbarLink');
-            NavbarLinks[1].textContent = 'Login'
-            NavbarLinks[2].textContent = 'Register'
+        try {
+            const isAdmin = JSON.parse(Request).isAdmin;
+            console.log("You are", ( isAdmin === true ) ? "admin": "not admin")
+        } catch (error) {
+            console.log(Request)
         }
-
     }
 )();

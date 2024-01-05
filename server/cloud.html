@@ -299,7 +299,7 @@
                         if (Consent) {
                             const BaseFile = target.closest('.File')
                             const Path = BaseFile.dataset.path
-                            const Request = await fetch('/cloudFilesContent', {
+                            const Request = await fetch('/cloudFileActions', {
                                 method: "GET",
                                 headers: {
                                     "path": Path,
@@ -328,7 +328,7 @@
                     try {
                         const BaseFile = target.closest('.File')
                         const Path = BaseFile.dataset.path
-                        const Request = await fetch('/cloudFilesContent', {
+                        const Request = await fetch('/cloudFileActions', {
                             method: "GET",
                             headers: {
                                 "path": Path,
@@ -358,7 +358,7 @@
                     try {
                         const BaseFile = target.closest('.File')
                         const Path = BaseFile.dataset.path
-                        const Request = await fetch('/cloudFilesContent', {
+                        const Request = await fetch('/cloudFileActions', {
                             method: "GET",
                             headers: {
                                 "path": Path,
