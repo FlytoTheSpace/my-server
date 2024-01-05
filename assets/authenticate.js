@@ -86,41 +86,49 @@ const Authenticate = {
             }
         }
     },
-    validateAccount: async (token, Collection) => { // Validates The Account Return Boolean
+    validateAccount: async (token) => { // Validates The Account Return Boolean
         try {
             if (!token) {
                 return false;
-            } else {
-                // If The Token is Provided Then
-                const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
+            }
+            // If The Token is Provided Then
+            const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
 
-                let EmailMatchedAcc;
-                for (const account of Collection) {
-                    // Checking if the user exists in the database
-                    if (LoginfoDecryptionKey.decrypt(account._doc.email).trim() == LoginfoDecryptionKey.decrypt(decodedToken.email).trim()) {
-                        EmailMatchedAcc = account._doc;
-                    };
+            let EmailMatchedAcc;
+            for (const account of await AccountsCollection.find()) {
+                // Checking if the user exists in the database
+                if (LoginfoDecryptionKey.decrypt(account._doc.email).trim() == LoginfoDecryptionKey.decrypt(decodedToken.email).trim()) {
+                    EmailMatchedAcc = account._doc;
                 };
+            };
 
-                if (!EmailMatchedAcc) {
+            if (!EmailMatchedAcc) {
+                return false
+            }
+
+            // If The User Exists Then
+            try {
+                const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
+                if (PasswordsMatch) {
+                    return true
+                } else if (!PasswordsMatch) {
                     return false
                 } else {
-                    // If The User Exists Then
-                    try {
-                        const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
-                        if (PasswordsMatch) {
-                            return true
-                        } else if (!PasswordsMatch) {
-                            return false
-                        }
-                    } catch (error2) {
-                        console.log(error2.message)
-                        return false
-                    }
+                    console.log("Something Went Wrong")
+                    return false
                 }
+            } catch (error2) {
+                console.log(error2.message)
+                return false
             }
+            
         } catch (error1) {
             console.log(error1.message)
+            return false
+        }
+    },
+    isAdmin: (token)=>{
+        if(!token){
             return false
         }
     },
@@ -159,7 +167,7 @@ const Authenticate = {
                 }
             }
         } catch (error1) {
-            try {res.status(403).send(UIMSG_1(error1.message))} catch (error) {}
+            try { res.status(403).send(UIMSG_1(error1.message)) } catch (error) { }
         }
     },
     byTokenAdminOnly: async (req, res, next) => { // Middleware for Authentication (no Manual work)
@@ -187,9 +195,9 @@ const Authenticate = {
                     try {
                         const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
                         if (PasswordsMatch) {
-                            if(EmailMatchedAcc.role == "admin"){
+                            if (EmailMatchedAcc.role == "admin") {
                                 next();
-                            } else{
+                            } else {
                                 res.status(401).send(UIMSG_1("You're Not an Admin"));
                             }
                         } else if (!PasswordsMatch) {

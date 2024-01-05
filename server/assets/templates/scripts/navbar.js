@@ -1,9 +1,11 @@
-let navbarfetch = fetch('./assets/templates/html/navbar.html')
-    .then((response) => {
-        console.info("Navbar Status Code:", response.status)
-        return response.text();
-    })
-    .then((data) => {
+(
+    async () => {
+        let navbarfetch = await fetch('./assets/templates/html/navbar.html')
+        const statusCode =  await navbarfetch.status
+        console.info(statusCode);
+        const data = await navbarfetch.text()
+        
+        // Adding The Navbar
         const navbarPlaceholder = document.getElementsByTagName('header')[0];
         if (navbarPlaceholder.innerHTML.trim() !== '') {
             navbarPlaceholder.innerHTML = data + navbarPlaceholder.innerHTML;
@@ -14,14 +16,17 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
 
         const navbarMenu = document.getElementById('navbarMenuButton');
 
+        // Hover Effect on The Toggle Menu Button
         navbarMenu.addEventListener("mouseover", () => navbarMenu.firstElementChild.src = "./assets/images/icons/menu_hover.png");
         navbarMenu.addEventListener("mouseleave", () => navbarMenu.firstElementChild.src = "./assets/images/icons/menu.png");
+
+        // Display of The Menu
         navbarMenu.addEventListener('click', () => document.getElementById("navbarMenu").classList.toggle("displaynone"));
         navbarMenu.addEventListener('touchmove', () => document.getElementById("navbarMenu").classList.toggle("displaynone"));
 
-        // Theme Update
         setInterval(() => {
             try {
+                // Updating Theme
                 if (getCookie("theme") == "dark" && document.getElementById("prefenceTheme").href == "./assets/templates/css/lighttheme.css") {
                     document.getElementById("prefenceTheme").href = "./assets/templates/css/darktheme.css"
                 } else if (getCookie("theme") == "light" && document.getElementById("prefenceTheme").href == "./assets/templates/css/darktheme.css") {
@@ -30,11 +35,11 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             } catch (err) {
                 console.warn(err)
             }
-        });
+        }, 1*1000);
 
+
+        // Checking Theme Once when DOM loads
         let themeSwitchButton = document.getElementById("themeSwitchButton");
-
-        // Checking if 
         if (getCookie("theme") == "dark") {
             themeSwitchButton.src = "./assets/images/icons/light_mode.png"
             themeSwitchButton.parentElement.style.backgroundColor = "white"
@@ -42,7 +47,8 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
             themeSwitchButton.src = "./assets/images/icons/dark_mode.png"
             themeSwitchButton.parentElement.style.backgroundColor = "#2b2b2b"
         }
-
+        
+        // Switching Theme
         themeSwitchButton.addEventListener("click", () => {
             if (getCookie("theme") == "dark") {
                 document.getElementById("prefenceTheme").href = "./assets/templates/css/lighttheme.css"
@@ -56,10 +62,21 @@ let navbarfetch = fetch('./assets/templates/html/navbar.html')
                 document.cookie = "theme=dark;"
             }
         });
+
+        // Navbar links Redirect Function
         const Elements = document.getElementsByClassName("redirectbyName");
         Array.from(Elements).forEach(element => {
-            element.addEventListener('click', (e)=>{
+            element.addEventListener('click', (e) => {
                 location.href = `/${e.target.textContent.toLowerCase().replace(' ', '-')}`
             })
         });
-    });
+        const isAccValid = await (await fetch('/isAccValid')).json();
+
+        if (!isAccValid){
+            const NavbarLinks = document.getElementsByClassName('navbarLink');
+            NavbarLinks[1].textContent = 'Login'
+            NavbarLinks[2].textContent = 'Register'
+        }
+
+    }
+)();

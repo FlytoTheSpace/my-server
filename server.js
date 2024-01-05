@@ -348,6 +348,10 @@ app.get('/cloudFilesContent', Authenticate.byToken, async (req, res) => {
         try { res.json([error]) } catch (err) { }
     }
 })
+
+app.get('/isAccValid', async (req, res)=>{
+    res.json({ isAccValid: await Authenticate.validateAccount(req.cookies.accessToken) })
+})
 // Routes
 
 
