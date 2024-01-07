@@ -1,10 +1,10 @@
 (
     async () => {
         let navbarfetch = await fetch('./assets/templates/html/navbar.html')
-        const statusCode =  await navbarfetch.status
+        const statusCode = await navbarfetch.status
         console.info(statusCode);
         const data = await navbarfetch.text()
-        
+
         // Adding The Navbar
         const navbarPlaceholder = document.getElementsByTagName('header')[0];
         if (navbarPlaceholder.innerHTML.trim() !== '') {
@@ -35,7 +35,7 @@
             } catch (err) {
                 console.warn(err)
             }
-        }, 1*1000);
+        }, 1 * 1000);
 
 
         // Checking Theme Once when DOM loads
@@ -47,7 +47,7 @@
             themeSwitchButton.src = "./assets/images/icons/dark_mode.png"
             themeSwitchButton.parentElement.style.backgroundColor = "#2b2b2b"
         }
-        
+
         // Switching Theme
         themeSwitchButton.addEventListener("click", () => {
             if (getCookie("theme") == "dark") {
@@ -66,17 +66,40 @@
         // Navbar links Redirect Function
         const Elements = document.getElementsByClassName("redirectbyName");
         Array.from(Elements).forEach(element => {
-            element.addEventListener('click', (e) => {
+            element.onclick = (e) => {
                 location.href = `/${e.target.textContent.toLowerCase().replace(' ', '-')}`
-            })
+            }
         });
-        const Request = await (await fetch('/isAdmin')).text();
+        const navbarLinks = document.getElementsByClassName('navbarLink')
 
-        try {
-            const isAdmin = JSON.parse(Request).isAdmin;
-            console.log("You are", ( isAdmin === true ) ? "admin": "not admin")
-        } catch (error) {
-            console.log(Request)
+        let { isAccValid } = await (await fetch('/isAccValid')).json();
+
+        if (isAccValid) {
+            const isAdminRaw = await (await fetch('/isAdmin')).text();
+
+            try {
+                const isAdmin = JSON.parse(isAdminRaw).isAdmin;
+                if (isAdmin === true) {
+                    navbarLinks[1].textContent = "Dashboard";
+                    navbarLinks[1].classList.remove('redirectbyName')
+                    navbarLinks[1].removeEventListener('click', (e) => {
+                        location.href = `/${e.target.textContent.toLowerCase().replace(' ', '-')}`
+                    })
+                    navbarLinks[1].onclick = async () => {
+                        const AdminPanelLinkReq = await fetch("/adminDashboardURL")
+                        if (AdminPanelLinkReq.status !== 201) {
+                            console.log(AdminPanelLinkReq)
+                        } else {
+                            location.href = `/${await AdminPanelLinkReq.text()}`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(isAdminRaw)
+            }
+        } else if(!isAccValid){
+            navbarLinks[1].textContent = "Login"
+            navbarLinks[2].textContent = "Register"
         }
     }
 )();

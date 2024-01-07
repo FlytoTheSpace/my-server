@@ -1,0 +1,58 @@
+{
+	// Place your my-server workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"find Account": {
+		"scope": "javascript,typescript",
+		"prefix": "findacc",
+		"body": [
+			"let $1;",
+			"for (const $2 of await $3.find()) {",
+			"	if (LoginfoDecryptionKey.decrypt($2._doc.$4)._doc.userID == $5) {",
+			"		$1 = $2._doc;",
+			"	}",
+			"}",
+			"$0"
+		],
+		"description": "Find Account in The Database"
+	}
+	"getRoutePage": {
+		"scope": "javascript,typescript",
+		"prefix": "getRoutePage",
+		"body": [
+			"app.get(`/$1` , Authenticate.$1 , (req, res) => {",
+			"	res.status(201).sendFile(path.join(__dirname, './server/$2.html'))",
+			"})",
+			"$0"
+		],
+		"description": "Get Page Template"
+	}
+	"getRouteAPI": {
+		"scope": "javascript,typescript",
+		"prefix": "getRouteAPI",
+		"body": [
+			"app.get('/cloudFileActions', Authenticate.$1, (req, res) => {",
+			"	try {",
+			"		res.$0",
+			"	} catch (error) {",
+			"		console.log(`${logprefix('Server')} ${error}`)",
+			"		try { res.send(error) } catch (err){}",
+			"	}",
+			"})"
+		],
+		"description": "Get API Template"
+	},
+	"debug": {
+		"scope": "javascript,typescript",
+		"prefix": "debug",
+		"body": [
+			"console.log(`type: ${$1} \n content: ${$1}`)",
+			"console.dir(`depth: ${$1}`)"
+		],
+		"description": "Debug a Variable"
+	}
+}

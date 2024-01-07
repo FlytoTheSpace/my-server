@@ -10,7 +10,7 @@ const { logprefix } = require('./logs');
 const mongoose = require('mongoose');
 
 // Connecting to The Database
-const mongodbURI = process.env.MONGODB_URI;
+const mongodbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ServerDB';
 
 mongoose.connect(mongodbURI, {});
 const db = mongoose.connection;
@@ -228,7 +228,7 @@ const Authenticate = {
     },
     byTokenAdminOnly: async (req, res, next) => { // Middleware for Authentication (no Manual work)
         await OAuth(req, res, (Account)=>{
-            if (Account.role == "admin") {
+            if (Account.role.toLowerCase() == "admin") {
                 next();
             } else {
                 res.status(401).send(UIMSG_1("You're Not an Admin"));
@@ -237,6 +237,18 @@ const Authenticate = {
     },
     byTokenAPI: async (req, res, next)=>{
         await OAuth(req, res, next, true);
+    },
+    byTokenAdminOnlyAPI: async (req, res, next) => { // Middleware for Authentication (no Manual work)
+        await OAuth(req, res, (Account)=>{
+            if (Account.role.toLowerCase() == "admin") {
+                next();
+            } else {
+                res.status(401).send("You're Not an Admin");
+            }
+        }, true, true)
+    },
+    none: (req, res, next)=>{
+        next();
     }
 }
 
