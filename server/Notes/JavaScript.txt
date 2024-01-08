@@ -8,17 +8,14 @@ Introduction
 	
 	Some topics may not be fully explored in here so Consider Checking The MDN reference for Extra Details: https://developer.mozilla.org/en-US/
 
-Section: Node.js
+Section: JavaScript in General
 
 1. Variables
 
 	In JavaScript, variables are like containers that hold data. They allow us to store and manipulate information, such as numbers, text, or objects. To create a variable, we use the 'let' or 'const' keyword, followed by a name. We can change the value of a variable anytime, making it flexible for coding tasks. For example:
-		JS:`
 		
 		let age = 25; // A variable named 'age' with the value 25
 		const name = "John"; // A constant variable named 'name' with the value "John"
-
-		`
 
 	Here's some keywords to declare a variable
 
@@ -32,25 +29,26 @@ Section: Node.js
 
 2. Bracket
 	
-	(i) If some code is inside a bracket then it won't affect anything outside of it. it works like a different function by itself and this applies to every type of brackets means you can declare unre-declareable variables inside a bracket except variables which is declared using 'var' keyword cause if it's declared inside a bracket and it'll also work outside the bracket
+	(i) When code is inside a bracket It's variables only exists until the variable closes
 
 	(ii) something like this for example:-
 
 	{
 		let variable = "Data"
-		console.log(variable)
+		console.log(variable) // Data
 	}
+	console.log(variable) // Error: varible is not defined
 	
 3. Data Types 
 
 	(i) Primitive Data Types: There are Total 7 Primitive Data Types
 		Here's List of Primitive Data Types
 
-		(a) "Null" Nothing
-		(b) "Number" A Whole Number
-		(c) "BigInt"
-		(d) "Booleon" it's value can be `true` and `false`
-		(e) "String" Contains Text of Your Choice
+		(a) "Null": Nothing
+		(b) "Number": A Number
+		(c) "BigInt": A Very Big Integer
+		(d) "Booleon": it's value can be `true` and `false`
+		(e) "String": Contains Text of Your Choice
 	
 			(I) String is used to store chunks of text
 			(II) String can be used by Sets of:- 
@@ -102,30 +100,9 @@ Section: Node.js
 				console.log(a) // Prints: What's this
 
 				(Note: backslash(\) itself will not be include in the string, it requires another blackslah to display one.)
-
-			(VII) `String.toUpperCase()` and `toLowerCase()` makes all of the characters in The String Lowercase and Uppercase
-			(VIII) `String.slice()` function extract a portion of a string or an array and creates a new one. It takes one or two arguments: the starting and ending index (the ending index is optional). The function returns a new string or array containing the elements from the original that fall within the specified range.
-
-				const text = "Hello, World!";
-				const sliced = text.slice(0, 5); // Extracts "Hello"
-
-				(Note: It takes Index and It starts from '0' instead of '1')
-			(IX) `String.replace("Text", "Your text")` checks the avariable for a match with the first argument and if it finds one then it replaces it with the second argument.
-			(X) `String.concat(variable1 , variable2);` Combines 2 Strings together.
-			(XI) `String.trim("your Text")` Removes The specific Text that you've defined, From the String in the Variable 
-			(XII) `String.includes("fox")` checks for a match in the variable and if it finds one then returns a boolean
-			(XIII) `String.substr()` returns a portion of this string, starting at the specified index and extending for a given number of characters afterwards.
-
-				const str = 'Mozilla';
-				console.log(str.substr(1, 2));
-				// Expected output: "oz"
-
-				console.log(str.substr(2));
-				// Expected output: "zilla"
-
-				(Note: `substr()` is not part of the main ECMAScript specification — it's defined in Annex B: Additional ECMAScript Features for Web Browsers, which is normative optional for non-browser runtimes. Therefore, people are advised to use the standard `String.substring()` and `String.slice()` methods instead to make their code maximally cross-platform friendly. The `String.substring()` page has some comparisons between the three methods.)
-		(VI) "Symbol" ( A Symbol)
-		(VII) "Undefined" ( Undefined can be used something like this "(const,let,var) (variable)" or "(const,let,var) (variable) = undefined")
+				
+		(VI) "Symbol": ( A Symbol)
+		(VII) "Undefined": represents that it's not defined
 			
 	(ii) Non-primitive Data Types
 
@@ -583,27 +560,177 @@ Section: Node.js
 
 	Here's some built in Functions in JavaScript
 
-	(iv) `parseInt(string)` :"Converts a string to an integer." example:-
+	(iv) BigInt
 
-		let number = parseInt("42");
+	(v) `Boolean(<any>)`: returns a Boolean depending on The Input
 
-	(v) `parseFloat(string)` :"Converts a string to a floating-point number." example:-
+		Cases:
+
+		(a) <null> and <undefined>: Always Returns false
+
+			console.log(Boolean(null)) // false
+			console.log(Boolean(undefined)) // false
+
+		(b) <Number> : Returns true unless 0
+
+			console.log(Boolean(1)) // true
+			console.log(Boolean(0)) // false
+			console.log(Boolean(142)) // true
+			console.log(Boolean(-5)) // true
+
+		(c) <BigInt> : Returns true unless the coefficient is 0
+
+			console.log(Boolean(142n)) // true
+			console.log(Boolean(-5n)) // true
+			console.log(Boolean(0n)) // false
+
+		(d) <String> : Always Returns True
+
+			console.log(Boolean('idk, what to write')) // true
 		
-		let value = parseFloat("3.14");
+		(e) <Symbol> : Always Returns True
 
-	(vi) `String(value)` :"Converts a value to a string." example:-
+			console.log(Boolean(Symbol("I don't wanna write this again"))) // true
 
-		let text = String(42);
+	(vi) 'Math' Object
 
-	(vii) `Number(string)` :"Converts a string to a number." example:-
+		(a) `Math.random()` : Generates a random floating-point number between 0 (inclusive) and 1 (exclusive).  example:-
 
-		let numericValue = Number("123");
+			let randomNum = Math.random();
 
-	(viii) `typeof(variable)` :"Returns a string indicating the data type of a variable." example:-
+		(b) `Math.floor(<number>)` : Rounds a number DOWN to the nearest integer.  example:-
 
-		let type = typeof("Hello");
-	
-	(ix) Functions of 'Array'
+			let roundedDown = Math.floor(4.9); // 4
+
+		(c) `Math.ceil(<number>)` : Rounds a number UP to the nearest integer.  example:-
+			
+			let roundedUp = Math.ceil(2.1); // 3
+
+		(d) `Math.round(<number>)` : Rounds a number TO the nearest integer.  example:-
+			
+			let rounded = Math.round(3.5); // 3
+
+		(e) `Math.max(...numbers)` : Returns the largest number from a list of arguments. 
+			
+			let largest = Math.max(5, 10, 2); // 10
+
+		(f) `Math.min(...numbers)` : Returns the smallest number from a list of arguments.  example:-
+			
+			let smallest = Math.min(5, 10, 2); // 2
+
+		(g) `Math.sqrt(number)`: Returns Square Root of The Number;
+
+			console.log(Math.sqrt(5)) // 2.23606797749979
+
+		(g) `Math.PI`: Returns Value of PI;
+
+			console.log(Math.PI) // 3.141592653589793
+
+	(vii) `Number`:
+
+		(a) Function:
+
+			Cases
+			
+			(I) <null>: Returns 0
+
+				console.log(Number(null)) // 0
+
+			(II) <BigInt>: Return It as a Number
+
+				console.log(Number(143n)) // 143
+
+			(III) <Boolean>: true = 1, false = 0
+
+				console.log(Number(true)); // 1
+				console.log(Number(false)); // 0
+
+			(IV) <String>: Return it as a Number only if it doesn't contain anything else other than a Valid Integer
+
+				console.log(Number('568')); // 568
+				console.log(Number('121fs')); // Error
+
+			(IV) Doesn't accepts <undefined> and <Symbol>
+
+		(b) Object:
+
+			(I) `parseInt(<Float, BigInt, String>)` :"Converts a string to an integer." example:-
+
+				Cases:
+
+				(A) <Float> (Decimal): Rounds to The nearest Integer
+
+					console.log(parseInt(11.8)) // 12 
+					console.log(parseInt(11.5)) // 11 
+					console.log(parseInt(11.3)) // 11
+
+				(B) <BigInt>: Return It as a Number
+
+					console.log(Number(143n)) // 143
+
+				(C) <String>:
+
+					console.log(parseInt('12')) // 12
+					
+					console.log(parseInt('12 this')) // 12 , return the number part of the string and 
+					ignores the rest without throwing an error
+
+					console.log(parseInt('this 12')) // NaN
+
+			(II) `parseFloat(<string>)`: "Converts a string to a floating-point number." example:-
+		
+				console.log(parseFloat("3.14")); // 3.14
+
+	(viii) `String`
+
+		(a) `String(<value>)` :"Converts any value to a string." example:-
+
+			console.log(String(null)) 		// 'null'
+			console.log(String(148)) 		// '148'
+			console.log(String(1252n)) 		// '1252n'
+			console.log(String(true)) 		// 'true'
+			console.log(String(Symbol(1))) 	// 'Symbol(1)'
+			console.log(String(undefined)) 	// 'undefined'
+
+		(b) `String.toUpperCase()` and `toLowerCase()`: makes all of the characters in The String Lowercase/Uppercase.
+
+			let lowercase = "hello";
+        	let uppercase = "HELLO";
+        	let uppercase = lowercase.toUpperCase();
+        	let lowercase = uppercase.toLowerCase();
+
+		(c) `String.slice()`: extract a portion of a string or an array and creates a new one. It takes one or two arguments: the starting and ending index (the ending index is optional). The function returns a new string or array containing the elements from the original that fall within the specified range.
+
+			const text = "Hello, World!";
+			const sliced = text.slice(0, 5); // Extracts "Hello"
+
+			(Note: It takes Index and Index starts from '0' instead of '1')
+
+		(d) `String.replace(<>, replacement)`: "Replaces a substring with another substring."
+			
+            console.log("Hello, world!".replace("world", "Universe")) // Hello, Universe!
+
+		(e) `String.concat(string)`: "Combines two or more strings."
+			
+            let str1 = "Hello";
+            let str2 = "world";
+            let combined = str1.concat(", ", str2);
+
+		(f) `String.split(separator)`: "Splits a string into an array of substrings."
+			
+            let sentence = "This is a sentence.";
+            let words = sentence.split(" ");
+			
+		(g) `String.includes(substring)`: "Checks if a substring is present in a string."
+
+			let text = "Hello, world!";
+            let hasHello = text.includes("Hello");
+
+		(h) `String.substr():` works the same as `String.slice()`
+
+	(ix) `Symbol`
+
+	(x) 'Array'
 		
 		(a) `concat()` : "Concatenates two or more arrays and returns a new array."
 
@@ -669,33 +796,11 @@ Section: Node.js
 			Array.isArray(arr); 
 			// Returns true
 
-	(x) Functions of 'Math' Object
+	(xi) `typeof(variable)` :"Returns a string indicating the data type of a variable." example:-
 
-		(a) `Math.random()` :"Generates a random floating-point number between 0 (inclusive) and 1 (exclusive)." example:-
-
-			let randomNum = Math.random();
-
-		(b) `Math.floor(number)` :"Rounds a number down to the nearest integer." example:-
-
-					let roundedDown = Math.floor(4.9);
-
-		(c) `Math.ceil(number)` :"Rounds a number up to the nearest integer." example:-
+		let type = typeof("Hello");
 			
-			let roundedUp = Math.ceil(2.1);
-
-		(d) `Math.round(number)` :"Rounds a number to the nearest integer." example:-
-			
-			let rounded = Math.round(3.5);
-
-		(e) `Math.max(...numbers)` :"Returns the largest number from a list of arguments."
-			
-			let largest = Math.max(5, 10, 2);
-
-		(f) `Math.min(...numbers)` :"Returns the smallest number from a list of arguments." example:-
-			
-			let smallest = Math.min(5, 10, 2);
-			
-	(xi) `Date()` Function and It's similar ones:
+	(xii) `Date()` Function and It's similar ones:
 
 		(a) `Date()` function in JavaScript is used for creating instances that represent a single moment in time. It enables you to work with dates and times in your applications. Here's a brief overview of the `Date()` function and related methods:
 
@@ -778,49 +883,6 @@ Section: Node.js
 				futureDate.setTime(milliseconds + 86400000); // Add 1 day (in milliseconds) to the current date
 				
 				console.log(futureDate.toDateString());
-
-	(xii) Functions of 'String' Object
-
-		(a) `String.length`: "Returns the length of a string."
-			
-            let message = "Hello, world!";
-            let length = message.length;
-
-		(b) `String.toUpperCase()`: "Converts a string to uppercase."
-			
-            let lowercase = "hello";
-            let uppercase = lowercase.toUpperCase();
-
-		(c) `String.toLowerCase()`: "Converts a string to lowercase."
-			
-            let uppercase = "HELLO";
-            let lowercase = uppercase.toLowerCase();
-
-		(d) `String.includes(substring)`: "Checks if a substring is present in a string."
-			
-            let text = "Hello, world!";
-            let hasHello = text.includes("Hello");
-
-		(e) `String.substring(start, end)`: "Returns a portion of a string between indices."
-			
-            let text = "Hello, world!";
-            let substring = text.substring(0, 5);
-
-		(f) `String.split(separator)`: "Splits a string into an array of substrings."
-			
-            let sentence = "This is a sentence.";
-            let words = sentence.split(" ");
-
-		(g) `String.replace(search, replacement)`: "Replaces a substring with another substring."
-			
-            let message = "Hello, world!";
-            let newMessage = message.replace("world", "Universe");
-
-		(h) `String.concat(string)`: "Combines two or more strings."
-			
-            let str1 = "Hello";
-            let str2 = "world";
-            let combined = str1.concat(", ", str2);
 
 	(xiii) Functions of Console
 
@@ -1179,7 +1241,7 @@ Section: Node.js
 			}, 0);
 			console.log(sum); // Output: 15
 
-Section: Browser Environment JavaScript
+Section: JavaScript in Browser (Client Side)
 
 12. `Window` Object
 
@@ -2325,7 +2387,7 @@ Section: Browser Environment JavaScript
 			
 			In this example, the myFunction function is triggered by the click event on the button. It logs the type of event, the target element that triggered the event, and the current element where the event handler is attached.
 
-Section: Professional Methods
+Section: Key Concepts
 
 17. `Synchronous` and `Asynchronous` Actions
 
@@ -3749,7 +3811,7 @@ Section: Object Oriented Programming
 
 			(Note: It'll return true even if the class is Inherited)
 	
-Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
+Section: High-End/Advance JavaScript
 
 27. IIFE
 
@@ -4014,11 +4076,7 @@ Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
 
 			In essence, blocks are finally treated as scopes in ES6, but only if you declare variables with let or const. In addition, ES6 introduced modules, which introduced another kind of scope. Closures are able to capture variables in all these scopes, which we will introduce later.
 
-32. Terminal Commands for JS
-
-	(i) `node {directory}` runs code for a specific directory in Node.js Environment 
-
-33. Regular Expressions
+32. Regular Expressions
 
 	(i) Regular Expressions (regex or regexp) are sequences of characters that form a search pattern. They are used for pattern matching within strings. Regular expressions provide a concise and flexible means for matching strings of text, such as specific characters, words, or patterns of characters. Here are key concepts and components of regular expressions:
 
@@ -4036,12 +4094,12 @@ Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
 		
 		(a) `g` (`g`lobal): Selects Every Match it finds
 
-			let text = "I was is the Kitchen, then I went is the Bedroom";
+			let text = "I was is the Kitchen, and then I went is the Bedroom";
 			let RegExpress = /is/g
 			
 			text = text.replace(RegExpress, "'in'")
 			console.log(text) 
-			// Output: I was 'in' the Kitchen, then I went 'in' the Bedroom
+			// Output: I was 'in' the Kitchen, and then I went 'in' the Bedroom
 
 		(b) `i` (case `i`nsensitive): selects match even if cases don't match
 
@@ -4088,7 +4146,7 @@ Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
 		(d) a+?a{2,}?	match as few as possible
 		(e) ab|cd	match ab or cd
 
-34. How JavaScript Works:
+33. How JavaScript Works:
 
 	(i) What is JavaScript?
 
@@ -4214,12 +4272,17 @@ Section: High-End/Advance JavaScript (Final Section of Official JavaScript)
 		(b) The event loop pushes the tasks from the tasks queue to stack
 		(c) `setTimeout(()=>{}, 0)` in this code the function inside setTimeout will defer until all the tasks have been executed if you simplify want it to run without delay just don't provide it a second argument.
 
-Section: 3rd Party JavaScript
+Section: Node.js Exclusive
+
+34. Terminal Commands for JS
+
+	(i) `node {directory}` runs code for a specific directory in Node.js Environment 
 
 35. Package Manager
 
 	(i) NPM
-	Official Source: "https://www.npmjs.com"
+		
+		Official Source: "https://www.npmjs.com"
 
 		(a) npm stands for `Node Package Manager`. It is the default package manager for JavaScript runtime environment Node.js. npm is used for managing and sharing JavaScript libraries and tools, making it easier for developers to work on projects, share code, and manage project dependencies.
 
@@ -4239,7 +4302,7 @@ Section: 3rd Party JavaScript
 				(B) `npm install <package-name>`: Installs a specific package and adds it to the package.json file.
 				(C) `npm init`: Creates a package.json file interactively.
 				(D) `npm publish`: Publishes a package to the npm registry.
-				(E) `npm run <script-name>`: Executes a script defined in the scripts section of package.json.
+				(E) `npm run <script-name>`: Executes a script defined in the scripts section of package.json
 				(F) `npm outdated`: Checks for outdated dependencies.
 				(G) `npm update`: Updates packages to their latest versions based on the version constraints specified in package.json.
 
@@ -4247,7 +4310,7 @@ Section: 3rd Party JavaScript
 
 		(b) list of all the NPM Commands
 
-			(I) `npm`: JavaScript package manager
+			(I) `npm`: Node.js package manager
 			(II) `npm access`: Set access level on published packages
 			(III) `npm adduser`: Add a registry user account
 			(IV) `npm audit`: Run a security audit
@@ -4567,7 +4630,6 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 			console.log('File size:', stats.size, 'bytes');
 			console.log('Last modified:', stats.mtime);
 			
-
 		(e) Directory Operations: 
 			
 			(I) fs.readdir(path, callback), fs.readdirSync(path): Returns an array of filenames in that directory
@@ -4783,3 +4845,111 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 		(a) `http2`: Implements the HTTP/2 protocol.
 
 38. 3rd Party Modules
+
+39. FrontEnd Frameworks
+
+40. Backend Frameworks
+
+	(i) Express.js
+
+		(a) Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It is one of the most popular frameworks for building server-side applications and APIs with Node.js. Here's an overview of key concepts and features in Express:
+
+		(b) Routing: Express allows you to define routes that handle HTTP requests to specific endpoints.
+
+			const express = require('express');
+			const app = express();
+
+			app.get('/', (req, res) => {
+			  	res.send('Hello, World!');
+			});
+
+			(c) the `express()` is the app itself so it has to be declared
+		
+		(d) Request Types
+			
+			(a) GET Request:
+				
+				(I)`app.get(<route>, <callback>)` whenever traffic goes the specified route it run the callback function
+
+		(e) Callback
+
+			(I) The callback takes 2 arguments <req> and <res>
+
+			(II) <req> Object
+
+				(a) <req> represents the incoming data from the client (user)
+
+				(b) req.params: An object containing properties mapped to the named route parameters. For example, if you have a route like /users/:id, req.params will contain { id: 'someValue' }.
+
+				(c) req.query: An object containing the parsed query parameters from the URL. For example, for a URL like /search?q=query&userid=123, req.query will be { q: 'query', userid: '123' }
+
+					(Note: `?` seperates the page and queries and queries are key value pairs)
+
+			(III) <res> Object
+
+				(b) <resources> represents the Outgoing data from the server
+
+		(g) Middlewares
+
+			(I) Middlewares are functions that have access to the <req>, <res>, and the <next> middleware function in the application's request-response cycle. Middleware can be used for tasks like authentication, logging, parsing request bodies, etc.
+
+			Example:
+
+				(A) You can add function in the middle of the route to execute it before the main Function
+
+					const KEY = "some-token"
+
+					function logData(req, res, next){
+						console.log(req.headers.Authentication == KEY)
+					}
+
+					app.get('/', logData , (req, res) => { // Important: Don't call the middleware functions express will take care of that!
+					  	res.send('Hello, World!');
+					});
+
+				(B) `next()` function simply makes the middleware exit itself and let the next middleware or the Main Callback run itself.
+				(C) express provides `use(<function>)` function to use a middleware for all of the routes that have not been declared yet and their order is important cause they run one by one.
+
+					app.use(express.json()); // Middleware to parse JSON in request body
+
+					app.use((req, res, next) => {
+					  	console.log('Request received at:', new Date());
+					  	next();
+					});
+
+			(II) Error Handling:
+
+				(I) Express provides a way to handle errors using middleware functions with four parameters (err, req, res, next). Example:
+
+				app.use((err, req, res, next) => {
+				  	console.error(err.stack);
+				  	res.status(500).send('Something went wrong!');
+				});
+
+			(III) Static Files:
+
+    			(A) Express makes it easy to serve static files (e.g., HTML, CSS, images) using the express.static middleware.
+
+				app.use(express.static('public'));
+
+		(h) Template Engines:
+
+    		(I) Express can be used with various template engines (like EJS, Pug, Handlebars) to generate dynamic HTML.
+    		Example with EJS:
+
+				app.set('view engine', 'ejs');
+				app.get('/profile', (req, res) => {
+				  	res.render('profile', { username: 'JohnDoe' });
+				});
+
+		(i) Routing Parameters:
+		
+			(I) You can define routes with parameters, allowing dynamic URL segments.
+    		Example:
+
+			app.get('/users/:id', (req, res) => {
+			  	res.send(`User ID: ${req.params.id}`);
+			});
+
+
+

@@ -2,15 +2,18 @@
 
 require('dotenv').config();
 
+// Express
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5500;
 
+// Built in Modules
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const crypto = require('crypto');
 
+// NPM Modules
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
 const { decode } = require('punycode');
@@ -23,6 +26,7 @@ const rateLimit = require('express-rate-limit');
 const dgram = require('dgram');
 const udpServer = dgram.createSocket('udp4');
 
+// Local Modules
 const GenRandomChar = require("./assets/randomchars");
 const Authenticate = require('./assets/authenticate');
 const { UIMSG_1 } = require('./assets/UI_messages');
@@ -30,7 +34,6 @@ const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 const { getUserID, getUsername, getEmail, getRole } = require('./assets/getFunctions');
-
 const { mergePDFs } = require("./scripts/mergepdfs");
 const { deleteOldFiles } = require('./scripts/clean');
 const { resolveSoa } = require('dns');
@@ -48,7 +51,7 @@ const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_
     pbkdf2Iterations: 10000,
     saltLength: 1
 });
-updateMusicAPI();
+updateMusicAPI(); // Updating Music API
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
@@ -80,12 +83,9 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }); // Uploads
 
-let Accounts;
-
-
-// Connecting to The Database
+// Database
 const mongodbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ServerDB';
 
 mongoose.connect(mongodbURI, {});
@@ -116,7 +116,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Requests
+// API's
 
 app.post('/mergepdfs', upload.array('pdfs', 2), async (req, res) => {
     try {
@@ -411,8 +411,6 @@ app.get('/cloudFileActions', Authenticate.byToken, async (req, res) => {
         try { res.json([error]) } catch (err) { }
     }
 })
-
-
 app.get('/isAccValid', async (req, res) => {
     res.status(201).json({ isAccValid: await Authenticate.validateAccount(req.cookies.accessToken) })
 })
@@ -422,8 +420,8 @@ app.get('/isAdmin', Authenticate.byTokenAPI, async (req, res) => {
 app.get('/adminDashboardURL', apiLimiter, Authenticate.byTokenAdminOnlyAPI, (req, res) => {
     res.status(201).send(process.env.ADMIN_PANEL_URL);
 })
-// Routes
 
+// Pages
 
 /* app.get(`/${process.env.API_ACCOUNTS_URL}`, (req, res)=>{
     fs.readFile('credientials/accounts.json', 'utf8', (err,data) => {
@@ -483,7 +481,6 @@ app.get('/register', (req, res) => {
 })
 
 // 404 Page
-
 app.use((req, res, next) => {
     res.status(404).send(UIMSG_1("Error 404 Page Not Found;"));
 });
