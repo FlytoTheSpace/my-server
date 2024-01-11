@@ -27,7 +27,7 @@ No-SQL Databases:
         (b) `db.createCollection('<Collection Name>')` Creates a New Collection with the Specified Name
         (c) `db.<Collection Name>.drop()` Deletes Specified Collection
 
-    (iv) Commands for Document (BSON)
+    (iv) Commands for Documents (BSON)
 
         (a) `db.<Collection Name>.insert(<Object>)` Insert a JavaScript Object as a BSON Document in the Collection as BSON
 
@@ -59,6 +59,8 @@ No-SQL Databases:
 
         (c) `db.<Collection Name>.find()` Shows all the Documents BSON
 
+        (d) 
+
     (v) Examples:-
 
         (a) Create A Database
@@ -66,38 +68,7 @@ No-SQL Databases:
             use MyDB
             db.createCollection('comments')
 
-        (b) Reading Full Datasetup
-            
-            (
-                async ()=>{
-                    const uri = 'mongodb://127.0.0.1:27017/ServerDB';
-                    const client = new MongoClient(uri);
-                    
-
-                    try{
-
-                        await client.connect(); // Connect to MongoDB
-                        console.log('Connected to MongoDB');
-
-                        // Format Data
-                        const rawDataInfo = client.db('ServerDB').collection('accounts');
-                        
-                        // Read Data
-                        let DataArr = [];
-                        await rawDataInfo.find().forEach(data => {
-                            DataArr.push(data);
-                        });
-
-                        // Insert Data
-                        await rawDataInfo.insertOne({ name: 'John Doe', age: 30 });
-                    
-                    } catch{
-
-                    } finally{
-                        await client.close();
-                    }
-                }
-            )();
+        (b)
 
     (vi) Functions
 

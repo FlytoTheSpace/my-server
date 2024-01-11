@@ -19,7 +19,7 @@
 			"$0"
 		],
 		"description": "Find Account in The Database"
-	}
+	},
 	"getRoutePage": {
 		"scope": "javascript,typescript",
 		"prefix": "getRoutePage",
@@ -30,7 +30,7 @@
 			"$0"
 		],
 		"description": "Get Page Template"
-	}
+	},
 	"getRouteAPI": {
 		"scope": "javascript,typescript",
 		"prefix": "getRouteAPI",

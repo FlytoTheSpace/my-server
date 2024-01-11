@@ -28,6 +28,6 @@
         (a) `rmdir <directory>` deletes the specified directory if it's empty
         (b) `rm -r <directory>` deletes the specified directory even if it's not empty
     (xiv) `ln -s <file/directory> <link>` <link> will present the file/directory for easy access
-    (xv) `clear` clears the terminal
-    (xvi) `whoami` will print your username that your computer uses
+    (xv) `clear` clears the terminal.
+    (xvi) `whoami` print's Who you are.
     (xviii) `su <user>` switches accounts with the specified user in terminal only

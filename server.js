@@ -412,7 +412,7 @@ app.get('/cloudFileActions', Authenticate.byToken, async (req, res) => {
     }
 })
 app.get('/isAccValid', async (req, res) => {
-    res.status(201).json({ isAccValid: await Authenticate.validateAccount(req.cookies.accessToken) })
+    res.status(201).json({ isAccValid: await Authenticate.isValidAccount(req.cookies.accessToken) })
 })
 app.get('/isAdmin', Authenticate.byTokenAPI, async (req, res) => {
     res.status(201).json({ isAdmin: await Authenticate.isAdmin(req.cookies.accessToken) })

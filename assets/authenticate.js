@@ -39,7 +39,7 @@ const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_
 
 
 // Template for Authentication Can be Extended Further
-const OAuth = async (req, res, callBack, APIverison, callBackNeedsAccount)=>{
+const MainAuthentication = async (req, res, callBack, APIverison, callBackNeedsAccount) => {
     try {
         const Collection = await AccountsCollection.find();
         const token = req.cookies.accessToken;
@@ -50,7 +50,7 @@ const OAuth = async (req, res, callBack, APIverison, callBackNeedsAccount)=>{
             } else {
                 res.status(401).send(`Account Required to Access The Requested Page`);
             }
-        } else if (token && !(await Authenticate.validateAccount(token))) {
+        } else if (token && !(await Authenticate.isValidAccount(token))) {
             if (!APIverison) {
                 res.status(401).send(UIMSG_1(`Your Token is Corrupted`))
             } else {
@@ -73,13 +73,13 @@ const OAuth = async (req, res, callBack, APIverison, callBackNeedsAccount)=>{
                 } else {
                     res.status(404).send(`Invalid Token, User Doesn't exist`)
                 }
-                
+
             } else {
                 // If The User Exists Then
                 try {
                     const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
                     if (PasswordsMatch) {
-                        if (callBackNeedsAccount){
+                        if (callBackNeedsAccount) {
                             callBack(EmailMatchedAcc);
                         } else {
                             callBack();
@@ -161,7 +161,7 @@ const Authenticate = {
             }
         }
     },
-    validateAccount: async (token) => { // Validates The Account Return Boolean
+    isValidAccount: async (token) => { // Validates The Account Return Boolean
         try {
             if (!token) {
                 return false;
@@ -170,6 +170,7 @@ const Authenticate = {
             const decodedToken = jwt.verify(token, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY);
 
             let EmailMatchedAcc;
+
             for (const account of await AccountsCollection.find()) {
                 // Checking if the user exists in the database
                 if (LoginfoDecryptionKey.decrypt(account._doc.email).trim() == LoginfoDecryptionKey.decrypt(decodedToken.email).trim()) {
@@ -177,33 +178,40 @@ const Authenticate = {
                 };
             };
 
+            // If no Account Found
             if (!EmailMatchedAcc) {
                 return false
             }
 
             // If The User Exists Then
             try {
-                const PasswordsMatch = crypto.timingSafeEqual(Buffer.from(EmailMatchedAcc.password), Buffer.from(decodedToken.password));
+                const PasswordsMatch = crypto.timingSafeEqual(
+                    Buffer.from(EmailMatchedAcc.password),
+                    Buffer.from(decodedToken.password)
+                );
+                // Passwords Match
                 if (PasswordsMatch) {
                     return true
-                } else if (!PasswordsMatch) {
+                }
+                // If Passwords doesn't match
+                else if (!PasswordsMatch) {
                     return false
-                } else {
-                    console.log("Something Went Wrong")
+                }
+                // If Something went wrong
+                else {
+                    console.log(`${logprefix("Authentication")} isValidAccount(): Something Went Wrong`)
                     return false
                 }
             } catch (error2) {
-                console.log(error2.message)
                 return false
             }
-            
+
         } catch (error1) {
-            console.log(error1.message)
             return false
         }
     },
-    isAdmin: async (token)=>{
-        if(!token){
+    isAdmin: async (token) => {
+        if (!token) {
             return false
         }
         let decodedToken;
@@ -212,22 +220,31 @@ const Authenticate = {
         } catch (error) {
             return false
         }
-        if(await Authenticate.validateAccount(token)){
-            if (decodedToken.role.toLowerCase() == "admin") {
+        if (await Authenticate.isValidAccount(token)) {
+            let MatchedAccount;
+            for (const account of await AccountsCollection.find()) {
+                if (
+                    LoginfoDecryptionKey.decrypt(account._doc.email) == 
+                    LoginfoDecryptionKey.decrypt(decodedToken.email)
+                ){
+                    MatchedAccount = account._doc;
+                }
+            }
+            if (MatchedAccount.role.toLowerCase() == "admin") {
                 return true
             } else {
-                false
+                return false
             }
         } else {
             return false
         }
-        
+
     },
     byToken: async (req, res, next) => { // Middleware for Authentication (no Manual work)
-        OAuth(req, res, next, false);
+        MainAuthentication(req, res, next, false);
     },
     byTokenAdminOnly: async (req, res, next) => { // Middleware for Authentication (no Manual work)
-        await OAuth(req, res, (Account)=>{
+        await MainAuthentication(req, res, (Account) => {
             if (Account.role.toLowerCase() == "admin") {
                 next();
             } else {
@@ -235,11 +252,11 @@ const Authenticate = {
             }
         }, false, true)
     },
-    byTokenAPI: async (req, res, next)=>{
-        await OAuth(req, res, next, true);
+    byTokenAPI: async (req, res, next) => {
+        await MainAuthentication(req, res, next, true);
     },
     byTokenAdminOnlyAPI: async (req, res, next) => { // Middleware for Authentication (no Manual work)
-        await OAuth(req, res, (Account)=>{
+        await MainAuthentication(req, res, (Account) => {
             if (Account.role.toLowerCase() == "admin") {
                 next();
             } else {
@@ -247,7 +264,7 @@ const Authenticate = {
             }
         }, true, true)
     },
-    none: (req, res, next)=>{
+    none: (req, res, next) => {
         next();
     }
 }
