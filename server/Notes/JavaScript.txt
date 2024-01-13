@@ -670,7 +670,7 @@ Section: JavaScript in General
 
 	Let's Begin
 
-	(ii) JavaScript functions have the following basic components:
+	(ii) JavaScript functions In General:
 
 		(a) `Function Declaration`:
 
@@ -681,7 +681,7 @@ Section: JavaScript in General
 
 			(I) `functionName`: The name of the function. It's optional for anonymous functions (function expressions).
 			
-			(II) `parameter1, parameter2`: The parameters (inputs) that the function can accept. Parameters are optional, and you can have zero or more of them.
+			(II) `parameter1, parameter2`: The parameters (inputs) that the function can accept. Parameters are optional, and you can also have none or infinite of them.
 
 		(b) `Function Body`:
 
@@ -721,6 +721,51 @@ Section: JavaScript in General
 				}
 				
 				console.log(localVar); // Throws an error because localVar is not defined in this scope
+
+		(f) Parameter Methods:
+
+			(a) You can make a Function give a parameter a default value if the user doesn't provide it.
+
+				function sayHello(name="World"){
+					return "Hello, ${name}"
+				}
+
+				console.log(sayHello('John')) // Hello, John
+				console.log(sayHello()) // Hello, World
+
+			(b) You can make a Function take infinite Argument if you pass them as an Array.
+
+				function AddNumbers(numbers){
+					let Sum = 0;
+					for(let i of numbers){
+						Sum+=i
+					}
+					return Sum
+				}
+
+				console.log(AddNumbers([5,12,1]))
+
+				// You can also Upgrade it Using `spread` operator
+
+				function AddNumbers(...numbers){
+					let Sum = 0;
+					for(let i of numbers){
+						Sum+=i
+					}
+					return Sum
+				}
+
+				console.log(AddNumbers(5,12,1)) // You don't have to put an extra bracket anymore
+
+				(Note: If the Function takes more than 1 argument and one of them uses spread operator than make sure that it's the last argument)
+
+				function AddNumbers(...numbers, contenttoprint){ // <-- This Throws an Error argument with the spread operator has to be the the last argument
+					let Sum = 0;
+					for(let i of numbers){
+						Sum+=i
+					}
+					return Sum
+				}
 
 	(iii) Arrow Functions
 
