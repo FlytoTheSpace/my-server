@@ -39,7 +39,16 @@ const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_
 
 
 // Template for Authentication Can be Extended Further
-const MainAuthentication = async (req, res, callBack, APIverison, callBackNeedsAccount) => {
+/**
+ * @FlytoTheSpace
+ * @param {object} req Request Object.
+ * @param {object} res Response Object.
+ * @param {Function} callBack Callback Function to run Upon Success.
+ * @param {boolean} [APIverison=false] API version?. Default: false
+ * @param {boolean} [callBackNeedsAccount=false] Callback Function Needs Matched Account?. Default: false
+ * @return {Promise<void>} Returns Nothing
+*/
+const MainAuthentication = async (req, res, callBack, APIverison=false, callBackNeedsAccount=false) => {
     try {
         const Collection = await AccountsCollection.find();
         const token = req.cookies.accessToken;
@@ -50,7 +59,7 @@ const MainAuthentication = async (req, res, callBack, APIverison, callBackNeedsA
             } else {
                 res.status(401).send(`Account Required to Access The Requested Page`);
             }
-        } else if (token && !(await Authenticate.isValidAccount(token))) {
+        } else if (token && !(Authenticate.isValidAccount(token))) {
             if (!APIverison) {
                 res.status(401).send(UIMSG_1(`Your Token is Corrupted`))
             } else {
@@ -112,6 +121,7 @@ const MainAuthentication = async (req, res, callBack, APIverison, callBackNeedsA
 }
 
 const Authenticate = {
+    // Old way of Authentication
     byTokenManual: async (request, response, strictMode, callBack) => { // For Manual Authentication
         try {
             const CallBackFunc = callBack
@@ -161,7 +171,13 @@ const Authenticate = {
             }
         }
     },
-    isValidAccount: async (token) => { // Validates The Account Return Boolean
+    /**
+    * Checks If The Account is Valid Returns Boolean
+    * @param  {string} token The Token
+    * @return {boolean}      
+    */
+    // Validation Methods
+    isValidAccount: async (token) => { // Checks If the Account is valid Returns Boolean
         try {
             if (!token) {
                 return false;
@@ -210,6 +226,11 @@ const Authenticate = {
             return false
         }
     },
+    /**
+    * Checks If The User is An Admin Returns Boolean
+    * @param  {string} token The Token
+    * @return {boolean}      
+    */
     isAdmin: async (token) => {
         if (!token) {
             return false
@@ -240,10 +261,25 @@ const Authenticate = {
         }
 
     },
-    byToken: async (req, res, next) => { // Middleware for Authentication (no Manual work)
+    // Middlewares
+    /**
+    * Middleware for Cookie Based Token Authentication
+    * @param  {object} req The Response Object
+    * @param  {object} res The Request Object
+    * @param {Function} callBack Callback Function to run Upon Success
+    * @return {null}      
+    */
+    byToken: async (req, res, next) => { // Token Authentication
         MainAuthentication(req, res, next, false);
     },
-    byTokenAdminOnly: async (req, res, next) => { // Middleware for Authentication (no Manual work)
+    /**
+    * Middleware for Cookie Based Token Authentication Administrators Only
+    * @param  {object} req The Response Object
+    * @param  {object} res The Request Object
+    * @param {Function} callBack Callback Function to run Upon Success
+    * @return {null}      
+    */
+    byTokenAdminOnly: async (req, res, next) => { // Token Authentication for Admins Only
         await MainAuthentication(req, res, (Account) => {
             if (Account.role.toLowerCase() == "admin") {
                 next();
@@ -252,10 +288,24 @@ const Authenticate = {
             }
         }, false, true)
     },
-    byTokenAPI: async (req, res, next) => {
+    /**
+    * Middleware for Cookie Based Token Authentication API version
+    * @param  {object} req The Response Object
+    * @param  {object} res The Request Object
+    * @param {Function} callBack Callback Function to run Upon Success
+    * @return {null}      
+    */
+    byTokenAPI: async (req, res, next) => { // Token Authentication API version
         await MainAuthentication(req, res, next, true);
     },
-    byTokenAdminOnlyAPI: async (req, res, next) => { // Middleware for Authentication (no Manual work)
+    /**
+    * Middleware for Cookie Based Token Authentication API version Administrators Only
+    * @param  {object} req The Response Object
+    * @param  {object} res The Request Object
+    * @param {Function} callBack Callback Function to run Upon Success
+    * @return {null}      
+    */
+    byTokenAdminOnlyAPI: async (req, res, next) => { // Token Authentication for Admins Only API version
         await MainAuthentication(req, res, (Account) => {
             if (Account.role.toLowerCase() == "admin") {
                 next();
@@ -264,7 +314,16 @@ const Authenticate = {
             }
         }, true, true)
     },
-    none: (req, res, next) => {
+    // Other
+
+    /**
+    * No Authentication
+    * @param  {object} req The Response Object
+    * @param  {object} res The Request Object
+    * @param {Function} callBack Callback Function to run Upon Success
+    * @return {null}      
+    */
+    none: (req, res, next) => { // No Authentication 
         next();
     }
 }
