@@ -348,100 +348,322 @@ Section: JavaScript in General
 
 	(i) For Loops
 
-		(a) To make a simple loop first type "for" and then without a space put a round bracked and a curly bracket in the round bracket type "let variable = 0;"(It will Create a Variable) now put a space and then type "variable <= 5;"(It will check whether the condition is true or not and it's customizeable) and then again a space and type "variable++" now come to the curly bracket and then hit enter and type "console.log(variable)" it'll will print all the number in between 0 to 5 inculding themselves
-		(b) Here's The Code that let's you choose both of the value's :-
-			
-			let num1 = prompt("Print Numbers From: ");
-			num1 = Number.parseInt(num1);
+		(a) for loops runs a specific peice of code over and over if a condition is met and does an operation
 
-			for(let num2 = prompt("Print Numbers To: "); num1<=num2; num1++){
-			  console.log(num1)
+		(b) Syntax:
+
+			for (<initial>; <condition>; <operation>){
+				// code to run;
 			}
-			
-		(c) If maded an object variable and then you want to know how many keys or strings are in there here's the code to do it
-			
-			let score = {
-			  "player1": 89,
-			  "player2": 76,
-			  "player3": 54,
-			  "player4": 84,
-			  "player5": 91
-			};
-			for(let i = 0; i < Object.keys(score).length; i++){
-			  console.log("Score of " + Object.keys(score)[i] + " are " + Object.values(score)[i])
+
+			(I) <initial>: represents the iterator
+			(II) <condition>: has to be met to execute the code inside it
+			(III) <operation>: This operation has to be done on the <initial> value, to either increment or Decrement it's value
+
+		Example:-
+
+			/*	initialization | Condition | Operation
+				(Runs Once)	   |		   | (Runs when The Interation is complete)
+					↓				↓			↓*/
+			for( let i = 0;		i < 10;			i++ ){
+				console.log(i)
 			}
+
+			Console:
+
+				0
+				1
+				2
+				3
+				4
+				5
+				6
+				7
+				8
+				9
 			
-			(note: if you just replace everything the in the round bracket which is after the "console.log" to just "test +1" it will print the amount of keys in it)
+		(c) Iteration Over an Object
+
+			(I) Syntax:
+
+				for (let <initial> = 0; <initial> < Object.keys( <object> ).length; <initial>++){
+					
+					Object.keys(<object>)[<initial>] // <-- keys
+					Object.values(<object>)[<initial>] // <-- values
+					<object>[ Object.keys(<object>)[<initial>] ] // <-- This also Returns values
+				}
+
+			Example:-
 			
-		(d) If you put "Object.keys(score)[test]" it will print the keys and if you put "score[Object.keys(score)[test]]" it will print the values of the keys:-
-		
+				let score = {
+				  	"player1": 89,
+				  	"player2": 76,
+				  	"player3": 54,
+				  	"player4": 84,
+				  	"player5": 91
+				};
+
+				for (let i = 0; i < Object.keys(score).length; i++){
+
+				  	console.log("Score of " + Object.keys(score)[i] + " are " + Object.values(score)[i])
+				}
+
+		(c) Iteration Over A String
+
+			(I) Syntax:
+
+				for (let <initial> = 0; <initial> < <String>.length; <initial>++){
+					
+					<String>[<initial>] // returns the character of the Current Iteration
+				}
+
+			Example:-
+
+				allwords = "The Quick Brown Fox Jumps over The Lazy dog"
+
+				for (let i = 0; i < allwords.length; i++){
+				  	console.log(allwords[i])
+				}
+
+				Console:
+
+					T
+					h
+					e
+
+					Q
+					u
+					i
+					c
+					k
+
+					B
+					r
+					o
+					w
+					n
+
+					F
+					o
+					x
+
+					J
+					u
+					m
+					p
+					s
+
+					o
+					v
+					e
+					r
+
+					T
+					h
+					e
+
+					L
+					a
+					z
+					y
+
+					d
+					o
+					g
+
+		(c) Iteration Over An Array
+
+			(I) Syntax:
+
+				for (let <initial> = 0; <initial> < <Array>.length; <initial>++){
+					
+					<Array>[<initial>] // returns the Value of the Current Iteration
+				}
+
+			Example:-
+
+				arrayofwords = ["The", "Quick", "Brown", "Fox", "Jumps", "over", "The", "Lazy", "dog"]
+
+				for (let i = 0; i < arrayofwords.length; i++){
+				  	console.log(arrayofwords[i])
+				}
+
+				Console:
+
+					The
+					Quick
+					Brown
+					Fox
+					Jumps
+					over
+					The
+					Lazy
+					dog
+	
 	(ii) For in Loops
 
-		(a) For in Loops can be used to display Value of Objects for example:- 
+		(a) For in Loops Shortens The Boilder Plate Code and makes it cleaner but with less control
 		
-			let object = {
-			  player1: 87,
-			  player2: 56,
-			  player3: 43,
-			  player4: 67,
-			  player5: 96
+		(b) Syntax:
+
+			for(let <initial> in <iterator>){
+				// Code to Execute
+				<initial> // <-- Represents Keys if type is Object, if Array/string then The Iteration count,
+				
+				<iterator>[<initial>] // <-- Represents Values
 			}
-			for(let item in object){
-			  console.log("Score of " + item + " is " + object[item])
+
+		(c) Example:
+
+			// with Objects
+
+			let scores = {
+			  	player1: 87,
+			  	player2: 56,
+			  	player3: 43,
+			  	player4: 67,
+			  	player5: 96
+			}
+			for(let i in scores){
+			  	console.log("Score of " + i + " is " + scores[i])
 			}
 			
-			(note: This is the better and improved version of displaying keys and values)
+			// with Arrays
+
+			let scores = [ 87, 56, 43, 67, 96]
+			for(let i in scores){
+			  	console.log("Scores:", scores[i])
+			}
+			
+			// with Strings
+
+			words = "The Quick Brown Fox Jumps over The Lazy dog"
+
+			for (let i in words){
+			  	console.log(words[i])
+			}
+
+			Console:
+
+				T
+				h
+				e
+
+				Q
+				u
+				i
+				c
+				k
+
+				B
+				r
+				o
+				w
+				n
+
+				F
+				o
+				x
+
+				J
+				u
+				m
+				p
+				s
+
+				o
+				v
+				e
+				r
+
+				T
+				h
+				e
+
+				L
+				a
+				z
+				y
+
+				d
+				o
+				g
 
 	(iii) For of Loops
 
-		(a)  If you Want to Display Each letter in a different line here's the code to do it
+		(a) For of Loops are the same as `For-in` loops but it's built for Arrays and Strings only
 			
-			for(let variable of "Your Text"){
-			  console.log(variable)
+		(b) Syntax:
+
+			for(let <initial> in <iterator>){
+				// Code to Execute
+				<initial> // <-- Represents Values
+				
+			}
+
+		(c) Examples:-
+
+			// with Arrays
+
+			let scores = [ 87, 56, 43, 67, 96]
+			for(let i in scores){
+			  	console.log("Scores:", i)
 			}
 			
+			// with Strings
+
+			words = "The Quick Brown Fox Jumps over The Lazy dog"
+
+			for (let i in words){
+			  	console.log(i)
+			}
+						
 	(iv) While Loops
 		
-		(a) While Loop is almost the same as For Loops but their Syntax is a Bit Different
-		(b) If You want to print the numbers from a specific value to another value here's the code to do it:-
+		(a) While Loop is Runs the Code inside it if the condition matches
 
-			let num1 = prompt("Print Numbers From: ");
-			num1 = Number.parseInt(num1);
-			let num2 = prompt("Print Numbers To: ");
-			num2 = Number.parseInt(num2);
+		(b) Syntax:
 
-			while(num1<=num2){
-			  console.log(num1);
-			  num1++;
+			while(<condition>){
+				// Code to run while the condition is true
+			};
+
+			(Note: In Syntax words that are inside angled brackets '<>' will be userDefined)
+
+		Example :-
+
+			a = 5
+			b = 10
+
+			while(a<=b){
+			  	console.log(a);
+			  	a++;
 			};
 			
-			(WARNING: DO NOT TRY TO MAKE ANY CHANGES THAT CAN STOP THE CONDITION TO BE BECOMING FALSE IT CAN CRASH YOUR PC)
-		
-		(c) If you want to make the user to enter a specific number unless it'll won't stop asking for the number, here's the code for it:-
-		
-			let error101 = "Error: 101, Try Again!"
-			let correct_number = 4;
-			let prompt_asker
-			while(prompt_asker != correct_number){
-				prompt_asker = prompt("Enter The Right Number")
-				if(prompt_asker != correct_number){
-					console.log(error101)
-				}
-				else{
-					console.log("Success, You have entered The Correct Number")
-				};
-			}
-			
+			(WARNING: If the Condition doesn't becomes false it can lead to unintentional Infinite Loops)
+
+			// An Example of Infinite Loop:
+
+			while(true){
+				// Runs Forever
+			  	console.log('This Code runs Forever');
+			};
+				
 	(v) Do While Loops
 
-		(a) Do While Loops is a Variant of While loop but it runs the code first and then checks the condition and even if the condition is false it will atleast run once and if the condition is true then it will run again and check
-		(b) here's the code ot use it:-
-			
+		(a) Do While Loops is a Variant of While loop but it runs the code atleasst once and then checks if the condition is true, if it's true then it runs it again
+		
+		(b) Example:-
+
+			const b = 10
+			let a = 2
+
 			do{
-			  console.log(num1);
-			  num1++;
-			}while(num1<=num2);
-			
+				// Code here atleast runs once
+			  	console.log(a);
+			  	a++;
+			}while(a<=b);
+		
 10. Funtions
 
 	(i) Functions in JavaScript, often referred to as "traditional functions" or "function expressions," are a fundamental part of the language. They are used to define reusable blocks of code that can be executed when called. Function is a Block of code that is designed to perform a particular task, it can be used for code lines that are repeated, if you use this you just need to type the name of the funtion and round brackets with the variable'same
