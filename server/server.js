@@ -34,8 +34,8 @@ const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 const { getUserID, getUsername, getEmail, getRole } = require('./assets/getFunctions');
-const { mergePDFs } = require("./scripts/mergepdfs");
-const { deleteOldFiles } = require('./scripts/clean');
+const { mergePDFs } = require("./src/mergepdfs");
+const { deleteOldFiles } = require('./src/clean');
 const { resolveSoa } = require('dns');
 const { calculateBroadcastAddress, broadcastMessage } = require('./assets/broadcast')
 
@@ -431,53 +431,53 @@ app.get('/adminDashboardURL', apiLimiter, Authenticate.byTokenAdminOnlyAPI, (req
 }) */
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/index.html'));
+    res.sendFile(path.join(__dirname, '../client/routes/index.html'));
 });
 app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly, (req, res) => {
-    res.sendFile(path.join(__dirname, '../routes/admin.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/admin.html'))
 })
 app.get('/alarm', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/alarm.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/alarm.html'))
 })
 app.get('/cloud', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/cloud.html'));
+    res.sendFile(path.join(__dirname, '../client/routes/cloud.html'));
 })
 app.get('/data', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/data.html'));
+    res.sendFile(path.join(__dirname, '../client/routes/data.html'));
 })
 app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/experiments.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/experiments.html'))
 })
 app.get('/gradient-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/gradient-generator.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/gradient-generator.html'))
 })
 app.get('/html-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/html-tutorial.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/html-tutorial.html'))
 })
 app.get('/javascript-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/javascript-tutorial.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/javascript-tutorial.html'))
 })
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/login.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/login.html'))
 })
 app.get('/music', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/music.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/music.html'))
 })
 app.get('/musiclist', (req, res) => {
     updateMusicAPI();
     res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
 })
 app.get('/password-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/password-generator.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/password-generator.html'))
 })
 app.get('/pdf-merger', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/pdfmerger.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/pdfmerger.html'))
 })
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/profile.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/profile.html'))
 })
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/static/register.html'))
+    res.sendFile(path.join(__dirname, '../client/routes/register.html'))
 })
 
 // 404 Page
