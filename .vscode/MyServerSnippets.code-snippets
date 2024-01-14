@@ -25,7 +25,7 @@
 		"prefix": "getRoutePage",
 		"body": [
 			"app.get(`/$1` , Authenticate.$1 , (req, res) => {",
-			"	res.status(201).sendFile(path.join(__dirname, './server/$2.html'))",
+			"	res.status(201).sendFile(path.join(__dirname, './static/$2.html'))",
 			"})",
 			"$0"
 		],

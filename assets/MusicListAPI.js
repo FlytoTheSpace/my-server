@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const updateMusicAPI = ()=>{
     const MusicAPI = []
-    const files = fs.readdirSync('./server/assets/sounds/music/')
+    const files = fs.readdirSync('./static/assets/sounds/music/')
     files.forEach(file => {
         MusicAPI.push({
             name: file.replace(/\..../g, ''),

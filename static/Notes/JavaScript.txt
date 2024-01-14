@@ -4958,7 +4958,7 @@ Section: Node.js Exclusive
 
 				export default name;
 
-		(b) Common.JS Module export when uses: `WebAssembly.Module.exports()`: which returns an array containing descriptions of all the declared exports. or you can assign it a value and it'll export them!.
+		(b) in Common.JS, Assign Values to `Module.exports` to export them!.
 			
 			for example:-
 

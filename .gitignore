@@ -1,5 +1,5 @@
 node_modules/
-server/node_modules/
+static/node_modules/
 dummy.rest
 .env
 .gitignore
@@ -8,5 +8,5 @@ dummy.rest
 credientials/accounts.json
 public/
 uploads/
-server/assets/sounds/music/
+static/assets/sounds/music/
 cloud/

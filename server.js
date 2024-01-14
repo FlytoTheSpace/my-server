@@ -111,7 +111,7 @@ const userDataCollection = mongoose.model('userData', mongoose.Schema({
 
 // Middlewares
 
-app.use(express.static(path.join(__dirname, "server")));
+app.use(express.static(path.join(__dirname, "static")));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -437,47 +437,47 @@ app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly, (req, 
     res.sendFile(path.join(__dirname, './admin/admin.html'))
 })
 app.get('/alarm', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/alarm.html'))
+    res.sendFile(path.join(__dirname, './static/alarm.html'))
 })
 app.get('/cloud', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, './server/cloud.html'));
+    res.sendFile(path.join(__dirname, './static/cloud.html'));
 })
 app.get('/data', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, './server/data.html'));
+    res.sendFile(path.join(__dirname, './static/data.html'));
 })
 app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/experiments.html'))
+    res.sendFile(path.join(__dirname, './static/experiments.html'))
 })
 app.get('/gradient-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/gradient-generator.html'))
+    res.sendFile(path.join(__dirname, './static/gradient-generator.html'))
 })
 app.get('/html-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/html-tutorial.html'))
+    res.sendFile(path.join(__dirname, './static/html-tutorial.html'))
 })
 app.get('/javascript-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/javascript-tutorial.html'))
+    res.sendFile(path.join(__dirname, './static/javascript-tutorial.html'))
 })
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/login.html'))
+    res.sendFile(path.join(__dirname, './static/login.html'))
 })
 app.get('/music', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/music.html'))
+    res.sendFile(path.join(__dirname, './static/music.html'))
 })
 app.get('/musiclist', (req, res) => {
     updateMusicAPI();
     res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
 })
 app.get('/password-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/password-generator.html'))
+    res.sendFile(path.join(__dirname, './static/password-generator.html'))
 })
 app.get('/pdf-merger', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/pdfmerger.html'))
+    res.sendFile(path.join(__dirname, './static/pdfmerger.html'))
 })
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/profile.html'))
+    res.sendFile(path.join(__dirname, './static/profile.html'))
 })
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, './server/register.html'))
+    res.sendFile(path.join(__dirname, './static/register.html'))
 })
 
 // 404 Page
