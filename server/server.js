@@ -111,7 +111,7 @@ const userDataCollection = mongoose.model('userData', mongoose.Schema({
 
 // Middlewares
 
-app.use(express.static(path.join(__dirname, "../static")));
+app.use(express.static(path.join(__dirname, "../client/static")));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -431,53 +431,53 @@ app.get('/adminDashboardURL', apiLimiter, Authenticate.byTokenAdminOnlyAPI, (req
 }) */
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/index.html'));
+    res.sendFile(path.join(__dirname, '../client/static/index.html'));
 });
 app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly, (req, res) => {
     res.sendFile(path.join(__dirname, '../routes/admin.html'))
 })
 app.get('/alarm', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/alarm.html'))
+    res.sendFile(path.join(__dirname, '../client/static/alarm.html'))
 })
 app.get('/cloud', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/cloud.html'));
+    res.sendFile(path.join(__dirname, '../client/static/cloud.html'));
 })
 app.get('/data', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/data.html'));
+    res.sendFile(path.join(__dirname, '../client/static/data.html'));
 })
 app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/experiments.html'))
+    res.sendFile(path.join(__dirname, '../client/static/experiments.html'))
 })
 app.get('/gradient-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/gradient-generator.html'))
+    res.sendFile(path.join(__dirname, '../client/static/gradient-generator.html'))
 })
 app.get('/html-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/html-tutorial.html'))
+    res.sendFile(path.join(__dirname, '../client/static/html-tutorial.html'))
 })
 app.get('/javascript-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/javascript-tutorial.html'))
+    res.sendFile(path.join(__dirname, '../client/static/javascript-tutorial.html'))
 })
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/login.html'))
+    res.sendFile(path.join(__dirname, '../client/static/login.html'))
 })
 app.get('/music', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/music.html'))
+    res.sendFile(path.join(__dirname, '../client/static/music.html'))
 })
 app.get('/musiclist', (req, res) => {
     updateMusicAPI();
     res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
 })
 app.get('/password-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/password-generator.html'))
+    res.sendFile(path.join(__dirname, '../client/static/password-generator.html'))
 })
 app.get('/pdf-merger', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/pdfmerger.html'))
+    res.sendFile(path.join(__dirname, '../client/static/pdfmerger.html'))
 })
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/profile.html'))
+    res.sendFile(path.join(__dirname, '../client/static/profile.html'))
 })
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/register.html'))
+    res.sendFile(path.join(__dirname, '../client/static/register.html'))
 })
 
 // 404 Page
