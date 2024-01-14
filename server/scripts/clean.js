@@ -7,7 +7,7 @@ const deleteOldFiles = ()=>{
     console.log(`${logprefix('Cleaner')} Checking for Old Files to Delete...`)
     let count = 0;
 
-    const directories = ['./static/public/','./uploads/pdfs/'];
+    const directories = ['../static/public/','./uploads/pdfs/'];
 
     directories.forEach(directory=>{
         const files = fs.readdirSync(directory);

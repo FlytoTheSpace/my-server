@@ -2,12 +2,9 @@ node_modules/
 static/node_modules/
 dummy.rest
 .env
-.gitignore
-accounts.json
-dummy.rest
-credientials/accounts.json
-public/
-uploads/
+static/public/
+server/uploads/
 static/assets/sounds/music/
 cloud/
 static/assets/images/song_banners/
+server/APIs/musiclist.json

@@ -65,7 +65,7 @@ const storage = multer.diskStorage({
         } else if (req.path === '/cloudFilesUpload') {
             try {
                 const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
-                const uploadPath = `cloud/${UserID}/`;
+                const uploadPath = path.join(__dirname, `../cloud/${UserID}/`);
 
                 cb(null, uploadPath);
 
@@ -111,7 +111,7 @@ const userDataCollection = mongoose.model('userData', mongoose.Schema({
 
 // Middlewares
 
-app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "../static")));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -369,7 +369,7 @@ app.get('/cloudFiles', Authenticate.byTokenAPI, (req, res) => {
     try {
         const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID;
         const LoadFiles = () => {
-            files = fs.readdirSync(path.join(__dirname, `cloud/${UserID}`));
+            files = fs.readdirSync(path.join(__dirname, `../cloud/${UserID}`));
             const ReponseObject = []
             files.forEach(fileName => {
                 ReponseObject.push({
@@ -383,7 +383,7 @@ app.get('/cloudFiles', Authenticate.byTokenAPI, (req, res) => {
             LoadFiles()
         } catch (err) {
             if (err.message.includes('no such file or directory')) {
-                fs.mkdirSync(path.join(__dirname, `cloud/${UserID}/`))
+                fs.mkdirSync(path.join(__dirname, `../cloud/${UserID}/`))
                 LoadFiles()
             } else {
                 console.log(err)
@@ -400,9 +400,9 @@ app.get('/cloudFileActions', Authenticate.byToken, async (req, res) => {
 
         const FilePath = req.headers.path
         if (req.headers.action.toLowerCase() == "getfile") {
-            res.sendFile(path.join(__dirname, `cloud/${getUserID(req.cookies.accessToken)}`, FilePath));
+            res.sendFile(path.join(__dirname, `../cloud/${getUserID(req.cookies.accessToken)}`, FilePath));
         } else if (req.headers.action.toLowerCase() == "delete") {
-            fs.unlinkSync(path.join(__dirname, `cloud/${getUserID(req.cookies.accessToken)}`, FilePath));
+            fs.unlinkSync(path.join(__dirname, `../cloud/${getUserID(req.cookies.accessToken)}`, FilePath));
             res.status(201).send("Succefully Deleted The Requested File!")
         }
     } catch (error) {
@@ -431,53 +431,53 @@ app.get('/adminDashboardURL', apiLimiter, Authenticate.byTokenAdminOnlyAPI, (req
 }) */
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './index.html'));
+    res.sendFile(path.join(__dirname, '../static/index.html'));
 });
 app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly, (req, res) => {
-    res.sendFile(path.join(__dirname, './admin/admin.html'))
+    res.sendFile(path.join(__dirname, '../routes/admin.html'))
 })
 app.get('/alarm', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/alarm.html'))
+    res.sendFile(path.join(__dirname, '../static/alarm.html'))
 })
 app.get('/cloud', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, './static/cloud.html'));
+    res.sendFile(path.join(__dirname, '../static/cloud.html'));
 })
 app.get('/data', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, './static/data.html'));
+    res.sendFile(path.join(__dirname, '../static/data.html'));
 })
 app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/experiments.html'))
+    res.sendFile(path.join(__dirname, '../static/experiments.html'))
 })
 app.get('/gradient-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/gradient-generator.html'))
+    res.sendFile(path.join(__dirname, '../static/gradient-generator.html'))
 })
 app.get('/html-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/html-tutorial.html'))
+    res.sendFile(path.join(__dirname, '../static/html-tutorial.html'))
 })
 app.get('/javascript-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/javascript-tutorial.html'))
+    res.sendFile(path.join(__dirname, '../static/javascript-tutorial.html'))
 })
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/login.html'))
+    res.sendFile(path.join(__dirname, '../static/login.html'))
 })
 app.get('/music', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/music.html'))
+    res.sendFile(path.join(__dirname, '../static/music.html'))
 })
 app.get('/musiclist', (req, res) => {
     updateMusicAPI();
     res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
 })
 app.get('/password-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/password-generator.html'))
+    res.sendFile(path.join(__dirname, '../static/password-generator.html'))
 })
 app.get('/pdf-merger', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/pdfmerger.html'))
+    res.sendFile(path.join(__dirname, '../static/pdfmerger.html'))
 })
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/profile.html'))
+    res.sendFile(path.join(__dirname, '../static/profile.html'))
 })
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, './static/register.html'))
+    res.sendFile(path.join(__dirname, '../static/register.html'))
 })
 
 // 404 Page

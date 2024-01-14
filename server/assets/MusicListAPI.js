@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const path = require('path')
 const updateMusicAPI = ()=>{
     const MusicAPI = []
     const files = fs.readdirSync('./static/assets/sounds/music/')
@@ -9,7 +9,7 @@ const updateMusicAPI = ()=>{
             song: `./assets/sounds/music/${file}`
         })
     });
-    const MusicAPIOld = JSON.parse(fs.readFileSync('./APIs/musiclist.json', 'utf8'));
+    const MusicAPIOld = JSON.parse(fs.readFileSync(path.join(__dirname, '../APIs/musiclist.json'), 'utf8'));
     
     for(let i = 0; i<MusicAPI.length; i++){
         if (MusicAPIOld[i].song !== MusicAPI[i].song){
