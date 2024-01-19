@@ -34,7 +34,10 @@ const { updateMusicAPI } = require('./assets/MusicListAPI');
 const { logprefix } = require('./assets/logs');
 const { LocalIPv4 } = require('./assets/ip');
 const { getUserID, getUsername, getEmail, getRole } = require('./assets/getFunctions');
-const { mergePDFs } = require("./src/mergepdfs");
+let mergePDFs;
+(async ()=>{
+    mergePDFs = await (await import("./src/merge.mjs")).mergePDFs;
+})();
 const { deleteOldFiles } = require('./src/clean');
 const { resolveSoa } = require('dns');
 const { calculateBroadcastAddress, broadcastMessage } = require('./assets/broadcast')
@@ -121,8 +124,8 @@ app.use(cookieParser());
 app.post('/mergepdfs', upload.array('pdfs', 2), async (req, res) => {
     try {
         const generatedPDFName = await mergePDFs(
-            path.join(__dirname, req.files[0].path),
-            path.join(__dirname, req.files[1].path)
+            path.join(__dirname,'..', req.files[0].path),
+            path.join(__dirname,'..', req.files[1].path)
         );
 
         res.redirect(`http://${LocalIPv4()}:${PORT}/public/${generatedPDFName}.pdf`);

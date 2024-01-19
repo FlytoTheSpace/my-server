@@ -3,7 +3,7 @@ client/static/node_modules/
 dummy.rest
 .env
 client/static/public/
-server/uploads/
+uploads/
 client/static/assets/sounds/music/
 cloud/
 client/static/assets/images/song_banners/
