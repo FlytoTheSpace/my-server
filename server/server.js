@@ -49,7 +49,14 @@ const { LocalIPv4 } = Ip
 const { logprefix } = Logs
 const { updateMusicAPI } = MusicListAPI;
 const { UIMSG_1 } = UI_messages
+const upload = require('./common/storage')
 
+const {
+    byTokenAuthPages,
+    byTokenAdminOnlyAuthPages,
+    byTokenAPIAuthPages,
+    byTokenAdminOnlyAPIAuthPages
+} = JSON.parse(fs.readFileSync(path.join(__dirname, './routes/pages.json'), 'utf8'))
 
 let mergePDFs;
 (async ()=>{
@@ -58,7 +65,7 @@ let mergePDFs;
 
 const { deleteOldFiles } = require('./scripts/clean');
 const { resolveSoa } = require('dns');
-
+const { LoginfoDecryptionKey } = require('./common/KEYS')
 
 // Other
 const udpPort = 3001; // UDP port for broadcasting
@@ -66,44 +73,38 @@ const subnetMask = '255.255.255.0';
 
 setInterval(deleteOldFiles, 30 * 60 * 1000);
 
-const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
-    encoding: 'base64',
-    pbkdf2Iterations: 10000,
-    saltLength: 1
-});
+
 updateMusicAPI(); // Updating Music API
-const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again after 15 minutes'
-});
+app.set('trust proxy', 1); 
+
+const apiLimiter = require('./common/ratelimit')
 // Function to set storage configuration dynamically
-const storage = multer.diskStorage({
-    destination: async (req, file, cb) => {
-        if (req.path === '/mergepdfs') {
-            cb(null, 'uploads/pdfs/');
-        } else if (req.path === '/cloudFilesUpload') {
-            try {
-                const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
-                const uploadPath = path.join(__dirname, `../cloud/${UserID}/`);
+// const storage = multer.diskStorage({
+//     destination: async (req, file, cb) => {
+//         if (req.path === '/mergepdfs') {
+//             cb(null, 'uploads/pdfs/');
+//         } else if (req.path === '/cloudFilesUpload') {
+//             try {
+//                 const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
+//                 const uploadPath = path.join(__dirname, `../cloud/${UserID}/`);
 
-                cb(null, uploadPath);
+//                 cb(null, uploadPath);
 
-                fs.mkdirSync(uploadPath, { recursive: true });
-            } catch (error) {
-                console.error('Error during directory creation:', error);
-                cb(error);
-            }
-        } else {
-            cb(new Error('Invalid upload path'));
-        }
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
+//                 fs.mkdirSync(uploadPath, { recursive: true });
+//             } catch (error) {
+//                 console.error('Error during directory creation:', error);
+//                 cb(error);
+//             }
+//         } else {
+//             cb(new Error('Invalid upload path'));
+//         }
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname);
+//     }
+// });
 
-const upload = multer({ storage: storage }); // Uploads
+// const upload = multer({ storage: storage }); // Uploads
 /*
 // Database
 const mongodbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ServerDB';

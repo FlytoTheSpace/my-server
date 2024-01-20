@@ -10,14 +10,7 @@ const SendMSG = require('./sendmsg')
 const { logprefix } = require('./logs');
 const mongoose = require('mongoose');
 const { AccountsCollection, userDataCollection } = require('./database')
-
-
-// Initialize LoginfoDecryptionKey using Cryptr
-const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
-    encoding: 'base64',
-    pbkdf2Iterations: 10000,
-    saltLength: 1
-});
+const { LoginfoDecryptionKey } = require('../common/KEYS')
 
 // Send An Error
 /**

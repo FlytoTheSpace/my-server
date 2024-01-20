@@ -16,6 +16,8 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const multer = require('multer');
 const rateLimit = require('express-rate-limit');
+const upload = require('../common/storage')
+const apiLimiter = require('../common/ratelimit')
 
 // Local Modules
 const Assets = require('../assets/')
@@ -32,6 +34,13 @@ const {
     UI_messages
 } = Assets;
 
+const {
+    byTokenAuthPages,
+    byTokenAdminOnlyAuthPages,
+    byTokenAPIAuthPages,
+    byTokenAdminOnlyAPIAuthPages
+} = JSON.parse(fs.readFileSync(path.join(__dirname, 'pages.json'), 'utf8'))
+const { LoginfoDecryptionKey } = require('../common/KEYS')
 
 const { calculateBroadcastAddress, broadcastMessage } = Broadcast;
 const { AccountsCollection, userDataCollection } = Database;
@@ -51,51 +60,12 @@ const { resolveSoa } = require('dns');
 
 // Other
 
-const LoginfoDecryptionKey = new Cryptr(process.env.ACCOUNTS_LOGINFO_DECRYPTION_KEY, {
-    encoding: 'base64',
-    pbkdf2Iterations: 10000,
-    saltLength: 1
-});
-const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again after 15 minutes'
-});
 // Function to set storage configuration dynamically
-const storage = multer.diskStorage({
-    destination: async (req, file, cb) => {
-        if (req.path === '/mergepdfs') {
-            cb(null, 'uploads/pdfs/');
-        } else if (req.path === '/cloudFilesUpload') {
-            try {
-                const UserID = jwt.verify(req.cookies.accessToken, process.env.ACCOUNTS_TOKEN_VERIFICATION_KEY).userID
-                const uploadPath = path.join(__dirname, `../../cloud/${UserID}/`);
 
-                cb(null, uploadPath);
-
-                fs.mkdirSync(uploadPath, { recursive: true });
-            } catch (error) {
-                console.error('Error during directory creation:', error);
-                cb(error);
-            }
-        } else {
-            cb(new Error('Invalid upload path'));
-        }
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage }); // Uploads
 
 const Files = fs.readdirSync(path.join(Root, 'client/routes/'))
 const HtmlFiles = Files.filter(file => path.extname(file) === '.html')
 
-const byTokenAuthPages = [
-    'data',
-    'cloud'
-]
 
 let Length = HtmlFiles.length
 
