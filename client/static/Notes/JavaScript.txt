@@ -44,11 +44,11 @@ Section: JavaScript in General
 	(i) Primitive Data Types: There are Total 7 Primitive Data Types
 		Here's List of Primitive Data Types
 
-		(a) "Null": Nothing
-		(b) "Number": A Number
-		(c) "BigInt": A Very Big Integer
-		(d) "Booleon": it's value can be `true` and `false`
-		(e) "String": Contains Text of Your Choice
+		(a) `Null`: Literal Nothing
+		(b) `Number`: Number
+		(c) `BigInt`: Big Integer
+		(d) `Booleon`: Byte Data (`true` and `false`)
+		(e) `String`: Contains Text of Your Choice
 	
 			(I) String is used to store chunks of text
 			(II) String can be used by Sets of:- 
@@ -101,27 +101,524 @@ Section: JavaScript in General
 
 				(Note: backslash(\) itself will not be include in the string, it requires another blackslah to display one.)
 				
-		(VI) "Symbol": ( A Symbol)
-		(VII) "Undefined": represents that it's not defined
-			
+		(VI) `Symbol`: A Unique identifier
+		(VII) `Undefined`: represents that it's not defined
+		
 	(ii) Non-primitive Data Types
 
-		(a) Non-primitive Data Types are "Objects"
-		(b) Objects are Key Value Pairs
-		for example :-
+		(Note: It's Recommended to Skip this Section for now since it's very Advance JavaScript)
+
+		(a) `Object`: The most basic non-primitive type. It represents a collection of key-value pairs. Almost all other non-primitive types in JavaScript inherit from Object.
+
+			(This Section is Explained Later in The Notes)
+
+			let person = { name: "James", age: 30 };
+
+    	(b) `Array`: An ordered collection of data (elements), where each element can be of any type. Arrays in JavaScript are actually a special kind of object.
+
+			(This Section is also Explained Later in The Notes)
+
+			let numbers = [1, 2, 3, 4, 5];
+
+    	(c) `Function`: Functions in JavaScript are first-class objects, meaning they can have properties and methods just like any other object.
+
+			(This Section is also Explained Later in The Notes)
 			
-			const player = {
-				"Key": "Value",
-				level: 79,
-				kills: 5435,
-				money: 1000,
-				vip: false,
-				Duration: 2345
+			function greet(name) {
+				return `Hello, ${name}!`;
 			}
+
+    	(d) `Date`: Represents a single moment in time in a platform-independent format. Date objects contain methods for date and time operations.
+
+			(This Section is also Explained Later in The Notes)
+
+			let now = new Date();
+
+    	(e) `RegExp (Regular Expression)`: Used for matching text with a pattern. RegExp objects have methods and properties for pattern matching and text manipulation.
 			
-		(c) even if you declared this using 'const', it's change through this code below here
-		(d) to add or change a key value pair to the Object type "Variable['Key']" = Value"
+			(This Section is also Explained Later in The Notes)
+
+			let pattern = /hello/;
+
+    	(f) `Map` 
+
+			(I) The Map object in JavaScript is a collection of key-value pairs. It is part of the ECMAScript 6 (ES6) specification and offers several advantages over traditional objects when used as a hash map. Here are some of the key characteristics and functionalities of a Map:
+			Key Characteristics of Map
+
+			    (A) ey Types: Unlike objects, which only use strings and symbols as keys, Map allows keys of any type, including functions, objects, and any primitive.
+
+			    (B) Order of Elements: Map objects maintain the insertion order of their elements, meaning you can rely on the order in which key-value pairs are added.
+
+			    (C) Size Property: You can easily get the number of key/value pairs in the Map with its size property.
+
+			    (D) Performance: For large sets of data, particularly when adding and removing elements, Map often performs better than objects.
+
+			(II) Basic Operations
+
+			    (A) Creating a Map:
+
+					let map = new Map();
+
+				(B) Setting Key-Value Pairs:
+
+					map.set('key1', 'value1');
+					map.set('key2', 'value2');
+
+				(C) Getting a Value:
+
+					let value = map.get('key1'); // 'value1'
+
+				(D) Checking for a Key:
+
+					map.has('key1'); // true
+
+				(E) Removing a Key-Value Pair:
+
+					map.delete('key1'); // Removes the pair with key 'key1'
+
+				(F) Clearing the Map:
+
+					map.clear(); // Removes all key-value pairs
+
+				(G) Getting the Size:
+					let size = map.size; // Returns the number of key/value pairs
+
+			(III) Iteration and Looping
+
+			    (A) forEach Method:
+
+					map.forEach((value, key)=>{
+					  	console.log(key + ' = ' + value);
+					});
+
+				(B) Iterating Over `Keys`, `Values`, and `Entries`:
+
+			    	I. Keys:
+
+						for (let key of map.keys()) {
+						  	console.log(key);
+						}
+
+					II. Values:
+
+						for (let value of map.values()) {
+						  	console.log(value);
+						}
+
+					III. Entries (key-value pairs):
+		
+					    for (let [key, value] of map.entries()) {
+					      console.log(key + ' = ' + value);
+					    }
+
+				(C) for...of loop
+
+			    	for (let [key, value] of map) {
+			    	  console.log(key + ' = ' + value);
+			    	}
+
+    	(g) `Set` 
+
+			(I) A Set in JavaScript is a collection of unique values. It was introduced in ECMAScript 6 (ES6) and provides an efficient way to handle collections of values where uniqueness is important. Here are some key characteristics and functionalities of a Set:
+			Key Characteristics of Set
+
+			    (A) Unique Values: A Set can only contain unique values. If you try to add a duplicate value, it will be ignored.
+
+			    (B) No Key-Value Pairs: Unlike Map, a Set doesn't have key-value pairs; it only stores individual values.
+
+			    (C) Order of Elements: Similar to Map, Set maintains the insertion order of its elements.
+
+			    (D) Size Property: You can easily get the number of unique values in the Set with its size property.
+
+			    (E) Performance: Set provides efficient methods for adding, deleting, and checking the existence of elements.
+
+			(II) Basic Operations
+
+				(A) Creating a Set:
+
+					let set = new Set();
+
+				(B) Adding Values:
+
+					set.add(1);
+					set.add(2);
+					set.add(3);
+
+				(C) Checking for Existence:
+
+					set.has(2); // true
+
+				(D) Deleting a Value:
+
+
+					set.delete(2); // Removes the value 2 from the set
+
+				(E) Clearing the Set:
+
+
+					set.clear(); // Removes all values from the set
+
+				(F) Getting the Size:
+
+
+				    let size = set.size; // Returns the number of unique values
+
+			(III) Iteration and Looping
+
+			    (A) forEach Method:
+
+					set.forEach(function(value) {
+					  	console.log(value);
+					});
+
+				(B) Iterating Over Values with for...of:
+
+					for (let value of set) {
+					  	console.log(value);
+					}
+
+    	(h) `WeakMap`: A variant of Map that allows only objects as keys and does not prevent garbage collection if there are no other references to the key.
+
+			let weakMap = new WeakMap();
+			let obj = {};
+			weakMap.set(obj, { key: "value" });
+
+    	(i) `WeakSet`: Similar to Set but with weaker references to its values. It only allows objects and doesn't prevent their garbage collection.
+
+			let weakSet = new WeakSet();
+			let obj = {};
+			weakSet.add(obj);
+
+    	(j) `Promise`: Represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
+
+			(This Section is also Explained Later in The Notes)
+
+			let promise = new Promise((resolve, reject) => {
+			  	setTimeout(() => resolve("done"), 1000);
+			});
+
+    	(k) `TypedArray`
+
+			(I) Typed Arrays in JavaScript provide a way to work with binary data. They were introduced to cater to the needs of applications like WebGL, where it is necessary to control and manipulate data at the binary level, and for performance-critical applications like audio processing, 3D graphics, or real-time video processing.
+
+			(II) Key Characteristics of Typed Arrays
+
+    			(A) Binary Data Handling: Typed arrays allow you to work directly with fixed-size binary data buffers.
+
+    			(B) Fixed-Size Elements: Unlike regular arrays, each element in a typed array is of a specific size and type. For example, an Int8Array represents an array of 8-bit signed integers.
+
+    			(C) Efficient: They provide a more efficient way to handle large amounts of binary data. The operations on typed arrays are typically much faster than those on regular JavaScript arrays.
+
+    			(D) ArrayBuffer: Typed arrays work on an ArrayBuffer. This buffer is a raw binary data buffer which you can access through a typed array view.
+
+			(III) Basic Operations
+
+    			(A) Creating a Typed Array:
+
+					let int16 = new Int16Array(2);
+					int16[0] = 42;
+
+				(B) Creating from an ArrayBuffer:
+				
+					let buffer = new ArrayBuffer(16); // create a buffer of 16 bytes
+					let view = new Int32Array(buffer); // view the buffer as 32-bit integers
+
+				(C) Reading and Writing: You can access elements using standard array syntax.
+
+					let value = int16[0]; // read
+					int16[1] = 23; // write
+
+				(D) Length and ByteLength:
+
+					int16.length; // gives the number of elements
+					int16.byteLength; // gives the size in bytes
+
+			(IV) Use Cases:
+
+    			(a) Handling Binary Data: Typed arrays are used when dealing with files, such as images or videos, and for network operations.
+    			(b) WebGL: They are used extensively in WebGL for dealing with image textures, vertex buffers, etc.
+    			(c) Web Audio API: For processing audio data.
+    			(d) High-Performance Computing: Any application that requires manipulation of complex datasets, like scientific calculations or real-time graphics, can benefit from typed arrays.
+
+			(V) `arrayBuffer()`: Used to Receive File from Server-to-Server
+
+				(async () => {
+				    const Request = await fetch(URL);
+				    const File = await Request.arrayBuffer()
+
+					fs.writeFileSync('./myfile.jpg', File)
+				})()
+
+    	(l) `Buffer (Node.js specific)`
+			
+			(I) In Node.js, a Buffer is a global object used to work directly with binary data. It represents a fixed-size chunk of memory allocated outside the V8 JavaScript engine. Buffers are particularly useful in scenarios where you need to handle raw binary data, like when working with files, streams, or implementing network protocols.
+			
+			(I) Key Characteristics of Buffers:
+
+    			(A) Binary Data: Buffers store raw binary data. Each slot in a Buffer can store one byte of data, making them suitable for handling binary data streams.
+
+    			(B) Fixed Size: A Buffer is created with a fixed size (in bytes) when instantiated and cannot be resized.
+
+    			(C) Array-like: Buffers are similar to arrays of integers, where each element is a byte (value between 0 and 255).
+
+    			(D) Encoding/Decoding: Buffers can be used to convert data to/from various encodings (like UTF-8, Base64, etc.).
+			
+			Example:-
+				
+				let buffer = Buffer.from('Hello, world!', 'utf-8') // <Buffer 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21>
+			
+			(II) Creating Buffers:
+
+				(A) Buffers can be created in several ways:
+
+				(B) Allocating a Buffer:
+
+					const buffer = Buffer.alloc(10); // Allocates a buffer of 10 bytes
+
+				(B) From Existing Data:
+
+					const buffer = Buffer.from([1, 2, 3, 4, 5]); // Creates a buffer containing [1, 2, 3, 4, 5]
+					const bufferFromString = Buffer.from("Hello", "utf-8"); // Creates a buffer from a string
+
+				(C) Unsafe Buffer Allocation:
+
+					const buffer = Buffer.allocUnsafe(10); // Faster, but may contain old data
+
+				allocUnsafe is faster than alloc as it does not initialize the buffer memory. However, the allocated segment of memory may contain old data and needs to be overwritten to avoid security issues.
+				
+			(III) Working with Buffers:
+
+    			(A) Reading and Writing: Buffers allow you to read and write data at specific offsets.
+
+					const buf = Buffer.from("Hello World");
+					console.log(buf) // <Buffer 48 65 6c 6c 6f 20 57 6f 72 6c 64>
+					console.log(buf.toString('utf8')); // "Hello Wolrd"
+
+					buf.write("Hi", 0); // Overwrites the buffer with "Hi" at the beginning
+					console.log(buf) // <Buffer 48 69 6c 6c 6f 20 57 6f 72 6c 64>
+					console.log(buf.toString('utf8')) // Hillo World
+
+				(B) Slicing: You can create a new buffer that points to the same memory as the original buffer, but starting at a different offset and with a different length.
+
+					const buf = Buffer.from("Hello World");
+					const slice = buf.slice(0, 5); // Slices the buffer to contain "Hello"
+
+				(C) Buffer Length: The length of a buffer (in bytes) can be accessed using the length property.
+
+					const buffer = Buffer.from("Hello World");
+					console.log(buffer.length); // Outputs the length of the buffer
+				
+				(D) Use Cases for Buffers:
+
+    				I. File System Operations: Reading and writing binary files (like images, videos, etc.).
+    				II. Networking: Handling TCP streams, where data is often received as a stream of binary packets.
+    				III. Stream Processing: Manipulating data in streams, like compressing or encrypting data.
+    				IV. Interacting with the Operating System: For example, when working with system calls that require binary data.
+
+    	(m) `Blob (commonly used in web APIs)`:
+
+			(I) A Blob (Binary Large Object) represents immutable raw binary data in web development, commonly used in JavaScript within web browsers. Blobs are typically used to handle data like files, images, or other binary data that might be transferred over the network or stored on the client side.
+			(II) Key Characteristics of Blobs:
+
+			    (A) Binary Data: Blobs are used to handle raw binary data. This makes them suitable for a wide range of applications, including file operations, media manipulation, and network transfers.
+
+			    (B) Immutable: Once a Blob object is created, the data it contains cannot be modified. However, you can create a new Blob from an existing one with modifications.
+
+			    (C) Efficient Memory Usage: Blobs are designed to efficiently handle large chunks of data. They don't necessarily load all data into memory at once, which makes them suitable for handling large files.
+
+			    (D) Readable As Various Data Types: Although a Blob contains binary data, it can be read as text, ArrayBuffer, or even converted into a data URL.
+
+			(III) Creating Blobs: Blobs can be created using the Blob constructor:
+
+				(A) Syntax:
+
+					new Blob([<data>], { type: <mimeType> });
+
+				    I. data: This is the raw data you want to put into the Blob. It can be a string, a BufferSource, or even another Blob.
+				    type: This optional argument is a string representing the MIME type of the data.
+
+				Example:-
+
+					const text = "Hello, world!";
+					const blob = new Blob([text], { type: 'text/plain' });
+
+			(IV) Common Uses and Operations:
+
+			    (A) File Operations: In web applications, Blobs are often used to represent file data. This can be used for operations like file downloads, uploads, or previews.
+
+			    (B) Converting Between Formats: You can convert a Blob to and from various formats. For example, using FileReader to read a Blob as text, or converting an image into a Blob for upload.
+
+			    (C) Creating Object URLs: `Using URL.createObjectURL()`, you can create a URL that represents the Blob data. This is useful for displaying Blob data as an image source or downloading it as a file.
+
+			    	const url = URL.createObjectURL(blob);
+
+			    (D) Reading Blob Content: To read content from a Blob, you can use the FileReader API or the newer `Blob.text()`, `Blob.arrayBuffer()`, and `Blob.stream()` methods.
+
+			(V) Differences from ArrayBuffer:
+
+			    ArrayBuffer is a low-level interface representing a buffer of binary data; it can be manipulated with a TypedArray or DataView.
+			    Blob is higher-level, used more with file-like objects in web APIs, and tends to be used in APIs that handle data in a file-like format.
+
+    	(n) `File (commonly used in web APIs)`
+
+			(I) the File data type is a specific kind of Blob that represents data from the file system. It's used in JavaScript within web browsers and is part of the File API, a standard for handling file inputs in web applications. The File object provides information about files and allows you to read from them.
+
+			(II) Key Characteristics of the File Object:
+
+    			(A) Inherits from Blob: File inherits all the properties and methods from the Blob class, such as size, type, and methods like slice(). This means it can be used in any context where a Blob is used, like in fetch or XMLHttpRequest.
+
+    			(B) File Metadata: In addition to the binary content, the File object includes metadata such as the file's name and the last modified date.
+
+    			(C) Immutability: Similar to a Blob, a File object is immutable. You can't change its content or metadata after it's created.
+
+			(III) Creating a File Object: A File object is typically obtained from a file input element (`<input type="file">`), from `drag-and-drop` operations, or from the Clipboard API. You can also create a File object programmatically:
+
+				const file = new File([<blobPart>], <fileName>, { type: <Type>, lastModified: <date> });
+
+				blobPart: The raw data of the file, which can be a BufferSource, Blob, String, etc.
+    			fileName: The name of the file.
+    			options: An optional object where you can set the MIME type (type) and the last modification date (lastModified).
+
+			(IV) Common Operations and Uses:
+
+    			(A) Reading File Content: To read content from a File, you can use the FileReader API or the methods available on the Blob object, like text(), arrayBuffer(), and stream().
+
+    			(B) Uploading Files: File objects are commonly used to upload files to a server. You can include them in FormData and use them with fetch or XMLHttpRequest for asynchronous file uploads.
+
+    			(C) Manipulating File Data: While you can't modify a File object directly, you can read its data, process it, and create new Blob or File objects from the results.
+			
+			(V) Example: Here’s a basic example of how a File object might be used in a web application:
+
+				<input type="file" id="fileInput">
+				<script>
+					document.getElementById('fileInput').addEventListener('change', function(event) {
+					    const file = event.target.files[0]; // Get the selected file
+					    const reader = new FileReader();
+
+					    reader.onload = function(e) {
+					        const fileContent = e.target.result;
+					        console.log("File content:", fileContent);
+					    };
+
+					    reader.readAsText(file); // Read the file content as text
+					});
+				</script>
+
+				In this example, when a user selects a file, the File object is read as text, and its content is logged to the console.
+
+    	(o) `Error`: Represents runtime errors. Various types of error objects (like SyntaxError, TypeError, ReferenceError) inherit from this.
+
+			(This Section is also Explained Later in The Notes)
+
+			let error = new Error("Something went wrong");
+
+    	(p) `Proxy`
+
+			(I) A Proxy is an object that wraps another object (known as the target) and intercepts operations performed on it. Proxies provide a way to customize the behavior of fundamental operations on objects, allowing you to implement custom behavior such as validation, logging, or access control.
+
+			(II) Key Characteristics of Proxies:
+
+    			(A) Interception of Operations: Proxies allow you to intercept and override fundamental operations like property access, assignment, function invocation, etc., on the target object.
+
+    			(B) Customizable Behavior: You can define custom behavior for each intercepted operation, giving you fine-grained control over how the target object is accessed or modified.
+
+    			(C) Transparent Operation: From the perspective of the code using a proxy, it appears as if it is interacting directly with the target object. The proxy sits between the code and the target, transparently modifying the behavior.
+
+    			(D) Non-intrusive: Proxies don't modify the target object directly. Instead, they provide a wrapper around the target, leaving the target unchanged.
+			
+			(III) Creating a Proxy:
+
+				(A) You can create a proxy using the Proxy constructor, which takes two parameters: the target object and a handler object with methods that define the custom behavior for various operations.
+
+					const target = { name: 'John', age: 30 };
+					const handler = {
+					  	get: (target, property)=>{
+							
+					    	console.log(`Getting property "${property}"`); // Logs Whenever Someone Tries to Access The Property
+
+					    	return target[property]; // Returns The Property
+					  	},
+					  	set: (target, property, value)=>{
+					    	
+							console.log(`Setting property "${property}" to ${value}`); // Logs Whenever Someone Tries to Set The Property
+
+					    	target[property] = value; // Sets The Property
+					  	}
+					};
+
+					const proxy = new Proxy(target, handler);
+
+					In this example, the handler object contains methods like get and set that will be called when a property is accessed or modified on the proxy.
+
+			(IV) Common Use Cases for Proxies:
+
+    			(A) Validation: You can use proxies to enforce validation rules when setting or getting properties.
+
+					const safeObject = new Proxy({}, {
+					  	set: function(target, property, value) {
+					    	if (typeof value === 'number') {
+					      		target[property] = value;
+					    	} else {
+					      		console.error(`Invalid value for property "${property}"`);
+					    	}
+					  	}
+					});
+
+					safeObject.age = 25; // Valid
+					safeObject.age = 'invalid'; // Invalid
+
+				(B) Logging: Proxies are often used to log interactions with objects, providing insights into how an object is being used.
+
+					const loggingProxy = new Proxy(target, {
+					  	get: function(target, property) {
+					    	console.log(`Getting property "${property}"`);
+					    	return target[property];
+					  	}
+					});
+
+					console.log(loggingProxy.name); // Logs "Getting property "name""
+
+				(C) Access Control: Proxies can be used to restrict or control access to certain properties of an object.
+
+					const privateData = { secret: 'shhh!' };
 	
+					const accessControlledObject = new Proxy(privateData, {
+					  	get: function(target, property) {
+					    	if (property === 'secret') {
+					      		console.error('Access to secret denied');
+					      		return undefined;
+					    	} else {
+					      		return target[property];
+					    	}
+					  	}
+					});
+
+					console.log(accessControlledObject.publicInfo); // Allowed
+					console.log(accessControlledObject.secret); // Access denied, logs an error
+
+			(V) Limitations and Considerations:
+
+    			(A) Performance Overhead: Proxies introduce some performance overhead compared to direct property access. While this is generally negligible for most use cases, it's important to be mindful of performance in critical sections of your code.
+
+    			(B) Non-trapable Operations: Some operations, like hasOwnProperty, cannot be trapped by proxies.
+
+    			(C) Extensibility: Proxies work well with objects, but not all operations can be proxied for non-extensible objects or certain built-in objects.
+
+    	(q) `Intl`: Internationalization constructors for string comparison, number formatting, and date and time formatting. Examples include Intl.DateTimeFormat, Intl.NumberFormat.
+
+			let numberFormatter = new Intl.NumberFormat('en-US');
+			let formattedNumber = numberFormatter.format(1234567.89);
+
+    	(r) `Generator`: Functions that can return multiple values, either sequentially or asynchronously, by pausing execution and resuming later.
+
+			function* idGenerator() {
+			  let id = 0;
+			  while (true) {
+			    yield id++;
+			  }
+			}
+			let generator = idGenerator();
+		
 4. Console.log Function
 	
 	(i) to print something in the output it can be used by typing this "console.log"
@@ -1382,13 +1879,18 @@ Section: JavaScript in General
 11. Arrays
 	
 	(note: Array is an not a primitive data type it's an Object)
-	(i) Array are Object's that can Hold more than 1 value
+	(i) Array can hold Multiple Values at Once 
 	(ii) This is an array, It can be used by using square brackets
 
 		let a = [87, 76, 96, 67, 98];
 
-	(iii) To Extract a specific value type "console.log(a[0])", it'll print the first value which is in the array, (note:The Number which is inside the curly bracket is an index which start from "0")
-	(iv) If you type "console.log(a.length)" then it'll print the amount of elements that are in the variable
+	(iii) `<array>[<index>]` returns the value at that index:
+
+		let a = [87, 76, 96, 67, 98];
+		a[0] // 87
+		a[1] // 76
+
+	(iv) `<array>.length` returns Amount of Items inside The Arrau
 	(iv) To add a new value to the array type "a[index] = value", or just put the index of an existing one to change the value
 	(v) Array Functions
 	
@@ -3075,125 +3577,6 @@ Section: Key Concepts
 
 		(b) The throw statement is essential for custom error handling and allows you to create your own error messages, making your code more robust and easier to debug.
 		
-	(v) Async/Await Keywords
-
-		(a) `async` and `await` are keywords in JavaScript that work together to simplify the process of working with and writing asynchronous code. They make asynchronous code look and behave more like synchronous code, which is easier to read and maintain. These keywords were introduced in ES2017 (ES8) and have since become an integral part of modern JavaScript programming.
-
-		(b) `async` function:
-
-			(I) The `async` keyword is used to define an asynchronous function. When a function is declared as `async`, it enables the use of the `await` keyword within the function body.
-			(II) An `async` function always returns a promise. If the function explicitly returns a value, the promise will be resolved with that value. If the function throws an error, the promise will be rejected with the thrown error.
-			(III) Asynchronous operations within an `async` function can be written in a way that appears synchronous, making the code more readable and easier to understand.
-
-			for Example:-
-
-				async function fetchData() {
-				    try {
-				        const response = await fetch('https://api.example.com/data');
-				        const data = await response.json();
-				        return data;
-				    } catch (error) {
-				        console.error('Error fetching data:', error);
-				    }
-				}
-
-		(c) `await` Keyword:
-
-			(I) The `await` keyword is used within an async function to pause the execution of the function until the promise is settled.
-			(II) When used with a promise, `await` waits for the promise to resolve, and it returns the resolved value. If the promise is rejected, it throws an error that can be caught using a try-catch block.
-			(III) It's important to note that `await` can only be used within an async function. Using `await` outside of an async function will result in a syntax error.
-
-			Example of using await within an async function:
-
-				async function fetchUser() {
-				    try {
-				        const response = await fetch('https://api.example.com/user');
-				        const user = await response.json();
-				        console.log(user);
-				    } catch (error) {
-				        console.error('Error fetching user:', error);
-				    }
-				}
-				
-		(d) More Examples:-
-
-			// Example 1: Using async/await with a simple asynchronous function
-			async function getData() {
-			    const response = await fetch('https://api.example.com/data');
-			    const data = await response.json();
-			    return data;
-			}
-
-			// Example 2: Using async/await to handle a promise
-			function resolveAfter2Seconds() {
-			    return new Promise(resolve => {
-			        setTimeout(() => {
-			            resolve('resolved');
-			        }, 2000);
-			    });
-			}
-
-			async function asyncCall() {
-			    console.log('Calling');
-			    const result = await resolveAfter2Seconds();
-			    console.log(result);
-			}
-
-			// Example 3: Using async/await with error handling
-			async function fetchUser() {
-			    const response = await fetch('https://api.example.com/user');
-			    if (!response.ok) {
-			        throw new Error('Network response was not ok');
-			    }
-			    const user = await response.json();
-			    return user;
-			}
-
-			In these examples, the async keyword is used to declare functions that can use the await keyword to pause the execution until a promise settles. The code within the async function looks synchronous but is actually asynchronous. It allows you to handle promises more intuitively, making the code easier to read and maintain.
-
-	(vi) `Try`,`Catch` and `finally`
-
-		(a) `try` and `catch` are used for error handling within your code. They allow you to attempt a block of code that might throw an error, and if an error is thrown, you can catch and handle it without interrupting the whole script execution. Here's how they work:
-
-			(I) `try`: This block allows you to define a block of code to be tested for errors. If an error occurs within the try block, it gets caught.
-
-			(II) `catch`: This block is used to handle the error. If any error occurs within the try block, it is caught by the catch block, allowing you to handle the error gracefully.
-
-			Here's a basic example to illustrate their usage:
-
-				try {
-				    // This is the block of code that will be attempted
-				    let result = ThisFunctionThatMayThrowAnError();
-				    console.log(result); // If no error is thrown, this will be executed
-				} catch (error) {
-				    // If an error occurs in the try block, it will be caught here
-				    console.error('An error occurred:', error);
-				}
-				
-				In this example, if `ThisFunctionThatMayThrowAnError()` function throws an error, the catch block will handle it, and the error message will be logged to the console. If no error occurs, the catch block is bypassed, and the result is logged normally.
-
-			(III) `try` and `catch` can only catch errors that occur synchronously within the `try` block. Asynchronous errors, such as those inside a setTimeout() or a promise, will not be caught directly by the `try...catch` block and require special handling through promises or other error handling mechanisms.
-
-		(b) `finally` keyword is used in conjunction with `try` and `catch` blocks in error handling. The `finally` block contains statements that will be executed regardless of whether an error is thrown or not. It is typically used to ensure that some code runs no matter what happens in the `try` and `catch` blocks.
-
-			for Example:-
-
-				function divideByTwo(number) {
-				    try {
-				        if (typeof number !== 'number') {
-				            throw 'Input is not a number'; // Throwing a custom error message
-				        }
-				        return number / 2;
-				    } catch (error) {
-				        console.error('Error:', error);
-				    } finally {
-				        console.log('Function execution complete.'); // This will always run
-				    }
-				}
-				
-				// Example usage
-				divideByTwo('not a number');
-				
 21. `Promise` Object
 		
 	(i) The `Promise` object represents the eventual result of an asynchronous operation. It has two main properties: state and result. The state can be either "pending," "fulfilled," or "rejected," and the result is the value that the `Promise` eventually resolves to or the reason for rejection.
@@ -3385,6 +3768,149 @@ Section: Key Concepts
 			  console.error(reason); // 'Rejected!' is logged.
 			});
 	
+22. Async/Await
+
+	(i) `async` and `await` are keywords in JavaScript that work together to simplify the process of working with and writing asynchronous code. They make asynchronous code look and behave more like synchronous code, which is easier to read and maintain. These keywords were introduced in ES2017 (ES8) and have since become an integral part of modern JavaScript programming.
+
+	(ii) `async` function:
+
+		(a) The `async` keyword is used to define an asynchronous function. When a function is declared as `async`, it enables the use of the `await` keyword within the function body.
+		(b) An `async` function always returns a promise. If the function explicitly returns a value, the promise will be resolved with that value. If the function throws an error, the promise will be rejected with the thrown error.
+		(c) Asynchronous operations within an `async` function can be written in a way that appears synchronous, making the code more readable and easier to understand.
+
+		for Example:-
+
+			async function fetchData() {
+			    try {
+			        const response = await fetch('https://api.example.com/data');
+			        const data = await response.json();
+			        return data;
+			    } catch (error) {
+			        console.error('Error fetching data:', error);
+			    }
+			}
+
+	(iii) `await` Keyword:
+
+		(a) The `await` keyword is used within an async function to pause the execution of the function until the promise is settled.
+		(b) When used with a promise, `await` waits for the promise to resolve, and it returns the resolved value. If the promise is rejected, it throws an error that can be caught using a try-catch block.
+		(c) It's important to note that `await` can only be used within an async function. Using `await` outside of an async function will result in a syntax error.
+
+		Example of using await within an async function:
+
+			async function fetchUser() {
+			    try {
+			        const response = await fetch('https://api.example.com/user');
+			        const user = await response.json();
+			        console.log(user);
+			    } catch (error) {
+			        console.error('Error fetching user:', error);
+			    }
+			}
+				
+	(d) More Examples:-
+
+		// Example 1: Using async/await with a simple asynchronous function
+		async function getData() {
+		    const response = await fetch('https://api.example.com/data');
+		    const data = await response.json();
+		    return data;
+		}
+
+		// Example 2: Using async/await to handle a promise
+		function resolveAfter2Seconds() {
+		    return new Promise(resolve => {
+		        setTimeout(() => {
+		            resolve('resolved');
+		        }, 2000);
+		    });
+		}
+
+		async function asyncCall() {
+		    console.log('Calling');
+		    const result = await resolveAfter2Seconds();
+		    console.log(result);
+		}
+
+		// Example 3: Using async/await with error handling
+		async function fetchUser() {
+		    const response = await fetch('https://api.example.com/user');
+		    if (!response.ok) {
+		        throw new Error('Network response was not ok');
+		    }
+		    const user = await response.json();
+		    return user;
+		}
+
+		In these examples, the async keyword is used to declare functions that can use the await keyword to pause the execution until a promise settles. The code within the async function looks synchronous but is actually asynchronous. It allows you to handle promises more intuitively, making the code easier to read and maintain.
+
+23. Try..Catch
+
+	(i) `try` and `catch` are used for error handling within your code. They allow you to attempt a block of code that might throw an error, and if an error is thrown, you can catch and handle it without interrupting the whole script execution.
+	
+	Here's how they work:
+
+	(ii) `try`: This block allows you to define a block of code to be tested for errors. If an error occurs within the try block, it gets caught.
+
+	(iii) `catch`: This block is used to handle the error. If any error occurs within the try block, it is caught by the catch block, allowing you to handle the error gracefully.
+
+	(iv) Syntax:
+
+		try{
+			<Code Here>
+		} catch( <error>){
+			<Handle Error Here>
+		}
+
+	Here's a basic example to illustrate their usage:
+
+		try {
+		    // This is the block of code that will be attempted
+		    
+			let result = parseInt("ABC");
+
+		    console.log(result); // If no error is thrown, this will be executed
+		} catch (error) {
+		    // If an error occurs in the try block, it will be caught here
+		    console.error('An error occurred:', error);
+		}
+
+		In this example, `parseInt("ABC")` throws an error, the catch block will handle it, and the error message will be logged to the console. If no error occurs, the catch block is bypassed, and the result is logged normally.
+
+		(a) `try` and `catch` can only catch errors that occur synchronously within the `try` block. Asynchronous errors, such as those inside a setTimeout() or a promise, will not be caught directly by the `try...catch` block and require special handling through promises or other error handling mechanisms.
+
+	(iv) `finally`
+		
+		(a) keyword is used in conjunction with `try` and `catch` blocks in error handling. The `finally` block contains statements that will be executed regardless of whether an error is thrown or not. It is typically used to ensure that some code runs no matter what happens in the `try` and `catch` blocks.
+
+		(b) Syntax:
+
+			try{
+				<Code to Run>
+			} catch(<error>){
+				<Handle The Error>
+			} finally{
+				<This Must Run!>
+			}
+
+		for Example:-
+
+			function divideByTwo(number) {
+			    try {
+			        if (typeof number !== 'number') {
+			            throw 'Input is not a number'; // Throwing a custom error message
+			        }
+			        return number / 2;
+			    } catch (error) {
+			        console.error('Error:', error);
+			    } finally {
+			        console.log('Function execution complete.'); // This will always run
+			    }
+			}
+			
+			// Example usage
+			divideByTwo('not a number');
+				
 22. `Error` Object
 
 	(i) `Error` object in JavaScript represents an error that occurs during the execution of the code. It can be used to create custom error types or handle errors that occur in your code. Instances of the `Error` object can be thrown, caught, and used for structured error handling.
@@ -3469,7 +3995,22 @@ Section: Key Concepts
 				
 				(A) `text()` Method: Returns a Promise that resolves with the response body as text.
 				(B) `json()` function is used to extract JSON content from the response. It parses the response body as JSON and returns a Promise that resolves to the result of parsing the body text as JSON. This function is especially useful when dealing with APIs that return JSON data.
-				(C) `Blob()` Method: Returns a Promise that resolves with the response body as a Blob (binary large object), in other word an File.
+
+				(C) `Blob()` (FrontEnd exclusive): Returns a Promise that resolves with the response body as a Blob (binary large object), in other word an File.
+
+					(async () => {
+					    const Request = await fetch(URL);
+					    const File = await Request.blob()
+					})()
+
+				(V) `arrayBuffer()` (BackEnd exclusive): Used to Receive File from Server-to-Server
+
+					(async () => {
+					    const Request = await fetch(URL);
+					    const File = await Request.arrayBuffer()
+
+						fs.writeFileSync('./myfile.jpg', File)
+					})()
 
 			(III) Sections
 

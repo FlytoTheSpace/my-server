@@ -27,7 +27,7 @@ const dgram = require('dgram');
 const udpServer = dgram.createSocket('udp4');
 
 // Local Modules
-const Assets = require('./assets/')
+const Assets = require('./assets')
 const {
     Authenticate,
     Broadcast,
