@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server/server.js",
-    "dev": "nodemon ./server/server.js",
+    "start": "node ./server/",
+    "dev": "nodemon ./server/",
     "cpanelui": "node ./server/scripts/cpanelServer.js"
   },
   "keywords": [],
