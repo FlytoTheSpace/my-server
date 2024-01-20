@@ -1,19 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const {logprefix} = require('../assets/logs');
-
+const {Root} = require('../assets/')
 
 const deleteOldFiles = ()=>{
     console.log(`${logprefix('Cleaner')} Checking for Old Files to Delete...`)
     let count = 0;
 
-    const directories = ['../client/static/public/','./uploads/pdfs/'];
+    const directories = ['./client/static/public/','./uploads/pdfs/'];
 
     directories.forEach(directory=>{
         const files = fs.readdirSync(directory);
 
         files.forEach(file => {
-            const filePath = path.join(directory, file);
+            const filePath = path.join(Root, directory, file);
             const stats = fs.statSync(filePath);
             const lastModifiedTime = stats.mtime.getTime();
             const currentTime = Date.now();

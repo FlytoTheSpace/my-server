@@ -50,11 +50,6 @@ const { logprefix } = Logs
 const { UIMSG_1 } = UI_messages
 
 
-let mergePDFs;
-(async () => {
-    mergePDFs = await (await import("../scripts/merge.mjs")).mergePDFs;
-})();
-
 const { resolveSoa } = require('dns');
 
 
