@@ -27,20 +27,37 @@ const dgram = require('dgram');
 const udpServer = dgram.createSocket('udp4');
 
 // Local Modules
-const GenRandomChar = require("./assets/randomchars");
-const Authenticate = require('./assets/authenticate');
-const { UIMSG_1 } = require('./assets/UI_messages');
-const { updateMusicAPI } = require('./assets/MusicListAPI');
-const { logprefix } = require('./assets/logs');
-const { LocalIPv4 } = require('./assets/ip');
-const { getUserID, getUsername, getEmail, getRole } = require('./assets/getFunctions');
+const Assets = require('./assets/')
+const {
+    Authenticate,
+    Broadcast,
+    Database,
+    GetFunctions,
+    Ip,
+    Logs,
+    MusicListAPI,
+    Randomchars,
+    Root,
+    UI_messages
+} = Assets;
+
+
+const { calculateBroadcastAddress, broadcastMessage } = Broadcast;
+const { AccountsCollection, userDataCollection } = Database;
+const { getUserID, getUsername, getEmail, getRole } = GetFunctions;
+const { LocalIPv4 } = Ip
+const { logprefix } = Logs
+const { updateMusicAPI } = MusicListAPI;
+const { UIMSG_1 } = UI_messages
+
+
 let mergePDFs;
 (async ()=>{
-    mergePDFs = await (await import("./src/merge.mjs")).mergePDFs;
+    mergePDFs = await (await import("./scripts/merge.mjs")).mergePDFs;
 })();
-const { deleteOldFiles } = require('./src/clean');
+
+const { deleteOldFiles } = require('./scripts/clean');
 const { resolveSoa } = require('dns');
-const { calculateBroadcastAddress, broadcastMessage } = require('./assets/broadcast')
 
 
 // Other
@@ -87,7 +104,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }); // Uploads
-
+/*
 // Database
 const mongodbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ServerDB';
 
@@ -111,7 +128,7 @@ const userDataCollection = mongoose.model('userData', mongoose.Schema({
     profilepic: String,
     bio: String
 }), 'userData');
-
+*/
 // Middlewares
 
 app.use(express.static(path.join(__dirname, "../client/static")));
@@ -426,6 +443,13 @@ app.get('/adminDashboardURL', apiLimiter, Authenticate.byTokenAdminOnlyAPI, (req
 
 // Pages
 
+// Require route files
+const Pages = require('./routes/pages');
+// You can require other route files here
+
+// Use the routes
+app.use('/', Pages);
+
 /* app.get(`/${process.env.API_ACCOUNTS_URL}`, (req, res)=>{
     fs.readFile('credientials/accounts.json', 'utf8', (err,data) => {
         res.json(JSON.parse(data))
@@ -433,55 +457,55 @@ app.get('/adminDashboardURL', apiLimiter, Authenticate.byTokenAdminOnlyAPI, (req
     console.log(`${logprefix('server')} Credientials has Been fetched!`)
 }) */
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/index.html'));
-});
-app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly, (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/admin.html'))
-})
-app.get('/alarm', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/alarm.html'))
-})
-app.get('/cloud', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/cloud.html'));
-})
-app.get('/data', Authenticate.byToken, async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/data.html'));
-})
-app.get('/experiments', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/experiments.html'))
-})
-app.get('/gradient-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/gradient-generator.html'))
-})
-app.get('/html-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/html-tutorial.html'))
-})
-app.get('/javascript-notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/javascript-tutorial.html'))
-})
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/login.html'))
-})
-app.get('/music', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/music.html'))
-})
-app.get('/musiclist', (req, res) => {
-    updateMusicAPI();
-    res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
-})
-app.get('/password-generator', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/password-generator.html'))
-})
-app.get('/pdf-merger', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/pdfmerger.html'))
-})
-app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/profile.html'))
-})
-app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/routes/register.html'))
-})
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/index.html'));
+// });
+// app.get(`/${process.env.ADMIN_PANEL_URL}`, Authenticate.byTokenAdminOnly, (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/admin.html'))
+// })
+// app.get('/alarm', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/alarm.html'))
+// })
+// app.get('/cloud', Authenticate.byToken, async (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/cloud.html'));
+// })
+// app.get('/data', Authenticate.byToken, async (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/data.html'));
+// })
+// app.get('/experiments', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/experiments.html'))
+// })
+// app.get('/gradient-generator', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/gradient-generator.html'))
+// })
+// app.get('/html-notes', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/html-tutorial.html'))
+// })
+// app.get('/javascript-notes', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/javascript-tutorial.html'))
+// })
+// app.get('/login', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/login.html'))
+// })
+// app.get('/music', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/music.html'))
+// })
+// app.get('/musiclist', (req, res) => {
+//     updateMusicAPI();
+//     res.json(JSON.parse(fs.readFileSync('APIs/musiclist.json', 'utf8')))
+// })
+// app.get('/password-generator', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/password-generator.html'))
+// })
+// app.get('/pdf-merger', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/pdfmerger.html'))
+// })
+// app.get('/profile', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/profile.html'))
+// })
+// app.get('/register', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/routes/register.html'))
+// })
 
 // 404 Page
 app.use((req, res, next) => {

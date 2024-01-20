@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./server/server.js",
     "dev": "nodemon ./server/server.js",
-    "cpanelui": "node ./server/src/cpanelServer.js"
+    "cpanelui": "node ./server/scripts/cpanelServer.js"
   },
   "keywords": [],
   "author": "",
