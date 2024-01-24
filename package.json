@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./server/",
     "dev": "nodemon ./server/",
+    "build": "tsc",
     "cpanelui": "node ./server/scripts/cpanelServer.js"
   },
   "keywords": [],
@@ -28,5 +29,13 @@
     "pdf-creator-node": "^2.3.5",
     "pdf-merger-js": "^4.3.0",
     "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/multer": "^1.4.11"
   }
 }

@@ -3,31 +3,31 @@
 require('dotenv').config();
 
 // Express
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 5500;
+import express = require('express');
+import app = express();
+import PORT = process.env.PORT || 5500;
 
 // Built in Modules
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
-const crypto = require('crypto');
+import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import crypto from 'crypto';
 
 // NPM Modules
-const bcrypt = require('bcrypt');
-const Cryptr = require('cryptr');
-const { decode } = require('punycode');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose')
-const multer = require('multer');
-const rateLimit = require('express-rate-limit');
-const dgram = require('dgram');
-const udpServer = dgram.createSocket('udp4');
+import bcrypt from 'bcrypt';
+import Cryptr from 'cryptr';
+import { decode } from 'punycode';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+import multer from 'multer';
+import rateLimit from 'express-rate-limit';
+import dgram from 'dgram';
+import udpServer = dgram.createSocket('udp4');
 
 // Local Modules
-const Assets = require('./assets')
+import Assets from './assets';
 const {
     Authenticate,
     Broadcast,
@@ -180,6 +180,10 @@ app.post(`/registerSubmit`, apiLimiter, async (req, res) => {
                     profilepic: './assets/images/icons/account_dark.png',
                     bio: ''
                 }
+                
+                console.log(`type: ${userData}\n content: ${userData}`)
+                console.dir(`depth: ${userData}`)
+
                 // Collecting Data
                 const newUserData = new userDataCollection(userData);
                 newUserData.save();

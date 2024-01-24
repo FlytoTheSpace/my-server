@@ -5335,7 +5335,7 @@ Section: High-End/Advance JavaScript
 		(b) The event loop pushes the tasks from the tasks queue to stack
 		(c) `setTimeout(()=>{}, 0)` in this code the function inside setTimeout will defer until all the tasks have been executed if you simplify want it to run without delay just don't provide it a second argument.
 
-Section: Node.js Exclusive
+Section: Node.js
 
 34. Terminal Commands for JS
 
@@ -5562,7 +5562,7 @@ Section: Node.js Exclusive
 		reportArea(square1.length, reportList);
 		reportPerimeter(square1.length, reportList);
 
-The Above Section has Ended on 12 November 2023, Section below this will continue to grow
+The Above Section has Ended on 12 November 2023
 
 37. Built in Modules
 
@@ -5640,114 +5640,358 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 	
 		(a)  The File System module in Node.js, often referred to as the `fs` module, provides an interface for interacting with the file system. It allows you to perform various file-related operations, such as reading from and writing to files, creating and deleting directories, and more.
 
-		(Note: Add `Sync` right after name of Any function in this module to make it work synchronously instead of Asynchronously )
-
-		(b) Reading from a File:
+		(b) Promises API
 			
-			(I) `fs.readFile( <path>, <encoding>, <callback> )` and `fs.readFileSync( <path>, <encoding> )`: These methods are used to read the contents of a file asynchronously and synchronously, respectively.
+			(I) `FileHandle` Object
 
-			const fs = require('fs');
+			    (a) Event: 'close'
+			    (b) `filehandle.appendFile(data[, options])`:
+			    (c) `filehandle.chmod(mode)`:
+			    (d) `filehandle.chown(uid, gid)`:
+			    (e) `filehandle.close()`:
+			    (f) `filehandle.createReadStream([options])`:
+			    (g) `filehandle.createWriteStream([options])`:
+			    (h) `filehandle.datasync()`:
+			    (i) `filehandle.fd`:
+			    (j) `filehandle.read(buffer, offset, length, position)`:
+			    (k) `filehandle.read([options])`:
+			    (l) `filehandle.read(buffer[, options])`:
+			    (m) `filehandle.readableWebStream([options])`:
+			    (n) `filehandle.readFile(options)`:
+			    (o) `filehandle.readLines([options])`:
+			    (p) `filehandle.readv(buffers[, position])`:
+			    (q) `filehandle.stat([options])`:
+			    (r) `filehandle.sync()`:
+			    (s) `filehandle.truncate(len)`:
+			    (t) `filehandle.utimes(atime, mtime)`:
+			    (u) `filehandle.write(buffer, offset[, length[, position]])`:
+			    (v) `filehandle.write(buffer[, options])`:
+			    (w) `filehandle.write(string[, position[, encoding]])`:
+			    (x) `filehandle.writeFile(data, options)`:
+			    (y) `filehandle.writev(buffers[, position])`:
+			    (z) `filehandle[Symbol.asyncDispose]()`:
 
-			// Asynchronous read
-			fs.readFile('example.txt', 'utf8', (err, data) => {
-			    if (err) throw err;
-			    console.log(data);
-			});
+			(II) `fsPromises.access(path[, mode])` Checks the accessibility of a file or directory.
 
-			// Synchronous read
-			const data = fs.readFileSync('example.txt', 'utf8');
-			console.log(data);
+			   	await fsPromises.access('/path/to/file', fs.constants.F_OK);
+			   
+			(III) `fsPromises.appendFile(path, data[, options])` Appends data to a file, creating the file if it does not exist.
 
-		(c) Writing to a File: 
+			   	await fsPromises.appendFile('/path/to/file', 'New Data');
+			   
+			(IV) `fsPromises.chmod(path, mode)` Changes the permissions of a file.
+
+			   	await fsPromises.chmod('/path/to/file', 0o755);
+			   
+			(V) `fsPromises.chown(path, uid, gid)` Changes the owner and group of a file.
+
+			   	await fsPromises.chown('/path/to/file', 1000, 1000);
+			   
+			(VI) `fsPromises.copyFile(src, dest[, mode])`
+			   Asynchronously copies `src` to `dest`. By default, `dest` is overwritten if it  alreadexists.  
+
+			   	await fsPromises.copyFile('/path/to/source', '/path/to/dest');
+			   
+			(VII) `fsPromises.cp(src, dest[, options])` Copies files and directories (recursively, if specified in options).
+
+			   	await fsPromises.cp('/path/to/source', '/path/to/dest', { recursive: true });
+			   
+			(VIII) `fsPromises.lchmod(path, mode)` Changes the permissions of a symbolic link.
+
+			   	await fsPromises.lchmod('/path/to/link', 0o755);
+			   
+			(IX) `fsPromises.lchown(path, uid, gid)` Changes the owner and group of a symbolic link.
+
+			   	await fsPromises.lchown('/path/to/link', 1000, 1000);
+			   
+			(X) `fsPromises.lutimes(path, atime, mtime)` Changes the access and modification times of a file or directory.
+
+			   	await fsPromises.lutimes('/path/to/file', new Date(), new Date());
+			   
+			(XI) `fsPromises.link(existingPath, newPath)`: Creates a new hard link pointing to an existing file.  
+			    
+			    await fsPromises.link('/path/to/existing/file', '/path/to/new/link');
+
+			(XII) `fsPromises.lstat(path[, options])`: Similar to `stat`, but for symbolic links, it returns the link's data, not the file it points to.  
+			    
+			    const stats = await fsPromises.lstat('/path/to/symlink');
+
+			(XIII) `fsPromises.mkdir(path[, options])`: Creates a new directory.  
+			    
+			    await fsPromises.mkdir('/path/to/new/dir', { recursive: true });
+
+			(XIV) `fsPromises.mkdtemp(prefix[, options])`: Creates a unique temporary directory.  
+			    
+			    const tempDir = await fsPromises.mkdtemp('/path/to/prefix');
+
+			(XV) `fsPromises.open(path, flags[, mode])`: Opens a file, returning a file descriptor.  
+			    
+			    const fd = await fsPromises.open('/path/to/file', 'r');
+
+			(XVI) `fsPromises.opendir(path[, options])`: Opens a directory for iterative reading.  
+			    
+			    const dir = await fsPromises.opendir('/path/to/dir');
+
+			(XVII) `fsPromises.readdir(path[, options])`: Reads the contents of a directory.  
+			    
+			    const files = await fsPromises.readdir('/path/to/dir');
+
+			(XVIII) `fsPromises.readFile(path[, options])`: Reads the content of a file.  
+			    
+			    const data = await fsPromises.readFile('/path/to/file', 'utf8');
+
+			(XIX) `fsPromises.readlink(path[, options])`: Reads the value of a symbolic link.  
+			    
+			    const linkString = await fsPromises.readlink('/path/to/symlink');
+
+			(XX) `fsPromises.realpath(path[, options])`: Resolves the real path of a file, including resolving any symbolic links.  
+			    
+			    const resolvedPath = await fsPromises.realpath('/path/to/fileOrLink');
+
+			(XXI) `fsPromises.rename(oldPath, newPath)`:
+			(XXII) `fsPromises.rmdir(path[, options])`:
+			(XXIII) `fsPromises.rm(path[, options])`:
+			(XXIV) `fsPromises.stat(path[, options])`:
+			(XXV) `fsPromises.statfs(path[, options])`:
+			(XXVI) `fsPromises.symlink(target, path[, type])`:
+			(XXVII) `fsPromises.truncate(path[, len])`:
+			(XXVIII) `fsPromises.unlink(path)`:
+			(XXIX) `fsPromises.utimes(path, atime, mtime)`:
+			(XXX) `fsPromises.watch(filename[, options])`:
+			(XXXI) `fsPromises.writeFile(file, data[, options])`:
+			(XXXII) `fsPromises.constants`:
+
+		(c) Callback API
 			
-			(I) `fs.writeFile( <path>, <content>, <encoding>, <callback> )` and `fs.writeFileSync( <path>, <content>, <encoding>)`: These methods are used to write data to a file asynchronously and synchronously, respectively.
+    		(I) `fs.access(path[, mode], callback)`:
+    		(II) `fs.appendFile(path, data[, options], callback)`:
+    		(III) `fs.chmod(path, mode, callback)`:
 
-			const fs = require('fs');
+    		    (A) File modes
 
-			const content = 'Hello, World!';
+    		(IV) `fs.chown(path, uid, gid, callback)`:
+    		(V) `fs.close(fd[, callback])`:
+    		(VI) `fs.copyFile(src, dest[, mode], callback)`:
+    		(VII) `fs.cp(src, dest[, options], callback)`:
+    		(VIII) `fs.createReadStream(path[, options])`:
+    		(IX) `fs.createWriteStream(path[, options])`:
+    		(X) `fs.exists(path, callback)`:
+    		(XI) `fs.fchmod(fd, mode, callback)`:
+    		(XII) `fs.fchown(fd, uid, gid, callback)`:
+    		(XIII) `fs.fdatasync(fd, callback)`:
+    		(XIV) `fs.fstat(fd[, options], callback)`:
+    		(XV) `fs.fsync(fd, callback)`:
+    		(XVI) `fs.ftruncate(fd[, len], callback)`:
+    		(XVII) `fs.futimes(fd, atime, mtime, callback)`:
+    		(XVIII) `fs.lchmod(path, mode, callback)`:
+    		(XIX) `fs.lchown(path, uid, gid, callback)`:
+    		(XX) `fs.lutimes(path, atime, mtime, callback)`:
+    		(XXI) `fs.link(existingPath, newPath, callback)`:
+    		(XXII) `fs.lstat(path[, options], callback)`:
+    		(XXIII) `fs.mkdir(path[, options], callback)`:
+    		(XXIV) `fs.mkdtemp(prefix[, options], callback)`:
+    		(XXV) `fs.open(path[, flags[, mode]], callback)`:
+    		(XXVI) `fs.openAsBlob(path[, options])`:
+    		(XXVII) `fs.opendir(path[, options], callback)`:
+    		(XXVIII) `fs.read(fd, buffer, offset, length, position, callback)`:
+    		(XXIX) `fs.read(fd[, options], callback)`:
+    		(XXX) `fs.read(fd, buffer[, options], callback)`:
+    		(XXXI) `fs.readdir(path[, options], callback)`:
+    		(XXXII) `fs.readFile(path[, options], callback)`:
 
-			// Asynchronous write
-			fs.writeFile('example.txt', content, 'utf8', (err) => {
-			    if (err) throw err;
-			    console.log('File written successfully.');
-			});
+    		    (A) File descriptors
+    		    (B) Performance Considerations
 
-			// Synchronous write
-			fs.writeFileSync('example.txt', content, 'utf8');
-			console.log('File written successfully.');
+    		(XXXIII) `fs.readlink(path[, options], callback)`:
+    		(XXXIV) `fs.readv(fd, buffers[, position], callback)`:
+    		(XXXV) `fs.realpath(path[, options], callback)`:
+    		(XXXVI) `fs.realpath.native(path[, options], callback)`:
+    		(XXXVII) `fs.rename(oldPath, newPath, callback)`:
+    		(XXXVIII) `fs.rmdir(path[, options], callback)`:
+    		(XXXIX) `fs.rm(path[, options], callback)`:
+    		(XL) `fs.stat(path[, options], callback)`:
+    		(XLI) `fs.statfs(path[, options], callback)`:
+    		(XLII) `fs.symlink(target, path[, type], callback)`:
+    		(XLIII) `fs.truncate(path[, len], callback)`:
+    		(XLIV) `fs.unlink(path, callback)`:
+    		(XLV) `fs.unwatchFile(filename[, listener])`:
+    		(XLVI) `fs.utimes(path, atime, mtime, callback)`:
+    		(XLVII) `fs.watch(filename[, options][, listener])`:
 
-		(d) File Information:
+    		    (A) Caveats
+    		        
+					I. Availability
+    		        II. Inodes
+    		        III. Filename argument
+
+    		(XLVIII) `fs.watchFile(filename[, options], listener)`:
+    		(LIX) `fs.write(fd, buffer, offset[, length[, position]], callback)`:
+    		(L) `fs.write(fd, buffer[, options], callback)`:
+    		(LI) `fs.write(fd, string[, position[, encoding]], callback)`:
+    		(LII) `fs.writeFile(file, data[, options], callback)`:
+    		    () Using fs.writeFile() with file descriptors
+    		(LII) `fs.writev(fd, buffers[, position], callback)`:
+
+		(d) Synchronous API
 			
-			(I) `fs.stat( <path>, <callback>)`, `fs.statSync( <path> )`: This method is used to get information about a file, such as its size, timestamps, and more.
+    		(I) `fs.accessSync(path[, mode])`:
+    		(II) `fs.appendFileSync(path, data[, options])`:
+    		(III) `fs.chmodSync(path, mode)`:
+    		(IV) `fs.chownSync(path, uid, gid)`:
+    		(V) `fs.closeSync(fd)`:
+    		(VI) `fs.copyFileSync(src, dest[, mode])`:
+    		(VII) `fs.cpSync(src, dest[, options])`:
+    		(VIII) `fs.existsSync(path)`:
+    		(IX) `fs.fchmodSync(fd, mode)`:
+    		(X) `fs.fchownSync(fd, uid, gid)`:
+    		(XI) `fs.fdatasyncSync(fd)`:
+    		(XII) `fs.fstatSync(fd[, options])`:
+    		(XIII) `fs.fsyncSync(fd)`:
+    		(XIV) `fs.ftruncateSync(fd[, len])`:
+    		(XV) `fs.futimesSync(fd, atime, mtime)`:
+    		(XVI) `fs.lchmodSync(path, mode)`:
+    		(XVII) `fs.lchownSync(path, uid, gid)`:
+    		(XVIII) `fs.lutimesSync(path, atime, mtime)`:
+    		(XIX) `fs.linkSync(existingPath, newPath)`:
+    		(XX) `fs.lstatSync(path[, options])`:
+    		(XXI) `fs.mkdirSync(path[, options])`:
+    		(XXII) `fs.mkdtempSync(prefix[, options])`:
+    		(XXIII) `fs.opendirSync(path[, options])`:
+    		(XXIV) `fs.openSync(path[, flags[, mode]])`:
+    		(XXV) `fs.readdirSync(path[, options])`:
+    		(XXVI) `fs.readFileSync(path[, options])`:
+    		(XXVII) `fs.readlinkSync(path[, options])`:
+    		(XXVIII) `fs.readSync(fd, buffer, offset, length[, position])`:
+    		(XXIX) `fs.readSync(fd, buffer[, options])`:
+    		(XXX) `fs.readvSync(fd, buffers[, position])`:
+    		(XXXI) `fs.realpathSync(path[, options])`:
+    		(XXXII) `fs.realpathSync.native(path[, options])`:
+    		(XXXIII) `fs.renameSync(oldPath, newPath)`:
+    		(XXXIV) `fs.rmdirSync(path[, options])`:
+    		(XXXV) `fs.rmSync(path[, options])`:
+    		(XXXVI) `fs.statSync(path[, options])`:
+    		(XXXVII) `fs.statfsSync(path[, options])`:
+    		(XXXVIII) `fs.symlinkSync(target, path[, type])`:
+    		(XXXIX) `fs.truncateSync(path[, len])`:
+    		(XL) `fs.unlinkSync(path)`:
+    		(XLI) `fs.utimesSync(path, atime, mtime)`:
+    		(XLII) `fs.writeFileSync(file, data[, options])`:
+    		(XLIII) `fs.writeSync(fd, buffer, offset[, length[, position]])`:
+    		(XLIV) `fs.writeSync(fd, buffer[, options])`:
+    		(XLV) `fs.writeSync(fd, string[, position[, encoding]])`:
+    		(XLVI) `fs.writevSync(fd, buffers[, position])`:
 
-			const fs = require('fs');
-
-			fs.stat('example.txt', (err, stats) => {
-			    if (err) throw err;
-			    console.log('File size:', stats.size, 'bytes');
-			    console.log('Last modified:', stats.mtime);
-			});
-
-			const stats = fs.statSync('example.txt');
-
-			console.log('File size:', stats.size, 'bytes');
-			console.log('Last modified:', stats.mtime);
+		(e) Objects
 			
-		(e) Directory Operations: 
-			
-			(I) fs.readdir(path, callback), fs.readdirSync(path): Returns an array of filenames in that directory
+		    (I) Object: `fs.Dir`
 
-				fs.readdir('.', (err, files) => {
-				  	if (err) throw err;
-				  	console.log('Files in the current directory:', files);
-				});
+		        (A) dir.close()
+		        (B) dir.close(callback)
+		        (C) dir.closeSync()
+		        (D) dir.path
+		        (E) dir.read()
+		        (F) dir.read(callback)
+		        (G) dir.readSync()
+		        (H) dir[Symbol.asyncIterator]()
 
-				const files = fs.readdirSync('.');
-				console.log('Files in the current directory:', files);
+		    (II) Object: `fs.Dirent`
 
-			(II) `fs.mkdir( <path>, <callback> )` and `fs.rmdir( <path>, <callback> )`: These methods create and remove directories, respectively.
+		        (A) dirent.isBlockDevice()
+		        (B) dirent.isCharacterDevice()
+		        (C) dirent.isDirectory()
+		        (D) dirent.isFIFO()
+		        (E) dirent.isFile()
+		        (F) dirent.isSocket()
+		        (G) dirent.isSymbolicLink()
+		        (H) dirent.name
+		        (I) dirent.parentPath
+		        (J) dirent.path
 
-				const fs = require('fs');
+		    (III) Object: `fs.FSWatcher`
 
-				// Create a directory
-				fs.mkdir('new_directory', (err) => {
-				    if (err) throw err;
-				    console.log('Directory created successfully.');
-				});
-				fs.mkdir('new_directory');
+		        (A) Event: 'change'
+		        (B) Event: 'close'
+		        (C) Event: 'error'
+		        (D) watcher.close()
+		        (E) watcher.ref()
+		        (F) watcher.unref()
 
-				// Remove a directory
-				fs.rmdir('old_directory', (err) => {
-				    if (err) throw err;
-				    console.log('Directory removed successfully.');
-				});
-				fs.rmdir('old_directory');
+		    (IV) Object: `fs.StatWatcher`
 
-		(f) Renaming and Deleting Files:
-			
-			(I) `fs.rename( <path+name>, <new path+name> , <callback> )` and `fs.unlink( <path>, <callback> )`: These methods are used to rename and delete files, respectively.
+		        (A) watcher.ref()
+		        (B) watcher.unref()
 
-				const fs = require('fs');
+		    (V) Object: `fs.ReadStream`
 
-				// Rename a file
-				fs.rename('old_file.txt', 'new_file.txt', (err) => {
-				    if (err) throw err;
-				    console.log('File renamed successfully.');
-				});
-				fs.renameSync('old_file.txt', 'new_file.txt');
+		        (A) Event: 'close'
+		        (B) Event: 'open'
+		        (C) Event: 'ready'
+		        (D) readStream.bytesRead
+		        (E) readStream.path
+		        (F) readStream.pending
 
-				// Move a File
-				fs.renameSync('./old_directory/file.txt', './new_directory/file.txt', (err) => {
-				    if (err) throw err;
-				    console.log('File renamed successfully.');
-				});
-				fs.renameSync('./old_directory/file.txt', './new_directory/file.txt');
-				
-				// Delete a file
-				fs.unlink('file_to_delete.txt', (err) => {
-				    if (err) throw err;
-				    console.log('File deleted successfully.');
-				});
+		    (VI) Object: `fs.Stats`
+
+		        (A) stats.isBlockDevice()
+		        (B) stats.isCharacterDevice()
+		        (C) stats.isDirectory()
+		        (D) stats.isFIFO()
+		        (E) stats.isFile()
+		        (F) stats.isSocket()
+		        (G) stats.isSymbolicLink()
+		        (H) stats.dev
+		        (I) stats.ino
+		        (J) stats.mode
+		        (K) stats.nlink
+		        (L) stats.uid
+		        (M) stats.gid
+		        (N) stats.rdev
+		        (O) stats.size
+		        (P) stats.blksize
+		        (Q) stats.blocks
+		        (R) stats.atimeMs
+		        (S) stats.mtimeMs
+		        (T) stats.ctimeMs
+		        (U) stats.birthtimeMs
+		        (V) stats.atimeNs
+		        (W) stats.mtimeNs
+		        (X) stats.ctimeNs
+		        (Y) stats.birthtimeNs
+		        (Z) stats.atime
+		        (ZA) stats.mtime
+		        (ZB) stats.ctime
+		        (ZC) stats.birthtime
+		        (ZD) Stat time values
+
+		    (VII) Object: `fs.StatFs`
+
+		        (A) statfs.bavail
+		        (B) statfs.bfree
+		        (C) statfs.blocks
+		        (D) statfs.bsize
+		        (E) statfs.ffree
+		        (F) statfs.files
+		        (G) statfs.type
+
+		    (VIII) Object: `fs.WriteStream`
+
+		        (A) Event: 'close'
+		        (B) Event: 'open'
+		        (C) Event: 'ready'
+		        (D) writeStream.bytesWritten
+		        (E) writeStream.close([callback])
+		        (F) writeStream.path
+		        (G) writeStream.pending
+		    
+			(IX) fs.constants
+
+		        (A) FS constants
+
+		            I. File access constants
+		            II. File copy constants
+		            III. File open constants
+		            IV. File type constants
+		            V. File mode constants
 
 	(iii) `Path Module`:
 	
@@ -5906,6 +6150,8 @@ The Above Section has Ended on 12 November 2023, Section below this will continu
 	(xx) `HTTP2 Module`:
 	
 		(a) `http2`: Implements the HTTP/2 protocol.
+
+Section: 3rd Paty JavaScript
 
 38. 3rd Party Modules
 
