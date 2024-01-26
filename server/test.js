@@ -10,7 +10,7 @@ const GetABCChars = () => {
         console.log(chars[i])
     }
 }
-GetABCChars()
+// GetABCChars()
 
 // (async () => {
 //     const Filetxt = fs.readFileSync(path.join(ROOT, 'config.json'), 'utf8')
@@ -26,3 +26,4 @@ GetABCChars()
 // buf.write("Hi", 0); // Overwrites the buffer with "Hi" at the beginning
 // console.log(buf) // <Buffer 48 69 6c 6c 6f 20 57 6f 72 6c 64>
 // console.log(buf.toString('utf8')) // Hillo World
+

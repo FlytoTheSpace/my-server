@@ -361,7 +361,7 @@ app.get('/cloudFiles', Authenticate.byTokenAPI, (req, res) => {
 app.get('/cloudFileActions', Authenticate.byToken, async (req, res) => {
     try {
 
-        const FilePath = req.headers.path
+        const FilePath = req.headers.path.replace(/\.\./g, '')
         if (req.headers.action.toLowerCase() == "getfile") {
             res.sendFile(path.join(__dirname, `../cloud/${getUserID(req.cookies.accessToken)}`, FilePath));
         } else if (req.headers.action.toLowerCase() == "delete") {
