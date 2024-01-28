@@ -1,0 +1,386 @@
+==========================================================================================================
+											TypeScript
+==========================================================================================================
+
+Introduction
+
+    TypeScript is an open-source programming language developed and maintained by Microsoft. It is a superset of JavaScript, meaning that any valid JavaScript code is also valid TypeScript code. TypeScript was designed to address some of the shortcomings of JavaScript, especially for the development of large-scale applications. One of the key features of TypeScript is its optional static typing system. Unlike JavaScript, which is dynamically typed, TypeScript allows developers to specify types for variables, function parameters, and return values. This feature enhances code quality and readability, making it easier to debug and maintain, especially in larger codebases.
+
+    The use of TypeScript brings several advantages. Firstly, it helps in catching errors early during the development process through its compile-time type checking. This can significantly reduce runtime errors, improving the reliability of applications. Secondly, TypeScript's strong typing system facilitates better tooling support, like autocompletion, interface documentation, and more accurate refactorings, thus boosting developer productivity. Moreover, TypeScript is highly scalable, making it a suitable choice for both small projects and large enterprise applications. The language also seamlessly integrates with existing JavaScript code, allowing gradual adoption, and it is well-supported by many popular frameworks and libraries.
+
+Section: The Basics
+
+1. Types with Variables
+    
+    (i) Assigning A Type to a Variable explicitly makes it Statically Typed or It'll be a Dynamically Typed
+
+        let a = 3; // Dynamically Typed
+        let b: number = 15 // Statically Typed
+
+    (ii) Syntax:
+
+        <declaration> <variable>: <type>
+
+    (iii) Example:-
+        
+        let a = 3;
+        let b: number = 15;
+
+        a = 'myString'; // Error
+        b = 'myString'; // Error
+
+        let c: any = 5;
+
+        c = "myString"; // No errors
+
+        let d: number = 16 / '4' // Error
+
+        let e; // It'll have an implicit `any` type
+
+2. Types with Functions
+
+    (i) Syntax:
+
+        function(args: <Param type>...): <Return Value Type>{
+            <code>
+        }
+
+        (args: <Param type>...): <Return Value Type> => {
+            <code>
+        }
+
+    Example:-
+
+        // We Know this Function is for Adding 2 two numbers but what if someone puts something else?
+        const sum = (a, b)=>{
+            return a + b
+        }
+        const sum = (a: number, b: number): number =>{
+            return a + b
+        }
+        
+3. Types:
+
+    (i) In TypeScript, basic types are the fundamental building blocks used to define the data types of variables, parameters, and return values in your code. TypeScript provides a rich set of basic types to represent various kinds of data. Here's an overview of some basic types in TypeScript:
+
+    (Note: Most of The defaullt Type are normal javascript types and TypeScript offers some extra types to work around)
+
+    (ii) Boolean: Represents a boolean value, which can be either true or false.
+
+        let isDone: boolean = false;
+
+    (iii) Number: Represents both integer and floating-point numbers.
+
+        let decimal: number = 6;
+        let hex: number = 0xf00d;
+        let binary: number = 0b1010;
+        let octal: number = 0o744;
+
+    (iv) String: Represents a sequence of characters enclosed within single quotes (') or double quotes (").
+
+        let color: string = 'blue';
+        let fullName: string = `John Doe`;
+
+    (v) Array: Represents a collection of elements of the same type.
+
+        (a) Syntax:
+            
+            <declaration> <Variable>: Array<<Type of Value it Contains>>
+            <declaration> <Variable>: <Type of Value it Contains>[]
+            
+            <declaration> <Variable>: ReadonlyArray<Type of Value it Contains>
+
+        const a: Array<string> = ["dave", "john", "Youtube"];
+        const b: Array<string | number> = ["dave", "john", 2054, 8702, "Youtube"];
+        // Both are Same
+        const c: string[] = ["dave", "john", "Youtube"];
+        const d: (string | number)[] = ["dave", "john", 2054, 8702, "Youtube"];
+        
+        let list: number[] = [1, 2, 3];
+        let fruits: Array<string> = ['apple', 'banana', 'orange'];
+
+        // Read Only Arrays
+
+        let a: number[] = [1, 2, 3, 4];
+        let ro: ReadonlyArray<number> = a;
+
+        ro[0] = 12; // error! Index signature in type 'readonly number[]' only permits reading.
+
+        ro.push(5); // error! Property 'push' does not exist on type 'readonly number[]'.
+
+        ro.length = 100; // error! Cannot assign to 'length' because it is a read-only property.
+
+        a = ro; // error! The type 'readonly number[]' is 'readonly' and cannot be assigned to the mutable type 'number[]'.
+
+    (vi) Tuple: Represents an array with a fixed number of elements, each potentially of different types.
+        
+        (a) Syntax:
+            
+            <declaration> <Variable>: [<Type>...]
+
+        let x: [string, number];
+        x = ['hello', 10]; 
+        x = ['hello', 10, false]; // Error 
+
+    (vii) `Enum`: Allows you to define a set of named constants.
+
+        enum Color {
+            Red,
+            Green,
+            Blue,
+        }
+        let c: Color = Color.Green;
+
+    (viii) `any`: Represents a dynamic type that can hold any value, similar to JavaScript's any.
+
+        let notSure: any = 4;
+        notSure = 'maybe a string instead';
+
+    (ix) `void`: Represents the absence of a value. Typically used as the return type of functions that do not return a value.
+
+        function warnUser(): void {
+            console.log('This is a warning message');
+        }
+
+    (x) null and undefined: Represents the null and undefined values respectively.
+
+        let u: undefined = undefined;
+        let n: null = null;
+
+    (xi) `as` keyword is used for type assertions, which is a way to tell the TypeScript compiler that you know the type of a value better than it does. Type assertions are similar to type casting in other languages but do not perform any special checking or restructuring of data. They are purely a way to inform TypeScript about the type of a variable.
+
+        Here's how the `as` keyword is used in TypeScript:
+
+        (a) Basic Usage
+            
+            (I) You use `as` to assert the type of a variable. This is useful when TypeScript cannot infer the correct type of the variable, or you have knowledge about the type that TypeScript isn't aware of.
+
+               let someValue: any = 'this is a string';
+
+               let strLength: number = (someValue as string).length;
+
+            In this example, `someValue` is of type `any`, so TypeScript doesn't know what methods are available on it. By asserting `someValue` as a `string`, you're telling TypeScript that `someValue` should be treated as a string, and thus it's safe to access the `length` property.
+
+        (b) Changing Perceived Type
+            
+            (I) Type assertions can be used to treat a variable as a different type than the one TypeScript inferred. This is helpful when you're working with a variable whose type is more specific than TypeScript can understand.
+
+                interface Cat {
+                    meow(): void;
+                }
+
+                interface Dog {
+                    bark(): void;
+                }
+
+                function getPet(): Cat | Dog {
+                    // ...
+                }
+
+                let pet = getPet();
+                (pet as Dog).bark(); // Asserting that pet is of type Dog
+            
+        (c) Non-Dom Assertions
+            
+            (I) While `as` is the standard syntax for type assertions in TypeScript, there's an older syntax that uses angle brackets (`<Type>`). However, the `as` syntax is preferred, especially when working with JSX in React, to avoid confusion with JSX's syntax.
+
+           ```typescript
+           // Angle-bracket syntax
+           let strLength: number = (<string>someValue).length;
+
+           // As syntax
+           let strLength: number = (someValue as string).length;
+           ```
+
+        **Important Notes**:
+        - Type assertions are a way for you to provide hints to the compiler on how you want your code to be analyzed.
+        - They do not change the runtime behavior of your code. They are purely used by the TypeScript compiler for type checking.
+        - Using type assertions does not inherently make your code safer. In fact, misuse of type assertions can lead to runtime errors that TypeScript cannot help to catch.
+        - It's generally better to use type narrowing techniques (like type guards) rather than type assertions, as they are safer and more robust. Use type assertions only when you are certain of the underlying type and TypeScript isn't able to infer it correctly.
+
+4. Operators
+
+    (ii) Pipe '|' operator represent 'OR' logic for Types and separates each type, so for example `number | string | boolean` is the type of a value that can be a number, a string, or a boolean.
+        
+        let a: number | string;
+
+        a = 46;
+        a = "Dave";
+        a = true; // Error
+
+5. Custom Types 
+
+    (i) In TypeScript, custom types allow developers to define their own data structures, combining existing types, and creating new ones suited to their specific needs. Custom types enhance code readability, maintainability, and reduce the likelihood of errors by providing a clear and explicit definition of data structures.
+    
+    (ii) Interfaces: Interfaces are one of the primary mechanisms for defining custom types in TypeScript. They allow you to define the shape of an object, specifying the names and types of its properties. Interfaces are often used to define contracts for classes or objects.
+
+        (a) Syntax:
+
+            interface <TypeName> {
+                <key>: <value> 
+            }
+
+        (b) Example:-
+
+            interface Person {
+                firstName: string;
+                lastName: string;
+                age: number;
+            }
+
+            const person: Person = {
+                firstName: 'John',
+                lastName: 'Doe',
+                age: 30
+            };
+
+        (b) Extensibility: Interfaces support inheritance and can be extended by other interfaces using the `extends` keyword.
+
+            (I) Syntax:
+
+                interface <TypeName> {
+                    <key>: <value> 
+                }
+
+                interface <Type2> extends <TypeName> {
+                    <key>: <value> 
+                }
+
+            interface Person {
+                name: string;
+                age: number;
+            }
+
+            interface Student extends Person {
+                studentId: number;
+            }
+
+        (c) Optional Properties: add `?` operator right after the name of the property to make it optional
+
+            (I) Syntax:
+
+                interface <TypeName> {
+                    <key>?: <value> 
+                }
+
+            (II) Example:-
+
+                interface SquareConfig {
+                    color?: string;
+                    width?: number;
+                }
+
+                function createSquare(config: SquareConfig): { color: string; area: number } {
+                    let newSquare = { color: "white", area: 100 };
+                    if (config.color) {
+                        newSquare.color = config.color;
+                    }
+                    if (config.width) {
+                        newSquare.area = config.width * config.width;
+                    }
+                    return newSquare;
+                }
+
+                let mySquare = createSquare({ color: "black" });
+
+        (d) Read Only Properties: You can defined properties that can't be changed after declaration by adding `readonly` keyword right before the key
+
+            (I) Syntax:
+
+                interface <TypeName> {
+                    readonly <key>: <value> 
+                }
+
+            interface Point {
+                readonly x: number;
+                readonly y: number;
+            }
+
+            let p1: Point = { x: 10, y: 20 };
+            p1.x = 5; // error! Cannot assign to 'x' because it is a read-only property.
+
+    (iii) Type Aliases: Type aliases allow you to create a new name for an existing type or define a complex type that can be reused throughout your codebase. They are particularly useful for simplifying complex type definitions or creating more descriptive names for types.
+
+        type Point = {
+            x: number;
+            y: number;
+        };
+
+        const point: Point = { x: 10, y: 20 };
+
+    (iv) Union Types: Union types allow you to specify that a value can be one of several types. This is useful when a function or variable can accept multiple types of data.
+
+        (a) A union type describes a value that can be one of several types.
+
+        let something: number | string | boolean;
+
+        something = 1; // ok
+        something = '1'; // ok
+        something = true; // ok
+        something = {}; // Error: Type '{}' is not assignable to type 'string | number | boolean'
+
+
+        typescript
+
+        type Result = string | number;
+
+        function displayResult(result: Result) {
+            console.log(result);
+        }
+
+        displayResult('Success'); // OK
+        displayResult(200); // OK
+
+    (v) Intersection Types: Intersection types allow you to combine multiple types into a single type. This is useful when you need to merge properties and methods from different types.
+
+        interface Printable {
+            print(): void;
+        }
+
+        interface Loggable {
+            log(): void;
+        }
+
+        type Logger = Printable & Loggable;
+
+        const logger: Logger = {
+            print() {
+                console.log('Printing...');
+            },
+            log() {
+                console.log('Logging...');
+            }
+        };
+
+    (vi) Enums: Enums allow you to define a set of named constants. They are useful when you have a fixed set of values that a variable can take.
+
+        enum Direction {
+            Up = "Up",
+            Down = "Down",
+            Left = "Left",
+            Right = "Right"
+        }
+
+        const direction: Direction = Direction.Up;
+
+5. Commands for TypeScript:
+
+    (i) `tsc` compiles TypeScript into JavaScript
+
+        (a) `tsc -w` watches all the TypeScript files and auto compiles them into javascript 
+
+    (ii) Running TypeScript Directly
+
+        (a) `npm install -g ts-node`: install `ts-node` module
+
+        (b) `ts-node <path>` Compiles and runs TypeScripts without writing it to the disk
+        
+        TypeScript:
+
+            console.log("Hello World!")
+
+        Terminal:
+
+        > ts-node example.ts
+        Hello World
+        > 
