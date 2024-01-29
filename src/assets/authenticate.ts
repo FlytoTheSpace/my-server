@@ -11,7 +11,7 @@ import { logprefix } from './logs';
 import mongoose from 'mongoose';
 import { AccountsCollection, userDataCollection } from './database';
 import { LoginfoDecryptionKey } from '../common/KEYS';
-import { TokenPayload, AuthenticateInterface } from './interfaces';
+import { TokenPayload, TokenPayloadType, AuthenticateInterface } from './interfaces';
 
 const findAccountByEmail = <T extends { _doc?: TokenPayload }>(
     email: string,
@@ -40,16 +40,16 @@ const findAccountByEmail = <T extends { _doc?: TokenPayload }>(
 */
 const MainAuthentication = async (req: any, res: any, callBack: Function, APIverison:boolean = false, callBackNeedsAccount:boolean = false) => {
     try {
-        const Collection: any = await AccountsCollection.find();
-        const token = req.cookies.accessToken;
+        const collection: any = await AccountsCollection.find();
+        const token: string = req.cookies.accessToken;
 
-        if (!token) return SendMSG(`Account Required to Access The Requested Page`, 401, res, APIverison)
+        if (!token ||typeof token === undefined) return SendMSG(`Account Required to Access The Requested Page`, 401, res, APIverison)
         if (!(Authenticate as AuthenticateInterface).isValidAccount(token)) return SendMSG(`Your Token is Corrupted`, 401, res, APIverison)
 
         // If The Token is Provided Then
-        const decodedToken: any = jwt.verify(token, env('ACCOUNTS_TOKEN_VERIFICATION_KEY'));
+        const decodedToken: TokenPayloadType = jwt.verify(token, env('ACCOUNTS_TOKEN_VERIFICATION_KEY')) as TokenPayloadType;
 
-        let EmailMatchedAcc: any = findAccountByEmail(LoginfoDecryptionKey.decrypt((decodedToken as TokenPayload).email), Collection)
+        let EmailMatchedAcc: {_doc?: TokenPayload} | undefined = findAccountByEmail(LoginfoDecryptionKey.decrypt((decodedToken as TokenPayload).email), collection)
 
         if (!EmailMatchedAcc) return SendMSG(`Invalid Token, User Doesn't exist`, 401, res, APIverison)
 
@@ -100,9 +100,9 @@ const Authenticate: object = {
             // If The Token is Provided Then
             const decodedToken = jwt.verify(token, env('ACCOUNTS_TOKEN_VERIFICATION_KEY'));
             
-            const Collection: any = await AccountsCollection.find()
+            const collection: any = await AccountsCollection.find()
 
-            const EmailMatchedAcc = findAccountByEmail(LoginfoDecryptionKey.decrypt((decodedToken as TokenPayload).email).trim(), Collection)
+            const EmailMatchedAcc = findAccountByEmail(LoginfoDecryptionKey.decrypt((decodedToken as TokenPayload).email).trim(), collection)
 
             // If no Account Found
             if (!EmailMatchedAcc) return false;
@@ -141,8 +141,8 @@ const Authenticate: object = {
         }
 
         if (await (Authenticate as AuthenticateInterface).isValidAccount(token)) {
-            const Collection: any = await AccountsCollection.find();
-            let MatchedAccount: any = findAccountByEmail(LoginfoDecryptionKey.decrypt((decodedToken as TokenPayload).email), Collection)
+            const collection: any = await AccountsCollection.find();
+            let MatchedAccount: any = findAccountByEmail(LoginfoDecryptionKey.decrypt((decodedToken as TokenPayload).email), collection)
 
             
             return ((MatchedAccount as TokenPayload).role.toLowerCase() == "admin")? true: false

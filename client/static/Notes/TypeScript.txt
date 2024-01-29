@@ -10,7 +10,29 @@ Introduction
 
 Section: The Basics
 
-1. Types with Variables
+1. Terminal Commands for TypeScript:
+
+    (i) `tsc` compiles TypeScript into JavaScript
+
+        (a) `tsc -w` watches all the TypeScript files and auto compiles them into javascript 
+
+    (ii) Running TypeScript Directly
+
+        (a) `npm install -g ts-node`: install `ts-node` module
+
+        (b) `ts-node <path>` Compiles and runs TypeScripts without writing it to the disk
+        
+        TypeScript:
+
+            console.log("Hello World!")
+
+        Terminal:
+
+        > ts-node example.ts
+        Hello World
+        > 
+
+2. Types with Variables
     
     (i) Assigning A Type to a Variable explicitly makes it Statically Typed or It'll be a Dynamically Typed
 
@@ -37,28 +59,6 @@ Section: The Basics
 
         let e; // It'll have an implicit `any` type
 
-2. Types with Functions
-
-    (i) Syntax:
-
-        function(args: <Param type>...): <Return Value Type>{
-            <code>
-        }
-
-        (args: <Param type>...): <Return Value Type> => {
-            <code>
-        }
-
-    Example:-
-
-        // We Know this Function is for Adding 2 two numbers but what if someone puts something else?
-        const sum = (a, b)=>{
-            return a + b
-        }
-        const sum = (a: number, b: number): number =>{
-            return a + b
-        }
-        
 3. Types:
 
     (i) In TypeScript, basic types are the fundamental building blocks used to define the data types of variables, parameters, and return values in your code. TypeScript provides a rich set of basic types to represent various kinds of data. Here's an overview of some basic types in TypeScript:
@@ -147,56 +147,53 @@ Section: The Basics
         let u: undefined = undefined;
         let n: null = null;
 
-    (xi) `as` keyword is used for type assertions, which is a way to tell the TypeScript compiler that you know the type of a value better than it does. Type assertions are similar to type casting in other languages but do not perform any special checking or restructuring of data. They are purely a way to inform TypeScript about the type of a variable.
+    (xii) `as` keyword is used for type assertions, which is a way to tell the TypeScript compiler that you know the type of a value better than it does. Type assertions are similar to type casting in other languages but do not perform any special checking or restructuring of data. They are purely a way to inform TypeScript about the type of a variable.
 
         Here's how the `as` keyword is used in TypeScript:
 
-        (a) Basic Usage
+        (a) Syntax:
+
+            <variable> as <type>
+            <<type>><variable>
+
+        (b) Basic Usage
             
             (I) You use `as` to assert the type of a variable. This is useful when TypeScript cannot infer the correct type of the variable, or you have knowledge about the type that TypeScript isn't aware of.
 
-               let someValue: any = 'this is a string';
+            let someValue: any = 'this is a string';
 
-               let strLength: number = (someValue as string).length;
+            let strLength: number = (someValue as string).length;
 
-            In this example, `someValue` is of type `any`, so TypeScript doesn't know what methods are available on it. By asserting `someValue` as a `string`, you're telling TypeScript that `someValue` should be treated as a string, and thus it's safe to access the `length` property.
+            (II) In this example, `someValue` is of type `any`, so TypeScript doesn't know what methods are available on it. By asserting `someValue` as a `string`, you're telling TypeScript that `someValue` should be treated as a string, and thus it's safe to access the `length` property.
 
-        (b) Changing Perceived Type
+        (c) Changing Perceived Type
             
             (I) Type assertions can be used to treat a variable as a different type than the one TypeScript inferred. This is helpful when you're working with a variable whose type is more specific than TypeScript can understand.
 
-                interface Cat {
-                    meow(): void;
-                }
+            interface Cat {
+                meow(): void;
+            }
 
-                interface Dog {
-                    bark(): void;
-                }
+            interface Dog {
+                bark(): void;
+            }
 
-                function getPet(): Cat | Dog {
-                    // ...
-                }
+            function getPet(): Cat | Dog {
+                // ...
+            }
 
-                let pet = getPet();
-                (pet as Dog).bark(); // Asserting that pet is of type Dog
+            let pet = getPet();
+            (pet as Dog).bark(); // Asserting that pet is of type Dog
             
-        (c) Non-Dom Assertions
+        (d) Non-Dom Assertions
             
             (I) While `as` is the standard syntax for type assertions in TypeScript, there's an older syntax that uses angle brackets (`<Type>`). However, the `as` syntax is preferred, especially when working with JSX in React, to avoid confusion with JSX's syntax.
+            
+            // Angle-bracket syntax
+            let strLength: number = (<string>someValue).length;
 
-           ```typescript
-           // Angle-bracket syntax
-           let strLength: number = (<string>someValue).length;
-
-           // As syntax
-           let strLength: number = (someValue as string).length;
-           ```
-
-        **Important Notes**:
-        - Type assertions are a way for you to provide hints to the compiler on how you want your code to be analyzed.
-        - They do not change the runtime behavior of your code. They are purely used by the TypeScript compiler for type checking.
-        - Using type assertions does not inherently make your code safer. In fact, misuse of type assertions can lead to runtime errors that TypeScript cannot help to catch.
-        - It's generally better to use type narrowing techniques (like type guards) rather than type assertions, as they are safer and more robust. Use type assertions only when you are certain of the underlying type and TypeScript isn't able to infer it correctly.
+            // As syntax
+            let strLength: number = (someValue as string).length;
 
 4. Operators
 
@@ -211,6 +208,79 @@ Section: The Basics
 5. Custom Types 
 
     (i) In TypeScript, custom types allow developers to define their own data structures, combining existing types, and creating new ones suited to their specific needs. Custom types enhance code readability, maintainability, and reduce the likelihood of errors by providing a clear and explicit definition of data structures.
+    
+    (ii) Literal Types
+
+        (a) Literal types in TypeScript represent a way to specify exact values which a variable can hold. Unlike more broad types like `string` or `number`, literal types constrain a variable to a specific and exact value. By using literal types, you can define types that are more descriptive and precise, improving the robustness and readability of your code.
+
+        Here's a breakdown of literal types in TypeScript:
+
+        (b) String Literal Types:
+
+            (I) These allow you to specify the exact string value a variable can hold. For example:
+
+            let myDirection: "north" | "south" | "east" | "west";
+            myDirection = "north"; // valid
+            myDirection = "south"; // valid
+            myDirection = "up"; // TypeScript error: Type '"up"' is not assignable to type '"north" | "south" | "east" | "west"'.
+
+            Here, `myDirection` can only be assigned one of the four specified directions.
+
+        (c) Numeric Literal Types:
+
+            (I) Similar to string literals, but for numbers. This is useful when you want to limit a variable to specific numeric values.
+    
+            let errorCode: 0 | 404 | 500;
+            errorCode = 404; // valid
+            errorCode = 123; // TypeScript error
+
+            In this case, `errorCode` can only be `0`, `404`, or `500`.
+
+        (d) Boolean Literal Types:
+            
+            (I) These are less common but can be used to represent a state with a single value.
+
+            let isTrue: true;
+            isTrue = true; // valid
+            isTrue = false; // TypeScript error
+
+            Here, `isTrue` can only ever be `true`.
+
+        (e) Combining with Union Types:
+            
+            (I) Literal types are often used in combination with union types to create a type that can have one of several literal values.
+
+            type Alignment = "left" | "right" | "center";
+
+            This allows for a variable of type `Alignment` to have any of the three specified values but no others.
+
+        (f) Use Cases: Literal types are particularly useful in scenarios like:
+            
+            (I) Defining a set of allowed values for a function parameter.
+            (II) Configuring behavior with specific options.
+            (III) Working with finite state machines where each state can be represented by a literal type.
+
+        (g) Literal Inference:
+            
+            (I) When you declare a variable and assign it a literal value without explicitly specifying a type, TypeScript will infer the type as that literal value.
+
+            const message = "Hello, world!";
+            // Type of message is inferred as "Hello, world!" not string
+        
+        (h) Template Literal Types:
+
+            (I) Template Literal Types let's you combine Union Types for with Template Literals
+
+            type ABCchars = 'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z'
+            type numbers = '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'0';
+            type emojis = '🎉'|'🍕'|'🍔'|'🍩'|'🍗'|'🍫'|'🍲'|'✔'|'🗾'|'✖';
+
+            type Allchars = `${ABCchars}${numbers}-${emojis}`
+
+            let code: Allchars = 'h8-🍔' // Intellisense will prompt for every possible combination
+            code = 'b4-🍕';
+
+        (i) Literal types in TypeScript are a powerful feature for writing more descriptive and safer code. They enable you to enforce stricter type checking and make your intentions clear, reducing the likelihood of bugs and errors.
     
     (ii) Interfaces: Interfaces are one of the primary mechanisms for defining custom types in TypeScript. They allow you to define the shape of an object, specifying the names and types of its properties. Interfaces are often used to define contracts for classes or objects.
 
@@ -301,6 +371,10 @@ Section: The Basics
 
     (iii) Type Aliases: Type aliases allow you to create a new name for an existing type or define a complex type that can be reused throughout your codebase. They are particularly useful for simplifying complex type definitions or creating more descriptive names for types.
 
+        (a) Syntax:
+
+            type <TypeName> = <value/AnotherType>
+
         type Point = {
             x: number;
             y: number;
@@ -308,6 +382,31 @@ Section: The Basics
 
         const point: Point = { x: 10, y: 20 };
 
+        type Directions = 'up' | 'right' | 'bottom' | 'left'
+
+        const movingDirection: Directions = 'right' // Intellisense will prompt to pick one
+
+        (a) Extendation: You can extend Types using `&` operator:
+
+            (I) Syntax:
+                
+                type <TypeName> = {
+                    ...<key>: <values>
+                };
+
+                type <TypeName2> = <TypeName> & {
+                    ...<key>: <values> // Key-Values To Extend with
+                };
+
+            type Person = {
+                name: string;
+                age: number;
+            };
+
+            type Student = Person & {
+                studentId: number;
+            };
+        
     (iv) Union Types: Union types allow you to specify that a value can be one of several types. This is useful when a function or variable can accept multiple types of data.
 
         (a) A union type describes a value that can be one of several types.
@@ -318,9 +417,6 @@ Section: The Basics
         something = '1'; // ok
         something = true; // ok
         something = {}; // Error: Type '{}' is not assignable to type 'string | number | boolean'
-
-
-        typescript
 
         type Result = string | number;
 
@@ -361,26 +457,113 @@ Section: The Basics
             Right = "Right"
         }
 
-        const direction: Direction = Direction.Up;
+        const movingDirection: Direction = Direction.Up;
+        console.log(movingDirection) // "Up"
 
-5. Commands for TypeScript:
+6. Types with Functions
 
-    (i) `tsc` compiles TypeScript into JavaScript
+    (i) Syntax:
 
-        (a) `tsc -w` watches all the TypeScript files and auto compiles them into javascript 
+        function(args: <Param type>...): <Return Value Type> {
+            <code>
+        }
+        function <name> (args: <Param type>...): <Return Value Type> {
+            <code>
+        }
 
-    (ii) Running TypeScript Directly
+        (args: <Param type>...): <Return Value Type> => {
+            <code>
+        }
 
-        (a) `npm install -g ts-node`: install `ts-node` module
+        (args: <Param type>...): <Return Value Type> => <return value>
 
-        (b) `ts-node <path>` Compiles and runs TypeScripts without writing it to the disk
+    (ii) Dynamically Typed Vs Statically Typed:-
+
+        // We Know this Function is for Adding 2 two numbers but what if someone puts something else?
+        const sum = (a, b)=>{
+            return a + b
+        }
+        const sum = (a: number, b: number): number =>{
+            return a + b
+        }
+
+    (iii) Traditional and Arrow Functions Statically Typed :-
+
+        function sum (a: number, b: number): number {
+            return a + b
+        }
+        let sum  = function(a: number, b: number): number {
+            return a + b
+        }
+        let sum = (a: number, b: number): number => {
+            return a + b
+        }
+
+    (iv) Custom Types in Functions
+
+        (Note: You cannot use default Values with Aliases)
+        // With Type
+        type MathFunction = (a: number, b: number) => number
         
-        TypeScript:
+        // Same Thing with Interfaces
+        interface MathFunction {
+            (a: number, b: number): number
+        }
 
-            console.log("Hello World!")
+        // Removing Some extra Boiler Plate Code
+        const add: MathFunction = (c, d)=>{
+            return c + d
+        }
+        const subtract: MathFunction = (c, d)=>{
+            return c - d
+        }
+        const multiply: MathFunction = (c, d)=>{
+            return c * d
+        }
+        const divide: MathFunction = (c, d)=>{
+            return c / d
+        }
+        const power: MathFunction = (c, d)=>{
+            return c ** d
+        }
 
-        Terminal:
+    (v) Optional Arguments: You can Provide Optional Arguments to Your Function using `?`:-
 
-        > ts-node example.ts
-        Hello World
-        > 
+        (a) Syntax:
+
+            <arguments>?
+        
+        (Note: Your Optional Parameter have to be the last parameter)
+        
+        // Using a Condition by a Ternary Statement
+        const power = (a: number, b?: number): number => a ** ( b ? b : 2);
+
+        // Providing a defaullt Value
+        const power2 = (a: number, b: number = 2): number => a ** b;
+        // (Note: To Use the default value of an arguments which is not the last arguments in the list then you'll have to explicitly provide it `undefined`)
+
+        console.log(power(3)); // 9
+        console.log(power(3, 3)); // 27
+        console.log(power2(3)); // 9
+        console.log(power2(3, 3)); // 27
+
+
+        const power3 = (a: number = 2, b: number): number => a ** b;
+        console.log(power3(undefined, 3)) // 8, It has to be explicit
+
+    (vi) Rest Parameters:
+        
+        (a) Just like Vanilla JavaScript you can use spread operator to have infinite parameters password to your function:
+
+            type ArithmeticOperators = '+' | '-' | '*' | '/' | '%' | '**';
+
+            const sum = (action: ArithmeticOperators = '+', ...values: number[]): number => values.reduce((pre, cur) => eval(`${pre} ${action} ${cur}`))
+
+            console.log(sum('+', 123, 7, 15)) // 145
+            console.log(sum(undefined, 123, 7, 15)) // 145
+            console.log(sum('-', 123, 7, 15)) // 101
+            console.log(sum('*', 123, 7, 15)) // 12915
+            console.log(sum('/', 225, 15)) // 15
+            console.log(sum('**', 35, 2)) // 1225
+            console.log(sum('%', 10, 3)) // 1
+
