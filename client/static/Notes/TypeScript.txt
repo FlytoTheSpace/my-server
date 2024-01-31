@@ -460,7 +460,7 @@ Section: The Basics
         const movingDirection: Direction = Direction.Up;
         console.log(movingDirection) // "Up"
 
-6. Types with Functions
+6. Functions
 
     (i) Syntax:
 
@@ -567,3 +567,202 @@ Section: The Basics
             console.log(sum('**', 35, 2)) // 1225
             console.log(sum('%', 10, 3)) // 1
 
+7. Classes
+
+    (i) In TypeScript, classes are a fundamental part of the language, enabling object-oriented programming features like encapsulation, inheritance, and polymorphism. TypeScript enhances the class-based concepts from JavaScript (ES6) by adding features like type annotations, access modifiers (like `public`, `private`, and `protected`), and more advanced capabilities such as abstract classes and decorators.
+
+    (ii) Syntax
+
+        class <ClassName> {
+            <property>: <type>
+
+            constructor(<parameter>: <type>){
+                this.<property> = <parameter>
+            }
+        }
+
+        class <ClassName> {
+            <access?> <readonly?> <property>: <type>
+
+            constructor(<parameters>: <type>){
+                this.<property> = <parameter>
+            }
+
+            <FunctionName>(): <type return> {
+                <code>
+            }
+        }
+
+    (iii) Here's a simple example of a class in TypeScript:
+
+        class Person {
+            name: string;
+            age: number;
+
+            constructor(name: string, age: number) {
+                this.name = name;
+                this.age = age;
+            }
+
+            describe(): string {
+                return `Name: ${this.name}, Age: ${this.age}`;
+            }
+        }
+
+        const person = new Person("Alice", 30);
+        console.log(person.describe());
+
+        In this example, `Person` is a class with properties `name` and `age`, a constructor, and a method `describe`.
+
+    (iv) Access Modifiers
+
+        TypeScript supports three access modifiers:
+
+        (a) `public` (default): Accessible from anywhere.
+        (b) `private`: Accessible only within the class that defines them.
+        (c) `protected`: Accessible within the class and its subclasses.
+
+        (d) Syntax:
+
+            <access modifier> <property>: <type>
+
+        class Person {
+            // <access modifier> <property>: <type>
+            public name: string;
+            private id: number;
+            protected age: number;
+
+            constructor(name: string, age: number, id: number) {
+                this.name = name;
+                this.age = age;
+                this.id = id;
+            }
+            // ...
+        }
+
+    (v) Readonly Properties
+
+        (a) TypeScript also supports `readonly` properties, which must be initialized at their declaration or in the constructor.
+
+        (b) Syntax:-
+
+            <readonly?> <property>: <type>
+
+        class Person {
+            readonly birthYear: number;
+
+            constructor(public name: string, age: number) {
+                this.birthYear = new Date().getFullYear() - age;
+            }
+            // ...
+        }
+
+    (vi) Inheritance
+
+        (a) TypeScript supports class inheritance, allowing one class to extend another.
+
+        class Employee extends Person {
+            department: string;
+
+            constructor(name: string, age: number, department: string) {
+                super(name, age);
+                this.department = department;
+            }
+
+            describe(): string {
+                return `${super.describe()}, Department: ${this.department}`;
+            }
+        }
+
+    (v) Abstract Classes
+
+        (a) Abstract classes are base classes from which other classes may be derived. They cannot be instantiated directly.
+
+        (b) Syntax:
+
+            abstract class <BaseClassName> {
+                abstract <FunctionName>(): <return type>;
+            }
+
+        abstract class Shape {
+            abstract getArea(): number;
+        }
+
+        class Circle extends Shape {
+            constructor(private radius: number) {
+                super();
+            }
+
+            getArea(): number {
+                return Math.PI * this.radius * this.radius;
+            }
+        }
+
+    (vi) Getters and Setters
+
+        (i) TypeScript supports getters and setters for implementing encapsulation.
+        
+        (ii) Syntax:
+
+            class Person {
+                <keyword?> _<property>: <property> = <default?>;
+        
+                get age(...params): <return Type> {
+                    <code to run>
+                }
+        
+                set age(...params): ...params  {
+                    <code to run>
+                }
+            }
+
+        class Person {
+            private _age: number = 0;
+
+            get age(): number {
+                return this._age;
+            }
+
+            set age(value: number) {
+                if (value < 0) {
+                    throw new Error('Age cannot be negative');
+                }
+                this._age = value;
+            }
+        }
+        const John = new Person()
+        console.log(John.age) // 0
+        John.age = 27
+        console.log(John.age) // 27
+    
+    (vii) Static Members
+
+    Classes in TypeScript can have static properties and methods, which belong to the class itself rather than any individual instance.
+
+    class Calculator {
+        static add(a: number, b: number): number {
+            return a + b;
+        }
+    }
+
+    console.log(Calculator.add(5, 10));
+
+    ### Interfaces and Classes
+
+    Interfaces in TypeScript can be implemented by classes, ensuring that the classes adhere to a particular contract.
+
+    ```typescript
+    interface Identifiable {
+        id: number;
+    }
+
+    class Product implements Identifiable {
+        constructor(public id: number, public name: string) { }
+    }
+    ```
+
+    ### Decorators
+
+    TypeScript also supports experimental decorators, which are special kinds of declarations that can be attached to a class declaration, method, accessor, property, or parameter.
+
+    Classes in TypeScript provide a powerful structure for organizing and structuring your code, bringing together both JavaScript's prototypal inheritance and more traditional object-oriented programming concepts.

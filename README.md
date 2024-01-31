@@ -40,12 +40,19 @@ nano .env
 
 ## Database Setup
 ### Installing with MongoDB
+Official Site: [Source](https://www.mongodb.com/try/download/community)
 
 Run this Script for Automatic Setup or Stick around
 ```bash
-bash ./scripts/install_db.sh
+bash ./scripts/ubuntu_install_db.sh
 ```
-[Tutorial for Database Installation](https://www.youtube.com/watch?v=HSIh8UswVVY)
+Tutorials
+
+[Windows](https://www.youtube.com/watch?v=gB6WLkSrtJk)
+
+[Linux (Ubuntu)](https://www.youtube.com/watch?v=HSIh8UswVVY)
+
+### Ubuntu Edition:
 
 update Repositories (*optional*)
 ```bash
@@ -80,14 +87,20 @@ now The Database Service is Install let's set it up
 
 (This has to be done Manually)
 open up MongoDB Shell
+
+**Linux (All Distributions)**: 
 ```bash
 mongosh
+```
+**Windows**: 
+```bash
+mongo
 ```
 Create Database
 ```
 use mydatabase;
 ```
-**Create Required Collections**
+Create Required Collections
 ```
 db.createCollection('accounts');
 db.createCollection('userData');
@@ -101,11 +114,27 @@ npm start
 ```
 by Default The Server will listen on Port: **5500**
 
-for Quick Access:
-http://locahost:5500 
+Quick Access after Running:
+
+http://locahost:5500
+
 http://127.0.0.1:5500
 
 ### with Control Panel Server (Beta)
 ```bash
 npm run cpanelui
 ```
+
+# Privacy
+
+All of The Collected data is Stored on Your Local Database and no data is sent to us neither any third-parties, we Respect your privacy, we don't even know who you are, your email and username is stored encrypted on your own Database, if you don't believe that you can review our code, it's open-source
+
+## Collected Data 
+
+before we begin we just wanna make it clear that we never collect any data it's just on your local system meaning it's only accessible to you, and if don't wanna collect data for your server, it can be disabled any time by commenting out a few lines in /server/index.js
+
+Thank you,
+
+- Prefereces: Theme
+- Profile Picture
+- Bio

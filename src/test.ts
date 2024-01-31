@@ -1,4 +1,4 @@
-// import ROOT from './assets/root'
+/*// import ROOT from './assets/root'
 const GetABCChars = (Count: number) => {
     const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
@@ -49,10 +49,31 @@ type ArithmeticOperators = '+' | '-' | '*' | '/' | '%' | '**';
 
 export const sum = (action: ArithmeticOperators = '+', ...values: number[]): number => values.reduce((pre, cur) => eval(`${pre} ${action} ${cur}`))
 
-console.log(sum(undefined, 123, 7, 15)) // 145
-console.log(sum('+', 123, 7, 15)) // 145
-console.log(sum('-', 123, 7, 15)) // 101
-console.log(sum('*', 123, 7, 15)) // 12915
-console.log(sum('/', 225, 15)) // 15
-console.log(sum('**', 35, 2)) // 1225
-console.log(sum('%', 10, 3)) // 1
+// console.log(sum(undefined, 123, 7, 15)) // 145
+// console.log(sum('+', 123, 7, 15)) // 145
+// console.log(sum('-', 123, 7, 15)) // 101
+// console.log(sum('*', 123, 7, 15)) // 12915
+// console.log(sum('/', 225, 15)) // 15
+// console.log(sum('**', 35, 2)) // 1225
+// console.log(sum('%', 10, 3)) // 1
+
+class Person {
+    private _age: number = 0;
+
+    get age(): number {
+        return this._age;
+    }
+
+    set age(value: number) {
+        if (value < 0) {
+            throw new Error('Age cannot be negative');
+        }
+        this._age = value;
+    }
+}
+const John = new Person()
+console.log(John.age) // 0
+John.age = 27
+console.log(John.age) // 27
+*/
+

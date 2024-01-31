@@ -4858,6 +4858,9 @@ Section: Object Oriented Programming
 				constructor(name){
 			        this.name = Animal.formatedName(name);
 			    }
+				get name(){
+					return this.name
+				}
 			    static formatedName(_name){
 			    	return _name[0].toUpperCase() + _name.slice(1, _name.length)
 			        console.log(this.name)
@@ -4865,9 +4868,11 @@ Section: Object Oriented Programming
 			}
 			let cat = new Animal("lavender")
 
-			// Output: Lavender
+			cat.name() : Lavender
 
 		(e) Getter and Setter Methods: These methods are used to define a property of an object, and they can be used to get or set the value of that property. They provide a way to define custom behavior when an object property is accessed or modified.
+
+			(WARNING: using this.<property> requires you to use a character like `_` or `#` to Avoid Call Stack Error and Name collisions)
 
 			class Car {
 			  	constructor(make, model) {
@@ -4901,16 +4906,14 @@ Section: Object Oriented Programming
 
 			instance.msg = "cake";
 			console.log(instance.msg); // "hello cake"
-			
-			(Note: You'll have to put `_` right before name of the properties inside get and set Methods to avoid name collisions which can cause errors)
 
-		(f) `instanceof` keyword checks if 
+		(f) `instanceof` Checks if The Class/Method is a part of The Class
 
-			Syntax:
+			(I) Syntax:
 
 				object instanceof constructor
 
-			Example:
+			(II) Example:
 
 				// Creating a Class
 				class Car{
@@ -4924,8 +4927,8 @@ Section: Object Oriented Programming
 				console.log(NewCar instanceof Car)  // True
 				console.log(NewCar instanceof Car)  // True
 
-			(Note: It'll return true even if the class is Inherited)
-	
+				(Note: It'll return `true` even if the class is Inherited)
+
 Section: High-End/Advance JavaScript
 
 27. IIFE

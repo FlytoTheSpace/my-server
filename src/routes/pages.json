@@ -1,0 +1,15 @@
+{
+    "byTokenAuthPages": [
+        "data",
+        "cloud"
+    ],
+    "byTokenAdminOnlyAuthPages": [
+        
+    ],
+    "byTokenAPIAuthPages": [
+        
+    ],
+    "byTokenAdminOnlyAPIAuthPages": [
+        
+    ]
+}

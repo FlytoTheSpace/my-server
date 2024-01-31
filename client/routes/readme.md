@@ -1,0 +1,1 @@
+Any HTML files in this `/client/routes` folder will be available on the server with their corresponding name for example if you create a contact.html file here It'll be available on the server after a restart on /contact
