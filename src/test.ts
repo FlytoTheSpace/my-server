@@ -77,3 +77,30 @@ John.age = 27
 console.log(John.age) // 27
 */
 
+interface Student {
+    // [key: string]: string; // Error
+    // [key: string]: string | number; // Error
+    // [key: string]: string | number; // Error
+
+    [key: string]: string | number | undefined; // ok
+
+    name: string,
+    roleNo: number,
+    class: string | number,
+    age?: number
+}
+
+const student: Student = {
+    name: "James",
+    roleNo: 47,
+    class: 'XIIth'
+};
+
+let studentClass: string = 'class';
+
+let j = 'name';
+console.log(j as keyof Student)
+
+for (let i in student) {
+    console.log(`${i} : ${student[i as keyof Student]}`)
+}

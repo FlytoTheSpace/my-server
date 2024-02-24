@@ -32,7 +32,7 @@ Section: The Basics
         Hello World
         > 
 
-2. Types with Variables
+2. Variables
     
     (i) Assigning A Type to a Variable explicitly makes it Statically Typed or It'll be a Dynamically Typed
 
@@ -147,55 +147,57 @@ Section: The Basics
         let u: undefined = undefined;
         let n: null = null;
 
-    (xii) `as` keyword is used for type assertions, which is a way to tell the TypeScript compiler that you know the type of a value better than it does. Type assertions are similar to type casting in other languages but do not perform any special checking or restructuring of data. They are purely a way to inform TypeScript about the type of a variable.
+4. Type Casting
+    
+    (i) `as` keyword is used for type assertions, which is a way to tell the TypeScript compiler that you know the type of a value better than it does. Type assertions are similar to type casting in other languages but do not perform any special checking or restructuring of data. They are purely a way to inform TypeScript about the type of a variable.
 
-        Here's how the `as` keyword is used in TypeScript:
+    Here's how the `as` keyword is used in TypeScript:
 
-        (a) Syntax:
+    (ii) Syntax:
 
-            <variable> as <type>
-            <<type>><variable>
+        <variable> as <type>
+        <<type>><variable>
 
-        (b) Basic Usage
+    (iii) Basic Usage
+        
+        (a) You use `as` to assert the type of a variable. This is useful when TypeScript cannot infer the correct type of the variable, or you have knowledge about the type that TypeScript isn't aware of.
+
+        let someValue: any = 'this is a string';
+
+        let strLength: number = (someValue as string).length;
+
+        (b) In this example, `someValue` is of type `any`, so TypeScript doesn't know what methods are available on it. By asserting `someValue` as a `string`, you're telling TypeScript that `someValue` should be treated as a string, and thus it's safe to access the `length` property.
+
+    (iv) Changing Perceived Type
             
-            (I) You use `as` to assert the type of a variable. This is useful when TypeScript cannot infer the correct type of the variable, or you have knowledge about the type that TypeScript isn't aware of.
+        (a) Type assertions can be used to treat a variable as a different type than the one TypeScript inferred. This is helpful when you're working with a variable whose type is more specific than TypeScript can understand.
 
-            let someValue: any = 'this is a string';
+        interface Cat {
+            meow(): void;
+        }
 
-            let strLength: number = (someValue as string).length;
+        interface Dog {
+            bark(): void;
+        }
 
-            (II) In this example, `someValue` is of type `any`, so TypeScript doesn't know what methods are available on it. By asserting `someValue` as a `string`, you're telling TypeScript that `someValue` should be treated as a string, and thus it's safe to access the `length` property.
+        function getPet(): Cat | Dog {
+            // ...
+        }
 
-        (c) Changing Perceived Type
+        let pet = getPet();
+        (pet as Dog).bark(); // Asserting that pet is of type Dog
+        
+    (v) Non-Dom Assertions
             
-            (I) Type assertions can be used to treat a variable as a different type than the one TypeScript inferred. This is helpful when you're working with a variable whose type is more specific than TypeScript can understand.
-
-            interface Cat {
-                meow(): void;
-            }
-
-            interface Dog {
-                bark(): void;
-            }
-
-            function getPet(): Cat | Dog {
-                // ...
-            }
-
-            let pet = getPet();
-            (pet as Dog).bark(); // Asserting that pet is of type Dog
+        (a) While `as` is the standard syntax for type assertions in TypeScript, there's an older syntax that uses angle brackets (`<Type>`). However, the `as` syntax is preferred, especially when working with JSX in React, to avoid confusion with JSX's syntax.
             
-        (d) Non-Dom Assertions
-            
-            (I) While `as` is the standard syntax for type assertions in TypeScript, there's an older syntax that uses angle brackets (`<Type>`). However, the `as` syntax is preferred, especially when working with JSX in React, to avoid confusion with JSX's syntax.
-            
-            // Angle-bracket syntax
-            let strLength: number = (<string>someValue).length;
+        // Angle-bracket syntax
+        let strLength: number = (<string>someValue).length;
 
-            // As syntax
-            let strLength: number = (someValue as string).length;
+        // As syntax
+        let strLength: number = (someValue as string).length;
 
-4. Operators
+5. Operators
 
     (ii) Pipe '|' operator represent 'OR' logic for Types and separates each type, so for example `number | string | boolean` is the type of a value that can be a number, a string, or a boolean.
         
@@ -205,7 +207,7 @@ Section: The Basics
         a = "Dave";
         a = true; // Error
 
-5. Custom Types 
+6. Custom Types 
 
     (i) In TypeScript, custom types allow developers to define their own data structures, combining existing types, and creating new ones suited to their specific needs. Custom types enhance code readability, maintainability, and reduce the likelihood of errors by providing a clear and explicit definition of data structures.
     
@@ -460,7 +462,7 @@ Section: The Basics
         const movingDirection: Direction = Direction.Up;
         console.log(movingDirection) // "Up"
 
-6. Functions
+7. Functions
 
     (i) Syntax:
 
@@ -567,7 +569,215 @@ Section: The Basics
             console.log(sum('**', 35, 2)) // 1225
             console.log(sum('%', 10, 3)) // 1
 
-7. Classes
+9. Objects
+
+    (i) In TypeScript, objects are a fundamental construct used to store collections of values and more complex entities. An object in TypeScript is an instance which contains a set of key-value pairs. The keys in this collection are unique and associated with a specific value. TypeScript, being a superset of JavaScript, follows the same syntax and semantics for objects as JavaScript, but with additional type-checking and features.
+
+    (ii) Basic Object Types
+
+        (a) To define an object type in TypeScript, you can use an interface or a type alias. Here's an example using an interface:
+
+        interface Person {
+            name: string;
+            age: number;
+        }
+
+        const person: Person = {
+            name: "Alice",
+            age: 30
+        };
+
+        In this example, `Person` is an interface describing the shape of a person object, which must have a `name` of type `string` and an `age` of type `number`.
+
+    (iii) Optional Properties
+
+        (a) TypeScript allows object properties to be marked as optional:
+        
+        interface Person {
+            name: string;
+            age?: number;  // age is optional
+        }
+
+        const person: Person = {
+            name: "Bob"
+        };
+
+        Here, `age` is an optional property.
+
+    (iv) Readonly Properties
+
+        (a) TypeScript provides a `readonly` modifier to make properties immutable:
+
+        interface Person {
+            readonly name: string;
+            age: number;
+        }
+
+        const person: Person = {
+            name: "Charlie",
+            age: 40
+        };
+
+        person.name = "Dave"; // Error: cannot reassign a readonly property
+
+    (v) Index Signatures
+        
+        (a) For objects with unknown property keys, you can use index signatures:
+
+        (b) Syntax:
+
+            [<anyNameYouWant>: <type of keys: string | symbol | number | Literals> ]: <...typeof of values>
+
+        interface Student {
+            // [key: string]: string; // Error
+            // [key: string]: string | number; // Error
+            // [key: string]: string | number; // Error
+
+            // [key: string]: string | number | undefined; // ok
+            /*
+            Using Types in Keys of Index Signatures leads to typescript allowing any properties to be accessed even undefined ones so it's Recommended to use Literals
+            like this :-
+            */
+
+            [key: 'name', 'roleNo', 'class', 'age']: string | number | undefined // The Best Way to use Index Signatures without any future Errors
+
+            name: string,
+            roleNo: number,
+            class: string | number,
+            age?: number
+        }
+
+        const student: Student = {
+            name: "James",
+            roleNo: 47
+            class: 'XIIth'
+        };
+
+        let studentClass: string = 'class';
+
+        // Statically Accessing / Hardcoring It
+        console.log(student['class']); // XIIth
+
+        // Dynamically Accessing
+
+        // Without Index Signatures
+        console.log(student[studentClass]); // Error
+
+        // with Index Signatures
+        console.log(student[studentClass]); // XIIth
+
+        // Exploit by using Types in Keys of Index Signatures
+        console.log(student['teachersName']); // undefined
+
+    (vi) Extending Interfaces
+
+        (a) Interfaces can extend other interfaces to create new types:
+
+        interface NamedEntity {
+            name: string;
+        }
+
+        interface Employee extends NamedEntity {
+            department: string;
+        }
+
+        const employee: Employee = {
+            name: "Eve",
+            department: "HR"
+        };
+
+    (vii) Intersection Types
+
+        (a) You can combine multiple types into one using intersection types:
+
+        type Person = {
+            name: string;
+            age: number;
+        };
+
+        type Employee = {
+            department: string;
+        };
+
+        type PersonEmployee = Person & Employee;
+
+        const personEmployee: PersonEmployee = {
+            name: "Frank",
+            age: 35,
+            department: "IT"
+        };
+
+    (viii) Type Assertions and Casting
+
+        (a) TypeScript allows for type assertions, which is a way to tell the compiler the type of an object:
+
+        const person: any = getPerson();
+        const personCasted = person as Person; // Type assertion
+
+    (ix) `keyof`
+        
+        (a) `keyof` keyword is a powerful operator used to extract the keys of a given type as a union of string or numeric literal types. It allows you to programmatically access and work with the keys of an object type without hardcoding them, providing type safety and flexibility in your code.
+
+        (b) Syntax
+
+            type <KeysOfType> = keyof <SomeType>;
+            
+            <key> as keyof <SomeType>;
+
+            (a) `SomeType` is the type from which you want to extract the keys.
+            (b) `KeysOfType` is the type representing the union of keys extracted from `SomeType`.
+
+        (c) Example
+
+            (I) Consider an interface `Person`:
+
+            interface Person {
+                name: string;
+                age: number;
+                city: string;
+            }
+
+            (II) You can use `keyof` to extract the keys of the `Person` interface:
+
+            type PersonKeys = keyof Person;
+
+            (III) After this operation, `PersonKeys` would be a type representing the union `"name" | "age" | "city"`.
+
+
+        (d) Accessing Properties Dynamically: `keyof` is often used to access object properties dynamically using bracket notation:
+
+            function getProperty(obj: any, key: keyof typeof obj) {
+                return obj[key];
+            }
+
+            const person: Person = { name: "Alice", age: 30, city: "Wonderland" };
+            getProperty(person, "name"); // "Alice"
+            getProperty(person, "age"); // 30
+
+        (e) Type Safety: Using `keyof` ensures type safety because TypeScript will infer the correct type for the key, preventing common mistakes like accessing non-existent properties.
+
+        (f) Mapped Types: `keyof` is commonly used in mapped types to create new types based on the keys of existing types:
+
+            type PartialPerson = {
+                [K in keyof Person]?: Person[K];
+                
+            };
+
+            (I) Here, `PartialPerson` represents a type that has the same keys as `Person`, but each property is optional.
+
+        (g) Type Guards and Discriminated Unions: `keyof` can also be used in type guards and discriminated unions to narrow down types based on object keys.
+
+        ### Limitations
+
+        - `keyof` only works with object types and not with primitive types or arrays.
+
+        - `keyof` extracts both string and numeric keys, but most of the time, it's used with object types having string keys.
+
+        In summary, `keyof` is a powerful tool in TypeScript for working with object types, allowing you to extract keys dynamically and perform type-safe operations on object properties. It's a key feature for writing robust and maintainable code in TypeScript.
+
+    (x) In TypeScript, objects are a versatile and powerful way to represent data structures. By leveraging TypeScript's type system, you can ensure your objects adhere to specific shapes, making your code more predictable and less prone to errors. With features like optional and readonly properties, index signatures, and the ability to create complex types through interfaces, type aliases, and intersection types, TypeScript provides a robust framework for working with objects.
+
+8. Classes
 
     (i) In TypeScript, classes are a fundamental part of the language, enabling object-oriented programming features like encapsulation, inheritance, and polymorphism. TypeScript enhances the class-based concepts from JavaScript (ES6) by adding features like type annotations, access modifiers (like `public`, `private`, and `protected`), and more advanced capabilities such as abstract classes and decorators.
 
@@ -625,14 +835,19 @@ Section: The Basics
         (d) Syntax:
 
             <access modifier> <property>: <type>
+            <access modifier> <method>
 
         class Person {
             // <access modifier> <property>: <type>
             public name: string;
             private id: number;
-            protected age: number;
+            // age: number; no Need for this to be here since it can be declared in the arguments
 
-            constructor(name: string, age: number, id: number) {
+            public constructor(
+                name: string,
+                protected age: number, // We can pass them as Arguments
+                id: number
+            ) {
                 this.name = name;
                 this.age = age;
                 this.id = id;
@@ -735,34 +950,62 @@ Section: The Basics
         John.age = 27
         console.log(John.age) // 27
     
+    (vii) `super`
+
+        class Person {
+            // <access modifier> <property>: <type>
+            public name: string;
+
+            public constructor(
+                name: string,
+                public age: number, // We can pass them as Arguments
+            ) {
+                this.name = name;
+                this.age = age;
+            }
+            // ...
+        }
+
+        class Student extends Person {
+            constructor(name: string, public age: number, private studentID: number){
+                super(name, age)
+                this.studentID = studentID;
+            }
+        }
+
     (vii) Static Members
 
-    Classes in TypeScript can have static properties and methods, which belong to the class itself rather than any individual instance.
+        (i) Classes in TypeScript can have static properties and methods, which belong to the class itself rather than any individual instance.
 
-    class Calculator {
-        static add(a: number, b: number): number {
-            return a + b;
+            class Calculator {
+                static add(a: number, b: number): number {
+                    return a + b;
+                }
+            }
+
+        console.log(Calculator.add(5, 10)); // no need for making a new Copy of The Class
+
+    (viii) Interfaces and Classes
+
+        (i) Interfaces in TypeScript can be implemented by classes, ensuring that the classes adhere to a particular contract.
+        (ii) Instead of a Column ':' we have to use `implements` keyword to define it's instead
+
+        (iii) Syntax:
+
+            interface <InterfaceName> {
+                <interface Here>
+
+                <functionName>(...params): <return Type> // A Function Type
+            }
+            class <className> implements <InterfaceName> {
+                <content of class Here>
+            }
+
+        interface Identifiable {
+            id: number;
         }
-    }
 
-    console.log(Calculator.add(5, 10));
+        class Product implements Identifiable {
+            constructor(public id: number, public name: string) { }
+        }
 
-    ### Interfaces and Classes
-
-    Interfaces in TypeScript can be implemented by classes, ensuring that the classes adhere to a particular contract.
-
-    ```typescript
-    interface Identifiable {
-        id: number;
-    }
-
-    class Product implements Identifiable {
-        constructor(public id: number, public name: string) { }
-    }
-    ```
-
-    ### Decorators
-
-    TypeScript also supports experimental decorators, which are special kinds of declarations that can be attached to a class declaration, method, accessor, property, or parameter.
-
-    Classes in TypeScript provide a powerful structure for organizing and structuring your code, bringing together both JavaScript's prototypal inheritance and more traditional object-oriented programming concepts.

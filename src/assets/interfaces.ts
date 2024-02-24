@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+import('./database');
 export interface TokenPayload {
     username: string,
     email: string,
@@ -12,6 +14,15 @@ export type TokenPayloadType = {
     userID: number,
     role: string
 };
+export type AccountsCollection = ({
+    _id: mongoose.ObjectId,
+    username: string,
+    email: string,
+    password: string,
+    userID: number,
+    role: 'member' | 'admin',
+    __v: 0
+})[]
 export interface AuthenticateInterface {
     isTokenCorrupt: Function,
     isValidAccount: Function,

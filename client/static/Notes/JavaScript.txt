@@ -1,6 +1,6 @@
-==========================================================================================================
+=========================================================================================================
 											JavaScript
-==========================================================================================================
+=========================================================================================================
 
 Introduction
 	
@@ -713,6 +713,8 @@ Section: Basics
 	
 	(v) Assignment operators
 
+		Arithmetic Assignment:
+
 		(a) `=` Assignment Operator: The `=` operator assigns a value to a variable.
 			
 			(I) It is used to assign the value on the right to the variable on the left. For example, x = 5 assigns the value 5 to the variable x.
@@ -736,7 +738,45 @@ Section: Basics
 		(f) `%=` Modulus Assignment: The `%=` operator performs modulus division on the variable and the value on the right and assigns the result to the variable.
 			
 			(I) For example, x %= 3 is the same as x = x % 3.
-	
+
+		Bitwise Assignment:
+		
+		(g) `Bitwise AND Assignment (`&=`)`: Performs a bitwise AND operation between the variable and the value on the right side of the operator, and then assigns the result to the variable.
+
+		   	var x = 5;
+		   	x &= 3; // Equivalent to x = x & 3;
+		   	console.log(x); // Output: 1 (5 & 3 = 1)
+
+		(h) `Bitwise OR Assignment (`|=`)`: Performs a bitwise OR operation between the variable and the value on the right side of the operator, and then assigns the result to the variable.
+
+		   	var x = 5;
+		   	x |= 3; // Equivalent to x = x | 3;
+		   	console.log(x); // Output: 7 (5 | 3 = 7)
+
+		(i) `Bitwise XOR Assignment (`^=`)`: Performs a bitwise XOR operation between the variable and the value on the right side of the operator, and then assigns the result to the variable.
+
+		   	var x = 5;
+		   	x ^= 3; // Equivalent to x = x ^ 3;
+		   	console.log(x); // Output: 6 (5 ^ 3 = 6)
+
+		(j) `Left Shift Assignment (`<<=`)`: Shifts the bits of the variable to the left by the number of positions specified on the right side of the operator, and then assigns the result to the variable.
+
+		   	var x = 5;
+		   	x <<= 1; // Equivalent to x = x << 1;
+		   	console.log(x); // Output: 10 (5 << 1 = 10)
+
+		(k) `Right Shift Assignment (`>>=`)`: Shifts the bits of the variable to the right by the number of positions specified on the right side of the operator, and then assigns the result to the variable.
+
+		   	var x = 5;
+		   	x >>= 1; // Equivalent to x = x >> 1;
+		   	console.log(x); // Output: 2 (5 >> 1 = 2)
+
+		(l) `Unsigned Right Shift Assignment (`>>>=`)`: Shifts the bits of the variable to the right by the number of positions specified on the right side of the operator, and then assigns the result to the variable. Unlike the right shift operator (`>>`), the unsigned right shift operator (`>>>`) fills the vacated bits with zeros.
+
+		   	var x = -5;
+		   	x >>>= 1; // Equivalent to x = x >>> 1;
+		   	console.log(x); // Output: 2147483645 (-5 >>> 1 = 2147483645)
+
 	(vi) Comparison Operators
 		
 		List of Comparison Operators:
@@ -778,6 +818,118 @@ Section: Basics
 		(b) `||` Logical OR: The logical OR operator returns true if at least one of the operands is true; it returns false if both operands are false. For instance, let result = (x < 5 || y < 10); returns true if either x is less than 5 or y is less than 10.
 
 		(c) `!` Logical NOT: The logical NOT operator reverses the logical state of its operand. If a condition is true, the NOT operator makes it false, and vice versa. For example, let result = !(x < 5); returns true if x is not less than 5.
+
+	(viii) Bitwise Operators
+
+		(a) Bitwise operators are used to perform operations on the binary representations of numbers at a bitwise level. These operators manipulate individual bits within binary representations of numbers. Bitwise operators work on 32-bit integer representations of numbers, but they implicitly convert operands to 32-bit signed integers before performing the operation. Here are the bitwise operators available in JavaScript:
+
+		(b) `Bitwise AND (&)`: The bitwise AND operator performs a bitwise AND operation between the corresponding bits of two numbers. The result is 1 only if both bits are 1; otherwise, the result is 0.
+
+		   	var result = 5 & 3; // 0101 & 0011 = 0001
+		   	console.log(result); // Output: 1
+		   
+		(c) `Bitwise OR (|)`: The bitwise OR operator performs a bitwise OR operation between the corresponding bits of two numbers. The result is 1 if at least one of the bits is 1.
+
+		   	var result = 5 | 3; // 0101 | 0011 = 0111
+		   	console.log(result); // Output: 7
+		   
+		(d) `Bitwise XOR (^)`: The bitwise XOR operator performs a bitwise exclusive OR operation between the corresponding bits of two numbers. The result is 1 if the bits are different; otherwise, the result is 0.
+
+		   	var result = 5 ^ 3; // 0101 ^ 0011 = 0110
+		   	console.log(result); // Output: 6
+		   
+		(e) `Bitwise NOT (~)`: The bitwise NOT operator inverts each bit of a number. It changes 1 to 0 and 0 to 1.
+
+		   	var result = ~5; // ~0101 = 1010 (2's complement representation)
+		   	console.log(result); // Output: -6
+		   
+		(f) `Left Shift (<<)`: The left shift operator shifts the bits of a number to the left by a specified number of positions. The vacated bits are filled with zeros.
+
+		   	var result = 5 << 1; // 0101 << 1 = 1010
+		   	console.log(result); // Output: 10
+		   
+		(g) `Sign-propagating Right Shift (>>)`: The right shift operator shifts the bits of a number to the right by a specified number of positions. It preserves the sign of the number, shifting in copies of the leftmost bit (the sign bit).
+
+		   	var result = 5 >> 1; // 0101 >> 1 = 0010
+		   	console.log(result); // Output: 2
+		   
+		(h) `Zero-fill Right Shift (>>>)`: The zero-fill right shift operator shifts the bits of a number to the right by a specified number of positions. It always shifts in zeros from the left.
+
+		   	var result = -5 >>> 1; // 11111111111111111111111111111011 >>> 1 = 01111111111111111111111111111101
+		   	console.log(result); // Output: 2147483645
+		   
+		(i) Bitwise operators are mainly used in situations that require low-level bit manipulation, such as optimizing algorithms, dealing with flags, or working with hardware data. However, they should be used with caution because they can make code less readable and harder to maintain.
+
+	(ix) Unary Operators
+
+		(A) Unary Plus (+): The unary plus operator attempts to convert its operand into a number. If the operand is not already a number, JavaScript tries to convert it using the Number() function.
+
+    		var x = "5";
+    		var y = +x; // y will be 5 (a number)
+
+		(B) Unary Negation (-): The unary negation operator negates its operand. If the operand is not already a number, JavaScript tries to convert it into a number and then negates it.
+
+    		var x = "5";
+    		var y = -x; // y will be -5 (a number)
+
+		(C) Increment (++): The increment operator adds 1 to its operand. If placed before the operand (prefix increment), it increments the operand and then returns the incremented value. If placed after the operand (postfix increment), it returns the current value of the operand and then increments it.
+
+    		var x = 5;
+    		var y = ++x; // y will be 6, x will be 6
+
+		(D) Decrement (--): The decrement operator subtracts 1 from its operand. Like the increment operator, if placed before the operand (prefix decrement), it decrements the operand and then returns the decremented value. If placed after the operand (postfix decrement), it returns the current value of the operand and then decrements it.
+
+    		var x = 5;
+    		var y = --x; // y will be 4, x will be 4
+
+		(E) Logical Not (!): The logical NOT operator negates the boolean value of its operand. If the operand is true, it returns false; if the operand is false, it returns true.
+
+    		var x = true;
+    		var y = !x; // y will be false
+
+		(F) Typeof Operator: The typeof operator returns a string indicating the type of the unevaluated operand.
+
+    		var x = 5;
+    		var y = typeof x; // y will be "number"
+
+		Unary operators are essential in JavaScript for performing various operations on a single operand, such as converting types, changing signs, and checking truthiness or falsiness. Understanding how these operators work is crucial for effective JavaScript programming.
+
+	(x) `,` Operator 
+		
+		(a) the comma operator (`,`) is a somewhat less commonly used operator that allows you to evaluate multiple expressions and return the value of the last expression. It evaluates each of its operands from left to right and returns the value of the rightmost operand.
+
+		(b) Here's how the comma operator works:
+
+			(I) `Evaluation Order`: The comma operator evaluates its operands sequentially, from left to right. Each operand can be any valid JavaScript expression.
+
+			(II) `Return Value`: The comma operator returns the value of the rightmost operand after evaluating all the operands.
+
+		(c) Examples:
+
+			(I)
+
+				const a = (2 + 3, 5 + 7); // The comma operator is used to separate two expressions
+				console.log(a); // Output: 12 (the value of the rightmost expression)
+
+				(A) In this example, `(2 + 3, 5 + 7)` is evaluated. The expression `2 + 3` is evaluated first, but its result is discarded because of the comma operator. Then, `5 + 7` is evaluated, and its value (12) is assigned to the variable `a`.
+			
+			(II)
+
+				var x = 1, y = 2;
+				(x++, y++); // The comma operator is used to increment both x and y
+				console.log(x); // Output: 2
+				console.log(y); // Output: 3
+
+				(A) Here, the comma operator is used to increment both `x` and `y` by one. The expressions `x++` and `y++` are evaluated sequentially from left to right. The value of `x++` is discarded, and the value of `y++` (which is 3) is returned.
+
+			(III)
+				
+				const a = (3 * 2, 'Hello', 5 + 7); // The comma operator is used to evaluate three expressions
+				console.log(a); // Output: 12 (the value of the rightmost expression)
+
+				In this case, `(3 * 2, 'Hello', 5 + 7)` is evaluated. The first expression `3 * 2` is evaluated but its value is discarded. Then, the string `'Hello'` is evaluated but its value is also discarded. Finally, `5 + 7` is evaluated and its value (12) is assigned to the variable `a`.
+
+		(d) While the comma operator can be useful in certain contexts, it's often considered less readable and should be used judiciously to maintain code clarity. In most cases, it's clearer to use separate statements or expressions instead of relying on the comma operator for evaluation.
 
 6. Comments
 
@@ -824,26 +976,36 @@ Section: Basics
 
 		(note: Do Not Put a Semicolumn";" after the if statement if you want to use else, but you can still use it inside the brackets)
 		
-	(ii) Statements of Switch
+	(ii) Switch Statement
 
-		(a) `switch` is a Keyword which allows you to execute some code if value of a variable matches and you have to provide it the variable.
-		(b) it uses `case` keyword to compare the provided value with the variable, and then case and the code that should run is seperated a column (":"), and it works like `if` and `else if` statement.
-		(c) `default` keyword working like `else` keyword means that it'll run the code if all of statements fails
+		(a) `switch` statement allows you to check if value of a variable is equals to another value and execute a peice of Code:
+		(b) Syntax:
 
-		for Example:-
+			switch (<Variables>){
+				case <value>:
+					// code to execute if <Variables> === <value>
+					break
+				default:
+					// Code to Execute If None of The Cases matches
+			}
+
+		(c) for Example:-
 			
-			let age = prompt("Hey What's your age?");
-			age = Number.parseInt(age);
+			let ticketCode = 24678
+
 			switch(age){
-			  case 19:
-				alert("You're 19")
-				break
-			  case 20:
-				alert("You're 20")
-				break
-			  default:
-				alert("Wow You're A Proper Adult now")
-				break
+				case 45184:
+					console.log("You've won The First Prize!")
+					break
+				case 23567:
+					console.log("You've won The Second Prize!")
+					break
+				case 98456:
+					console.log("You've won The Third Prize!")
+					break
+				default:
+					console.log("Sorry You Didn't won any Prizes")
+					break
 			}
 
 8. Index
@@ -1212,12 +1374,70 @@ Section: Basics
 			  	console.log(a);
 			  	a++;
 			}while(a<=b);
-		
+	
+	(vi) Loop Controls
+
+		(i) Loop controls in JavaScript are mechanisms used to manage the flow of iteration within loops. They allow you to alter the default behavior of loops, such as exiting a loop prematurely, skipping the current iteration, or restarting the loop from the beginning. Here are the main loop control statements in JavaScript:
+
+		(ii) `break` Statement: The `break` statement is used to exit a loop prematurely, terminating the loop's execution. When a `break` statement is encountered within a loop, the loop immediately stops executing, and the program continues with the statement immediately following the loop.
+		    
+		    for (var i = 0; i < 5; i++) {
+		        if (i === 3) {
+		            break; // exit loop when i equals 3
+		        }
+		        console.log(i);
+		    }
+		    // Output: 0
+		    //         1
+		    //         2
+
+		(iii) `continue` Statement: The `continue` statement skips the current iteration of the loop and proceeds with the next iteration. When a `continue` statement is encountered within a loop, the remaining code inside the loop for the current iteration is skipped, and the loop continues with the next iteration.
+
+		    for (var i = 0; i < 5; i++) {
+		        if (i === 2) {
+		            continue; // skip iteration when i equals 2
+		        }
+		        console.log(i);
+		    }
+		    // Output: 0
+		    //         1
+		    //         3
+		    //         4
+
+		(iv) `return` Statement: Though not specific to loops, the `return` statement is used to exit a function. It also applies as a loop control if the loop is within a function. When a `return` statement is executed within a loop, it immediately exits both the loop and the function in which it is contained.
+
+		    function findValue(array, value) {
+		        for (var i = 0; i < array.length; i++) {
+		            if (array[i] === value) {
+		                return i; // exit function when value is found
+		            }
+		        }
+		        return -1; // return -1 if value is not found
+		    }
+
+		(v) `label` and `break`/`continue`: JavaScript allows labeling loops so that you can break or continue specific loops nested within other loops. This is achieved by adding a label before the loop statement and using that label with `break` or `continue`.
+
+			(A) Syntax:
+
+				<LoopName>: <Loop>
+
+		    outerLoop:
+		    for (var i = 0; i < 3; i++) {
+		        for (var j = 0; j < 3; j++) {
+		            if (i === 1 && j === 1) {
+		                break outerLoop; // exit outer loop when i equals 1 and j equals 1
+		            }
+		            console.log(i, j);
+		        }
+		    }
+		    // Output: 0 0
+		    //         0 1
+
+		(vi) Loop controls provide flexibility and control over the flow of iteration in JavaScript loops, allowing you to handle special cases or conditions more effectively.
+
 10. Funtions
 
 	(i) Functions in JavaScript, often referred to as "traditional functions" or "function expressions," are a fundamental part of the language. They are used to define reusable blocks of code that can be executed when called. Function is a Block of code that is designed to perform a particular task, it can be used for code lines that are repeated, if you use this you just need to type the name of the funtion and round brackets with the variable'same
-
-	Let's Begin
 
 	(ii) JavaScript functions In General:
 
@@ -3310,7 +3530,7 @@ Section: JavaScript in Browser (Client Side)
 
 Section: Key Concepts
 
-17. `Synchronous` and `Asynchronous` Actions
+17. `Synchronous` and `Asynchronous`
 
 	(i) synchronous and asynchronous actions refer to different ways in which tasks are executed in a program.
 	
@@ -3424,6 +3644,8 @@ Section: Key Concepts
 			} 
 			*/
 
+		(f) `<value>.toJSON` converts any Value to a JavaScript Object
+
 	(iv) The `encodeURIComponent` and `decodeURIComponent` functions are used to manage special characters in URLs. Here's a breakdown of each:
 
 		(a) `encodeURIComponent`: The `encodeURIComponent` function is used to encode special characters in a URL. It takes a single parameter, typically a string, and replaces any special characters with their encoded counterparts. This is particularly useful when you want to append parameters to a URL. It encodes all characters except the following: A-Z a-z 0-9 - _ . ! ~ * ' ( ).
@@ -3529,10 +3751,10 @@ Section: Key Concepts
 		(c) Function context: In the context of a function, the value of `this` depends on how the function is called. In regular function calls, `this` refers to the global object. In object methods, `this` refers to the object that the method is a property of.
 
 			const myObj = {
-			  property: 'value',
-			  myMethod: function() {
-			    console.log(this.property);
-			  }
+			  	property: 'value',
+			  	myMethod: function() {
+			    	console.log(this.property);
+			  	}
 			};
 
 			myObj.myMethod(); // 'value'
@@ -3540,15 +3762,21 @@ Section: Key Concepts
 		(d) Arrow functions: Arrow functions do not have their own `this` value. They inherit `this` from the enclosing scope.
 
 			const myObj = {
-			  myMethod: function() {
-			    const myArrowFunc = () => {
-			      console.log(this);
-			    };
-			    myArrowFunc();
-			  }
+			  	myMethod: function() {
+			    	const myArrowFunc = () => {
+			      		console.log(this);
+			    	};
+			    	myArrowFunc();
+			  	},
+				myArrowFunc: ()=>{
+					console.log(this)
+				}
 			};
 
+
 			myObj.myMethod(); // 'myObj' object
+
+			myObj.myArrowFunc() // `window` object if browser, `global` object if Node.js
 
 		(e) Constructor functions: In constructor functions, `this` refers to the specific instance of the object that is created and returned by the constructor function when using the `new` keyword.
 
@@ -3558,8 +3786,99 @@ Section: Key Concepts
 
 			const john = new Person('John');
 			console.log(john.name); // 'John'
+		
+		(h) Event Handlers:
 
-		Understanding the behavior of the this keyword is crucial for writing maintainable and predictable code in JavaScript. It is essential to be aware of how it behaves in different contexts to avoid unexpected results.
+			(I) `this` keyword is used within the context of event handlers, such as in DOM event listeners, the `this` keyword typically refers to the element that triggered the event.
+
+			Here's how the `this` keyword works in event handlers:
+
+			(II) `Inline Event Handlers`:
+			   	
+				(A) In HTML, you can define event handlers inline using attributes like `onclick`, `onmouseover`, etc. In this case, when the event handler is invoked, the `this` keyword refers to the DOM element to which the event handler is attached.
+
+				   <button onclick="console.log(this)">Click me</button>
+
+			   	(B) When the button is clicked, the `this` keyword refers to the `<button>` element itself.
+
+			(III) `Event Listeners`:
+			   	
+				(A) When you attach event listeners using JavaScript, the context of `this` can vary depending on how the event listener is attached.
+
+			   	(B) If you attach an event listener using the `addEventListener()` method, the `this` keyword inside the event handler function refers to the DOM element to which the event listener is attached.
+
+			     	document.getElementById('myButton').addEventListener('click', function() {
+			         	console.log(this); // 'this' refers to the DOM element with id 'myButton'
+			     	});
+
+			   (C) If you use arrow functions (`() => {}`) as event handlers, the lexical scope of `this` is preserved, and it refers to the context where the arrow function was defined, typically the global scope or the scope of the enclosing function. In this case, `this` does not refer to the DOM element.
+
+			     	document.getElementById('myButton').addEventListener('click', () => {
+			         	console.log(this); // 'this' refers to the global object or the enclosing function's scope
+			     	});
+			     	```
+
+		(i) Binding
+
+			(I) In JavaScript, binding refers to the process of associating a function with a particular context or object. It determines what the `this` keyword refers to within the function when it is invoked. Understanding binding is crucial for managing the context of functions, especially in situations where functions are passed around as values or used as callbacks.
+
+			There are several ways to bind functions in JavaScript:
+
+			(II) Implicit Binding:
+
+				(A) When a function is called as a method of an object, the `this` keyword inside the function refers to the object on which the method was called.
+
+			   	const person = {
+			       	name: 'John',
+			       	greet: function() {
+			           	console.log('Hello, ' + this.name);
+			       	}
+			   	};
+
+			   	person.greet(); // Output: Hello, John
+
+			(III) Explicit Binding:
+
+			   	(A) You can explicitly bind a function to a specific context using methods like `call()`, `apply()`, or `bind()`.
+
+			   	(B) `<Function>.call(<`this` Value>, args...)` calls the Function with a specified Value of `this`
+
+					const person1 = { name: 'John' };
+			   		const person2 = { name: 'Jane' };
+
+			   		function greet(msg) {
+			    	   	console.log(`${msg} ${this.name}`);
+			   		}
+
+			   		greet.call(person1, 'Hello'); // Output: Hello, John
+			   		greet.call(person2, 'Hi'); // Output: Hi, Jane
+
+				(C) `<Function>.apply(<`this` value>, [args...])` function is similar to the call() function, except that it accepts arguments as an array or array-like object instead of as individual arguments.
+
+					const person1 = { name: 'John' };
+			   		const person2 = { name: 'Maria' };
+
+			   		function greet(msg) {
+			    	   	console.log(`${msg} ${this.name}`);
+			   		}
+
+			   		greet.apply (person1, ['Hello']); // Output: Hello, John
+			   		greet.apply(person2, ['Hi']); // Output: Hi, Maria
+
+				(D) `<Function>.bind()` function used for Hard Binding, returns a new function with the specified `this` value and, optionally, pre-set arguments, IT ensure that a function always uses a specific `this` value by explicitly binding.
+
+					const person = {
+						name: 'John'
+					};
+
+					function greet() {
+						console.log('Hello, ' + this.name);
+					}
+
+					const boundGreet = greet.bind(person);
+					boundGreet(); // Output: Hello, John
+
+		(j) Understanding the behavior of the this keyword is crucial for writing maintainable and predictable code in JavaScript. It is essential to be aware of how it behaves in different contexts to avoid unexpected results.
 	
 	(iii) `delete` 
 		
@@ -3629,7 +3948,7 @@ Section: Key Concepts
 
 		(b) The throw statement is essential for custom error handling and allows you to create your own error messages, making your code more robust and easier to debug.
 		
-21. `Promise` Object
+21. Promises
 		
 	(i) The `Promise` object represents the eventual result of an asynchronous operation. It has two main properties: state and result. The state can be either "pending," "fulfilled," or "rejected," and the result is the value that the `Promise` eventually resolves to or the reason for rejection.
 
@@ -3963,7 +4282,7 @@ Section: Key Concepts
 			// Example usage
 			divideByTwo('not a number');
 				
-22. `Error` Object
+22. Errors
 
 	(i) `Error` object in JavaScript represents an error that occurs during the execution of the code. It can be used to create custom error types or handle errors that occur in your code. Instances of the `Error` object can be thrown, caught, and used for structured error handling.
 
@@ -4821,7 +5140,7 @@ Section: Object Oriented Programming
 			  	}
 			}
 
-		(c) `super` keyword is used to access properties on an object literal or class's [[Prototype]], or invoke a superclass's constructor.
+		(c) `super` function, calls the constructor of the Parent/Base Class
 
 			class Rectangle {
 			  	constructor(height, width) {
@@ -4931,7 +5250,47 @@ Section: Object Oriented Programming
 
 Section: High-End/Advance JavaScript
 
-27. IIFE
+27.  Strict Mode
+
+	(i) Strict mode is a feature in JavaScript that allows you to place a program, or a function, in a "strict" operating context. When strict mode is enabled, the JavaScript engine enforces a stricter set of rules and generates more exceptions for common coding errors or "unsafe" actions. It helps developers write cleaner and more secure code by catching potential errors and preventing certain actions that may lead to unexpected behavior.
+
+	(ii) To enable strict mode, you simply add the string literal `"use strict";` at the beginning of a script or a function body. When placed at the beginning of a script, it applies to the entire script. When placed at the beginning of a function body, it applies to the function and its inner functions (if any).
+	
+	(iii) Enabling Strict Mode
+	
+		(a) `Script-level strict mode:`
+
+	   		"use strict";
+
+	   		// Your JavaScript code here
+
+		(b) Function-level strict mode:
+
+	   		function myFunction() {
+	       		"use strict";
+
+	       		// Your JavaScript code here
+	   		}
+	
+	(iv) Strict mode enables the following changes and enhancements to the JavaScript language:
+	
+		(a) `Catching silent errors`: In non-strict mode, JavaScript may silently fail or behave unexpectedly in certain situations. Strict mode makes these errors explicit by throwing exceptions.
+
+		(b) `Preventing undeclared variables`: In strict mode, using variables without declaring them first with `var`, `let`, or `const` will throw a reference error.
+
+		(c) `Preventing duplicate property names`: In strict mode, you cannot define multiple properties with the same name in an object literal.
+
+		(d) `Changing the meaning of `this``: In strict mode, the value of `this` inside a function is `undefined` if the function is called without an object context.
+
+		(e) `Disabling `with` statement`: The `with` statement is not allowed in strict mode, as it can lead to confusion and potential security issues.
+
+		(f) `Restricting the use of `eval``: In strict mode, the use of `eval` as a variable, function name, or parameter name is not allowed.
+
+		(g) `Making `arguments` immutable`: In strict mode, changes to the `arguments` object inside a function do not affect the corresponding named parameters.
+	
+	(v) Using strict mode is recommended for all JavaScript codebases, as it helps prevent common programming mistakes, makes the code easier to optimize by the JavaScript engine, and ensures more predictable behavior across different environments and implementations of JavaScript.
+
+28. IIFE
 
 	(i) An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined
 
@@ -4983,7 +5342,7 @@ Section: High-End/Advance JavaScript
 				  }
 				})();
 		
-28. Destructuring assignment
+29. Destructuring assignment
 	
 	(i) The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
 
@@ -5063,7 +5422,7 @@ Section: High-End/Advance JavaScript
 			console.log(sum(...numbers));
 			// Expected output: 6
 	
-29. Scopes
+30. Scopes
 
 	(i) The scope is the current context of execution in which values and expressions are "visible" or can be referenced. If a variable or expression is not in the current scope, it will not be available for use. Scopes can also be layered in a hierarchy, so that child scopes have access to parent scopes, but not vice versa.
 	
@@ -5120,7 +5479,7 @@ Section: High-End/Advance JavaScript
 			}
 			console.log(x); // ReferenceError: x is not defined
 
-30. Hoisting
+31. Hoisting
 	
 	(i) JavaScript Hoisting refers to the process whereby the interpreter appears to move the declaration of functions, variables, classes, or imports to the top of their scope, prior to execution of the code.
 	
@@ -5154,7 +5513,7 @@ Section: High-End/Advance JavaScript
 
 		(Note: using `var` for declaration makes the variable declared already by hoisting with the value of `undefined` and it'll stay like that until the line of declaration is reached AKA initialized)
 
-31. Closures
+32. Closures
 
 	(i) A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives you access to an outer function's scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time.
 
@@ -5194,7 +5553,7 @@ Section: High-End/Advance JavaScript
 
 			In essence, blocks are finally treated as scopes in ES6, but only if you declare variables with let or const. In addition, ES6 introduced modules, which introduced another kind of scope. Closures are able to capture variables in all these scopes, which we will introduce later.
 
-32. Regular Expressions
+33. Regular Expressions
 
 	(i) Regular Expressions (regex or regexp) are sequences of characters that form a search pattern. They are used for pattern matching within strings. Regular expressions provide a concise and flexible means for matching strings of text, such as specific characters, words, or patterns of characters. Here are key concepts and components of regular expressions:
 
@@ -5264,7 +5623,7 @@ Section: High-End/Advance JavaScript
 		(d) a+?a{2,}?	match as few as possible
 		(e) ab|cd	match ab or cd
 
-33. How JavaScript Works:
+34. How JavaScript Works:
 
 	(i) What is JavaScript?
 
@@ -5392,11 +5751,11 @@ Section: High-End/Advance JavaScript
 
 Section: Node.js
 
-34. Terminal Commands for JS
+34. Terminal
 
 	(i) `node {directory}` runs code for a specific directory in Node.js Environment 
 
-35. Package Manager
+35. Package Managers
 
 	(i) NPM
 		
@@ -5495,7 +5854,7 @@ Section: Node.js
 			(LIV) `npm whoami`: Display npm username
 			(LV) `npx`: Run a command from an npm package
 
-36. Modules
+36. Modules Types
 
 	(i) there are a number of JavaScript libraries and frameworks that enable module usage (for example, other `CommonJS` and AMD-based module systems like `RequireJS`, and more recently Webpack and Babel).
 
@@ -5694,168 +6053,9 @@ The Above Section has Ended on 12 November 2023
 	(ii) `File System Module`:
 	
 		(a)  The File System module in Node.js, often referred to as the `fs` module, provides an interface for interacting with the file system. It allows you to perform various file-related operations, such as reading from and writing to files, creating and deleting directories, and more.
-
-		(b) Promises API
 			
-			(I) `FileHandle` Object
-
-			    (a) Event: 'close'
-			    (b) `filehandle.appendFile(data[, options])`:
-			    (c) `filehandle.chmod(mode)`:
-			    (d) `filehandle.chown(uid, gid)`:
-			    (e) `filehandle.close()`:
-			    (f) `filehandle.createReadStream([options])`:
-			    (g) `filehandle.createWriteStream([options])`:
-			    (h) `filehandle.datasync()`:
-			    (i) `filehandle.fd`:
-			    (j) `filehandle.read(buffer, offset, length, position)`:
-			    (k) `filehandle.read([options])`:
-			    (l) `filehandle.read(buffer[, options])`:
-			    (m) `filehandle.readableWebStream([options])`:
-			    (n) `filehandle.readFile(options)`:
-			    (o) `filehandle.readLines([options])`:
-			    (p) `filehandle.readv(buffers[, position])`:
-			    (q) `filehandle.stat([options])`:
-			    (r) `filehandle.sync()`:
-			    (s) `filehandle.truncate(len)`:
-			    (t) `filehandle.utimes(atime, mtime)`:
-			    (u) `filehandle.write(buffer, offset[, length[, position]])`:
-			    (v) `filehandle.write(buffer[, options])`:
-			    (w) `filehandle.write(string[, position[, encoding]])`:
-			    (x) `filehandle.writeFile(data, options)`:
-			    (y) `filehandle.writev(buffers[, position])`:
-			    (z) `filehandle[Symbol.asyncDispose]()`:
-
-			(II) `fsPromises.access(path[, mode])`: Checks the accessibility of a file or directory.
-
-			   	await fsPromises.access('/path/to/file', fs.constants.F_OK);
-			   
-			(III) `fsPromises.appendFile(path, data[, options])`: Appends data to a file, creating the file if it does not exist.
-
-			   	await fsPromises.appendFile('/path/to/file', 'New Data');
-			   
-			(IV) `fsPromises.chmod(path, mode)`: Changes the permissions of a file.
-
-			   	await fsPromises.chmod('/path/to/file', 0o755);
-			   
-			(V) `fsPromises.chown(path, uid, gid)`: Changes the owner and group of a file.
-
-			   	await fsPromises.chown('/path/to/file', 1000, 1000);
-			   
-			(VI) `fsPromises.copyFile(src, dest[, mode])`: Asynchronously copies `src` to `dest`. By default, `dest` is overwritten if it  alreadexists.  
-
-			   	await fsPromises.copyFile('/path/to/source', '/path/to/dest');
-			   
-			(VII) `fsPromises.cp(src, dest[, options])` Copies files and directories (recursively, if specified in options).
-
-			   	await fsPromises.cp('/path/to/source', '/path/to/dest', { recursive: true });
-			   
-			(VIII) `fsPromises.lchmod(path, mode)` Changes the permissions of a symbolic link.
-
-			   	await fsPromises.lchmod('/path/to/link', 0o755);
-			   
-			(IX) `fsPromises.lchown(path, uid, gid)` Changes the owner and group of a symbolic link.
-
-			   	await fsPromises.lchown('/path/to/link', 1000, 1000);
-			   
-			(X) `fsPromises.lutimes(path, atime, mtime)` Changes the access and modification times of a file or directory.
-
-			   	await fsPromises.lutimes('/path/to/file', new Date(), new Date());
-			   
-			(XI) `fsPromises.link(existingPath, newPath)`: Creates a new hard link pointing to an existing file.  
-			    
-			    await fsPromises.link('/path/to/existing/file', '/path/to/new/link');
-
-			(XII) `fsPromises.lstat(path[, options])`: Similar to `stat`, but for symbolic links, it returns the link's data, not the file it points to.  
-			    
-			    const stats = await fsPromises.lstat('/path/to/symlink');
-
-			(XIII) `fsPromises.mkdir(path[, options])`: Creates a new directory.  
-			    
-			    await fsPromises.mkdir('/path/to/new/dir', { recursive: true });
-
-			(XIV) `fsPromises.mkdtemp(prefix[, options])`: Creates a unique temporary directory.  
-			    
-			    const tempDir = await fsPromises.mkdtemp('/path/to/prefix');
-
-			(XV) `fsPromises.open(path, flags[, mode])`: Opens a file, returning a file descriptor.  
-			    
-			    const fd = await fsPromises.open('/path/to/file', 'r');
-
-			(XVI) `fsPromises.opendir(path[, options])`: Opens a directory for iterative reading.  
-			    
-			    const dir = await fsPromises.opendir('/path/to/dir');
-
-			(XVII) `fsPromises.readdir(path[, options])`: Reads the contents of a directory.  
-			    
-			    const files = await fsPromises.readdir('/path/to/dir');
-
-			(XVIII) `fsPromises.readFile(path[, options])`: Reads the content of a file.  
-			    
-			    const data = await fsPromises.readFile('/path/to/file', 'utf8');
-
-			(XIX) `fsPromises.readlink(path[, options])`: Reads the value of a symbolic link.  
-			    
-			    const linkString = await fsPromises.readlink('/path/to/symlink');
-
-			(XX) `fsPromises.realpath(path[, options])`: Resolves the real path of a file, including resolving any symbolic links.  
-			    
-			    const resolvedPath = await fsPromises.realpath('/path/to/fileOrLink');
-
-			20 `fsPromises.rename(oldPath, newPath)`: Renames or moves a file or directory.
-				
-			   	await fsPromises.rename('/path/to/oldfile', '/path/to/newfile');
-
-			21 `fsPromises.rmdir(path[, options])`: Removes an empty directory.
-				
-			   	await fsPromises.rmdir('/path/to/emptydir');
-
-			22 `fsPromises.rm(path[, options])`: Removes a file or directory. If a directory is non-empty, use the `recursive` option.
-				
-			   	await fsPromises.rm('/path/to/fileOrDir', { recursive: true });
-
-			23 `fsPromises.stat(path[, options])`: Gets the status of a file or directory.
-				
-			   	const stats = await fsPromises.stat('/path/to/fileOrDir');
-
-			24 `fsPromises.statfs(path[, options])`: Gets the file system statistics.
-				
-			   	const stats = await fsPromises.statfs('/path/to/fileOrDir');
-
-			25 `fsPromises.symlink(target, path[, type])`: Creates a symbolic link.
-				
-			   	await fsPromises.symlink('/path/to/target', '/path/to/link');
-
-			26 `fsPromises.truncate(path[, len])`: Truncates a file to a specified length.
-				
-			   	await fsPromises.truncate('/path/to/file', 1024);
-
-			27 `fsPromises.unlink(path)`: Removes a file.
-				
-			   	await fsPromises.unlink('/path/to/file');
-
-			28 `fsPromises.utimes(path, atime, mtime)`: Changes the access and modification times of a file.
-				
-			   	await fsPromises.utimes('/path/to/file', new Date(), new Date());
-
-			29 `fsPromises.watch(filename[, options])`: Watches for changes in a file or directory.
-				
-			   	const watcher = fsPromises.watch('/path/to/fileOrDir');
-			   watcher.on('change', (event, filename) => console.log(`${filename} has changed`));
-
-			30 `fsPromises.writeFile(file, data[, options])`: Writes data to a file, replacing the file if it already exists.
-				
-			   	await fsPromises.writeFile('/path/to/file', 'Hello, World!', 'utf8');
-
-			31 `fsPromises.constants`: An object containing various constants used by file system methods.
-				
-			   	const { F_OK, W_OK, R_OK } = fsPromises.constants;
-			   	console.log(F_OK, W_OK, R_OK);
-
-		(c) Callback API
+		(b) Callback API
 			
-    		Certainly! Here's the explanation and example usage for the specified Node.js File System Module methods using the callback-based `fs` API:
-
 			(I) `fs.access(path[, mode], callback)`: Checks the accessibility of a file or directory.
 			   	
 			   	fs.access('/path/to/file.txt', fs.constants.F_OK, (err) => {
@@ -6321,54 +6521,41 @@ The Above Section has Ended on 12 November 2023
 			       	fs.closeSync(fd);
 			   	});
 
-		(d) Synchronous API
+		(c) Synchronous API (Not Recommended)
+
+			(I) Methods of Synchronous version of fs methods ends with `Sync` and doesn't takes a callback and instead returns the value and errors needs to be handled with a try..catch
 			
-    		(I) `fs.accessSync(path[, mode])`:
-    		(II) `fs.appendFileSync(path, data[, options])`:
-    		(III) `fs.chmodSync(path, mode)`:
-    		(IV) `fs.chownSync(path, uid, gid)`:
-    		(V) `fs.closeSync(fd)`:
-    		(VI) `fs.copyFileSync(src, dest[, mode])`:
-    		(VII) `fs.cpSync(src, dest[, options])`:
-    		(VIII) `fs.existsSync(path)`:
-    		(IX) `fs.fchmodSync(fd, mode)`:
-    		(X) `fs.fchownSync(fd, uid, gid)`:
-    		(XI) `fs.fdatasyncSync(fd)`:
-    		(XII) `fs.fstatSync(fd[, options])`:
-    		(XIII) `fs.fsyncSync(fd)`:
-    		(XIV) `fs.ftruncateSync(fd[, len])`:
-    		(XV) `fs.futimesSync(fd, atime, mtime)`:
-    		(XVI) `fs.lchmodSync(path, mode)`:
-    		(XVII) `fs.lchownSync(path, uid, gid)`:
-    		(XVIII) `fs.lutimesSync(path, atime, mtime)`:
-    		(XIX) `fs.linkSync(existingPath, newPath)`:
-    		(XX) `fs.lstatSync(path[, options])`:
-    		(XXI) `fs.mkdirSync(path[, options])`:
-    		(XXII) `fs.mkdtempSync(prefix[, options])`:
-    		(XXIII) `fs.opendirSync(path[, options])`:
-    		(XXIV) `fs.openSync(path[, flags[, mode]])`:
-    		(XXV) `fs.readdirSync(path[, options])`:
-    		(XXVI) `fs.readFileSync(path[, options])`:
-    		(XXVII) `fs.readlinkSync(path[, options])`:
-    		(XXVIII) `fs.readSync(fd, buffer, offset, length[, position])`:
-    		(XXIX) `fs.readSync(fd, buffer[, options])`:
-    		(XXX) `fs.readvSync(fd, buffers[, position])`:
-    		(XXXI) `fs.realpathSync(path[, options])`:
-    		(XXXII) `fs.realpathSync.native(path[, options])`:
-    		(XXXIII) `fs.renameSync(oldPath, newPath)`:
-    		(XXXIV) `fs.rmdirSync(path[, options])`:
-    		(XXXV) `fs.rmSync(path[, options])`:
-    		(XXXVI) `fs.statSync(path[, options])`:
-    		(XXXVII) `fs.statfsSync(path[, options])`:
-    		(XXXVIII) `fs.symlinkSync(target, path[, type])`:
-    		(XXXIX) `fs.truncateSync(path[, len])`:
-    		(XL) `fs.unlinkSync(path)`:
-    		(XLI) `fs.utimesSync(path, atime, mtime)`:
-    		(XLII) `fs.writeFileSync(file, data[, options])`:
-    		(XLIII) `fs.writeSync(fd, buffer, offset[, length[, position]])`:
-    		(XLIV) `fs.writeSync(fd, buffer[, options])`:
-    		(XLV) `fs.writeSync(fd, string[, position[, encoding]])`:
-    		(XLVI) `fs.writevSync(fd, buffers[, position])`:
+    		(II) Example:-
+
+				try{
+					const files = fs.readdirSync('./', 'utf8') 
+					// ...
+				} catch (error){
+					console.log(error)
+				}
+
+		(d) Promises API (Recommended)
+
+			(I) Promises API version of fs modules are the same as it's Synchronous API but it's Asynchronous meaning it returns a Promise meaning it has be awaited.
+			(II) Unlike Callback and Synchronous API, Promises API have the same names for Methods as Callback API, so to avoid name Collisions Promises API have their own Object inside fs module called `promises`
+
+			(III) Example:-
+
+				import fs from 'fs'; // ES6
+				const fs = require('fs'); // Common JS
+
+				// Using Async/Await
+				(async () => {
+					const files = await fs.promises.readdir('./', 'utf8')
+					// ...
+				})()
+
+				// Using Then..Catch
+				
+				fs.promises.readdir('./', 'utf8')
+					.then(files=>{
+						//...
+					}).catch(error=>console.log("Error"))
 
 		(e) Objects
 			
@@ -6578,7 +6765,113 @@ The Above Section has Ended on 12 November 2023
 
 	(v) `OS Module`:
 	
-		(a) `os`: Provides operating system-related utility methods and information.
+		(a) `os.EOL`:
+
+			(I) Returns the end-of-line marker used by the operating system.
+			This is a string value, typically '\n' on POSIX systems and '\r\n' on Windows.
+
+		(b) `os.availableParallelism()`:
+
+			(I) This function does not exist in the Node.js os module. Perhaps you meant something else?
+
+		(c) `os.arch()`:
+
+			(I) Returns a string identifying the CPU architecture.
+			Possible values include 'x64', 'arm', 'ia32', etc.
+
+		(d) `os.constants`:
+
+			(I) An object containing various operating system-specific constants.
+			These constants include error codes, signals, priority values, and more.
+
+		(e) `os.cpus()`:
+
+			(I) Returns an array of objects containing information about each CPU/core.
+			Each object typically includes details such as model, speed, and times (user, nice, sys, idle, irq).
+
+		(f) `os.devNull`:
+
+			(I) A string constant representing the path to the null device on the system.
+			This device is used to discard data written to it.
+
+		(g) `os.endianness()`:
+
+			(I) Returns the endianness of the CPU. Either 'BE' for big-endian or 'LE' for little-endian.
+
+		(h) `os.freemem()`:
+
+			(I) Returns the amount of free system memory in bytes.
+
+		(i) `os.getPriority([pid])`:
+
+			(I) Returns the priority of the process identified by pid (default is the current process).
+			The priority is an integer value representing the scheduling priority of the process.
+
+		(j) `os.homedir()`:
+
+			(I) Returns the path to the current user's home directory.
+		        This is typically the user's home directory, such as /home/user on Unix-like systems or C:\Users\user on Windows.
+
+		(k) `os.hostname()`:
+
+		    (I) Returns the hostname of the operating system.
+
+		(l) `os.loadavg()`:
+
+		    (I) Returns an array containing the average system load over the last 1, 5, and 15 minutes.
+		    (II) Load average is a measure of the amount of computational work that a system is performing.
+
+		(m) `os.machine()`:
+
+		    (I) This function does not exist in the Node.js `os` module. Perhaps you meant something else?
+
+		(n) `os.networkInterfaces()`:
+
+		    (I) Returns an object containing information about the network interfaces available on the system.
+		    (II) Each key of the object corresponds to a network interface name, and the value is an array of network interface objects.
+
+		(o) `os.platform()`:
+
+		    (I) Returns a string identifying the operating system platform.
+		    (II) Possible values include 'darwin', 'win32', 'linux', etc.
+
+		(p) `os.release()`:
+
+		    (I) Returns a string identifying the operating system release.
+		    (II) The format of the string varies depending on the operating system.
+
+		(q) `os.setPriority([pid, ]priority)`:
+
+		    (I) Sets the priority of the process identified by `pid` (default is the current process) to the specified `priority`.
+		    (II) The `priority` parameter is an integer value representing the scheduling priority of the process.
+
+		(r) `os.tmpdir()`:
+
+		    (I) Returns the directory for temporary files.
+		    (II) This is typically a string representing the operating system's default directory for temporary files.
+
+		(s) `os.totalmem()`:
+
+		    (I) Returns the total amount of system memory (RAM) in bytes.
+
+		(t) `os.type()`:
+
+		    (I) Returns a string identifying the operating system type.
+		    (II) Possible values include 'Linux', 'Windows_NT', 'Darwin', etc.
+
+		(u) `os.uptime()`:
+
+		    (I) Returns the system uptime in seconds.
+		    (II) This is the amount of time the system has been running since the last boot.
+
+		(v) `os.userInfo([options])`:
+
+		    (I) Returns information about the current user.
+		    (II) The returned object contains details such as username, uid, gid, shell, home directory, etc.
+
+		(w) `os.version()`:
+
+		    (I) Returns a string representing the operating system version.
 
 	(vi) `Query String Module`:
 	
@@ -6599,6 +6892,65 @@ The Above Section has Ended on 12 November 2023
 	(x) `Crypto Module`:
 	
 		(a) `crypto`: Offers cryptographic functionality, including hashing, encryption, and decryption.
+
+		
+	    () `crypto.constants`:
+	    () `crypto.fips`:
+	    () `crypto.checkPrime(candidate[, options], callback)`:
+	    () `crypto.checkPrimeSync(candidate[, options])`:
+	    () `crypto.createCipher(algorithm, password[, options])`:
+	    () `crypto.createCipheriv(algorithm, key, iv[, options])`:
+	    () `crypto.createDecipher(algorithm, password[, options])`:
+	    () `crypto.createDecipheriv(algorithm, key, iv[, options])`:
+	    () `crypto.createDiffieHellman(prime[, primeEncoding][, generator][, generatorEncoding])`:
+	    () `crypto.createDiffieHellman(primeLength[, generator])`:
+	    () `crypto.createDiffieHellmanGroup(name)`:
+	    () `crypto.createECDH(curveName)`:
+	    () `crypto.createHash(algorithm[, options])`:
+	    () `crypto.createHmac(algorithm, key[, options])`:
+	    () `crypto.createPrivateKey(key)`:
+	    () `crypto.createPublicKey(key)`:
+	    () `crypto.createSecretKey(key[, encoding])`:
+	    () `crypto.createSign(algorithm[, options])`:
+	    () `crypto.createVerify(algorithm[, options])`:
+	    () `crypto.diffieHellman(options)`:
+	    () `crypto.generateKey(type, options, callback)`:
+	    () `crypto.generateKeyPair(type, options, callback)`:
+	    () `crypto.generateKeyPairSync(type, options)`:
+	    () `crypto.generateKeySync(type, options)`:
+	    () `crypto.generatePrime(size[, options[, callback]])`:
+	    () `crypto.generatePrimeSync(size[, options])`:
+	    () `crypto.getCipherInfo(nameOrNid[, options])`:
+	    () `crypto.getCiphers()`:
+	    () `crypto.getCurves()`:
+	    () `crypto.getDiffieHellman(groupName)`:
+	    () `crypto.getFips()`:
+	    () `crypto.getHashes()`:
+	    () `crypto.getRandomValues(typedArray)`:
+	    () `crypto.hkdf(digest, ikm, salt, info, keylen, callback)`:
+	    () `crypto.hkdfSync(digest, ikm, salt, info, keylen)`:
+	    () `crypto.pbkdf2(password, salt, iterations, keylen, digest, callback)`:
+	    () `crypto.pbkdf2Sync(password, salt, iterations, keylen, digest)`:
+	    () `crypto.privateDecrypt(privateKey, buffer)`:
+	    () `crypto.privateEncrypt(privateKey, buffer)`:
+	    () `crypto.publicDecrypt(key, buffer)`:
+	    () `crypto.publicEncrypt(key, buffer)`:
+	    () `crypto.randomBytes(size[, callback])`:
+	    () `crypto.randomFillSync(buffer[, offset][, size])`:
+	    () `crypto.randomFill(buffer[, offset][, size], callback)`:
+	    () `crypto.randomInt([min, ]max[, callback])`:
+	    () `crypto.randomUUID([options])`:
+	    () `crypto.scrypt(password, salt, keylen[, options], callback)`:
+	    () `crypto.scryptSync(password, salt, keylen[, options])`:
+	    () `crypto.secureHeapUsed()`:
+	    () `crypto.setEngine(engine[, flags])`:
+	    () `crypto.setFips(bool)`:
+	    () `crypto.sign(algorithm, data, key[, callback])`:
+	    () `crypto.subtle`:
+	    () `crypto.timingSafeEqual(a, b)`:
+	    () `crypto.verify(algorithm, data, key, signature[, callback])`:
+	    () `crypto.webcrypto`:
+		 
 
 	(xi) `Buffer Module`:
 	
