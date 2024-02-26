@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node ./server/",
     "dev": "nodemon ./server/",
-    "build": "tsc",
-    "cpanelui": "node ./server/scripts/cpanelServer.js"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

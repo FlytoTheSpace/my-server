@@ -120,21 +120,4 @@ http://locahost:5500
 
 http://127.0.0.1:5500
 
-### with Control Panel Server (Beta)
-```bash
-npm run cpanelui
-```
-
-# Privacy
-
-All of The Collected data is Stored on Your Local Database and no data is sent to us neither any third-parties, we Respect your privacy, we don't even know who you are, your email and username is stored encrypted on your own Database, if you don't believe that you can review our code, it's open-source
-
-## Collected Data 
-
-before we begin we just wanna make it clear that we never collect any data it's just on your local system meaning it's only accessible to you, and if don't wanna collect data for your server, it can be disabled any time by commenting out a few lines in /server/index.js
-
-Thank you,
-
-- Prefereces: Theme
-- Profile Picture
-- Bio
+Go to "bin" folder to The Control Panel of The Server
